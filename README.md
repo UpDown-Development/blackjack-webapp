@@ -4,7 +4,7 @@
        <img src="https://codecov.io/gh/updown-development/blackjack-webapp/branch/master/graph/badge.svg?token=7OUI5QXQD4" alt=""/>
      </a>
      <a href="https://travis-ci.com/updown-development/blackjack-webapp">
-     <img src="https://travis-ci.com/updown-development/blackjack-webapp.svg?branch=master" alt=""/>
+     <img src="https://travis-ci.com/UpDown-Development/blackjack-webapp.svg?branch=master" alt=""/>
      </a>
 </div>
 </h1>
