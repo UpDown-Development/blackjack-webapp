@@ -1,7 +1,8 @@
 import React from "react";
+import blackjackGame from "../blackjackGame";
 
 function App() {
-  return <div>Blackjack</div>;
+  return <div>{blackjackGame()}</div>;
 }
 
 export default App;
