@@ -1,5 +1,4 @@
-<h1 align="center"><div>React Heavyweight</div>
-<div>a template that already takes care of testing and ci setup, so you can do the fun stuff</div>
+<h1 align="center"><div>Blackjack</div>
 <div><a href="https://codecov.io/gh/updown-development/blackjack-webapp">
        <img src="https://codecov.io/gh/updown-development/blackjack-webapp/branch/master/graph/badge.svg?token=7OUI5QXQD4" alt=""/>
      </a>
