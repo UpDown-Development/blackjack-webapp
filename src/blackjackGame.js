@@ -79,11 +79,11 @@ const blackjackGame = () => {
   let winner;
 
   if (!player.bust && player.score < dealer.score) {
-      winner = 'player'
+    winner = "player";
   } else if (!dealer.bust && dealer.score < player.score) {
-      winner = 'dealer'
+    winner = "dealer";
   } else {
-      winner = 'tie'
+    winner = "tie";
   }
 
   console.log(player, dealer);
@@ -114,7 +114,7 @@ const blackjackGame = () => {
         Score: {dealer.aceScore === 0 ? dealer.score : dealer.aceScore}{" "}
         {dealer.bust ? "bust" : ""}
       </Typography>
-        <Typography>Winner: {winner}</Typography>
+      <Typography>Winner: {winner}</Typography>
     </div>
   );
 };
