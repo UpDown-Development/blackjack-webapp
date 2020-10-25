@@ -24,8 +24,8 @@ function App() {
     <div>
       <div className={styles.container}>
         <motion.img
-          initial={{ y: -350 }}
-          animate={{ y: 60 }}
+          initial={{ width: 0, height: 0 }}
+          animate={{ width: 700, height: 400, rotateX: 360, rotateZ: 360 }}
           transition={{ duration: 2 }}
           className={styles.pips}
           src={pips}
