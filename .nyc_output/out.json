@@ -1,0 +1,53 @@
+{
+  "C:\\Users\\bette\\WebstormProjects\\blackjack-webapp\\src\\containers\\App.tsx": {
+    "path": "C:\\Users\\bette\\WebstormProjects\\blackjack-webapp\\src\\containers\\App.tsx",
+    "statementMap": {
+      "0": {
+        "start": {
+          "line": 4,
+          "column": 2
+        },
+        "end": {
+          "line": 4,
+          "column": 27
+        }
+      }
+    },
+    "fnMap": {
+      "0": {
+        "name": "App",
+        "decl": {
+          "start": {
+            "line": 3,
+            "column": 9
+          },
+          "end": {
+            "line": 3,
+            "column": 12
+          }
+        },
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 15
+          },
+          "end": {
+            "line": 5,
+            "column": 1
+          }
+        },
+        "line": 3
+      }
+    },
+    "branchMap": {},
+    "s": {
+      "0": 1
+    },
+    "f": {
+      "0": 1
+    },
+    "b": {},
+    "_coverageSchema": "43e27e138ebf9cfc5966b082cf9a028302ed4184",
+    "hash": "21cc174f319859ae29237c65fff4834faf1e0bb9"
+  }
+}
