@@ -8289,14 +8289,12 @@
                                   (w.y1 = Math.min(Math.max(w.y1, h.y2), h.y1)),
                                   (w.y2 = Math.min(Math.max(w.y2, h.y2), h.y1));
                                 var x = n.getMetaData(r, c);
-                                (y = s
-                                  .elem("line", w, e.classNames.bar)
-                                  .attr({
-                                    "ct:value": [a.x, a.y]
-                                      .filter(n.isNumeric)
-                                      .join(","),
-                                    "ct:meta": n.serialize(x),
-                                  })),
+                                (y = s.elem("line", w, e.classNames.bar).attr({
+                                  "ct:value": [a.x, a.y]
+                                    .filter(n.isNumeric)
+                                    .join(","),
+                                  "ct:meta": n.serialize(x),
+                                })),
                                   this.eventEmitter.emit(
                                     "draw",
                                     n.extend(
