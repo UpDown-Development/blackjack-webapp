@@ -1,8 +1,8 @@
 import { BlackJack } from "../../models/generic";
 
 interface BlackJackAction {
-  type: string,
-  payload: BlackJack
+  type: string;
+  payload: BlackJack;
 }
 
 const defaultState: BlackJack = {
