@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import blackjackGame from "../../blackjackGame";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import { initBlackJack } from "../../redux/actions/blackJackActions";
-import { Card } from "../../models/generic";
-import './app.css';
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/rootReducer";
+import {initBlackJack} from "../../redux/actions/blackJackActions";
+import pips from '../../images/resources/4_pips.png';
+import styles  from './app.module.scss';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +20,11 @@ function App() {
   }, []);
 
   return (
-    <div >Hello</div>
+    <div className={styles.container}>
+      <img className={styles.pips} src={pips}/>
+      <h1 className={styles.title}>Blackjack</h1>
+      <button className={styles.button}>Play</button>
+    </div>
   );
 }
 
