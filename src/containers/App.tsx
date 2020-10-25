@@ -1,17 +1,34 @@
-import React from "react";
+import React, {useEffect} from "react";
 import blackjackGame from "../blackjackGame";
-import {deck} from '../utils/blackJackDeck';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../redux/rootReducer";
+import {initBlackJack} from "../redux/actions/blackJackActions";
+import {Card} from "../models/generic";
 
 function App() {
-    return <div>{deck.map((item, key) => {
+  const dispatch = useDispatch();
+  const blackJackGame = useSelector((state: RootState) => state.BlackJackReducer);
+
+  const initGame = () => {
+    dispatch(initBlackJack(2));
+  }
+
+  useEffect(() => {
+    initGame()
+  }, [])
+
+  return (
+    <div>
+      {blackJackGame.deck.map((item: Card, key: number) => {
         return (
-            <div><img style={{width: '70px', height: 'auto'}} key={key} src={item.img}/>
-                <div>{item.value}</div>
-                <div>{item.name}</div>
-            </div>
-        )
-    })}
-    </div>;
+            <img
+              style={{width: "70px", height: "auto"}}
+              key={key}
+              src={item.img} />
+        );
+      })}
+    </div>
+  );
 }
 
 export default App;

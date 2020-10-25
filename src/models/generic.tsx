@@ -10,6 +10,7 @@ export interface Player {
   wallet: number;
   currentBet: number;
   hand: Card[];
+  isTurn: boolean;
 }
 
 export interface User {
@@ -34,4 +35,5 @@ export interface Card {
   img: string;
   value: number;
   secondaryValue?: number;
+  isFaceUp: boolean;
 }

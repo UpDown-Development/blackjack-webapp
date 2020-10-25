@@ -1,5 +1,10 @@
 import { BlackJack } from "../../models/generic";
 
+interface BlackJackAction {
+  type: string,
+  payload: BlackJack
+}
+
 const defaultState: BlackJack = {
   name: "",
   numberOfDecks: 0,
@@ -7,15 +12,12 @@ const defaultState: BlackJack = {
   deck: [],
 };
 
-const BlackJackReducer = (state = defaultState, action: any) => {
+const BlackJackReducer = (state = defaultState, action: BlackJackAction) => {
   switch (action.type) {
     case "INIT_BLACKJACK":
       return {
         ...state,
-        name: "BlackJack",
-        numberOfDecks: action.payload.numberOfDecks,
-        players: action.payload.players,
-        deck: action.playload.deck,
+        deck: action.payload.deck,
       };
     default:
       return state;
