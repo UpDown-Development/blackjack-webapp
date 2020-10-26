@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { initBlackJack } from "../../redux/actions/blackJackActions";
-import { Card, BlackJackState } from "../../models/generic";
+import {  BlackJackState } from "../../models/generic";
 import BlackJackBetting from "../../components/BlackJackBetting/BlackJackBetting";
 import {motion} from 'framer-motion'
+import { dealOpeningCards} from "../../redux/actions/blackJackActions";
+import BlackJackPlaying from "../../components/BlackJackPlaying/BlackJackPlaying";
 
 const BlackJackGame = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,11 @@ const BlackJackGame = () => {
 
   const showCurrentState = () => {
     if (blackjackState.state === BlackJackState.BETTING) {
-      console.log("This ran")
       return(<BlackJackBetting />)
+    } else if (blackjackState.state === BlackJackState.DEALING) {
+      dispatch(dealOpeningCards(blackjackState.deck))
+    } else if (blackjackState.state === BlackJackState.PLAYING) {
+      return(<BlackJackPlaying />)
     }
 
   }

@@ -7,6 +7,7 @@ export interface Data {
 }
 
 export interface Player {
+  name: string
   wallet: number;
   currentBet: number;
   hand: Card[];
@@ -30,6 +31,7 @@ export enum BlackJackState {
   BETTING="BETTING",
   DEALING="DEALING",
   PLAYING="PLAYING",
+  DEALER_PLAYING="DEALER_PLAYING",
   CLEANUP="CLEANUP",
 }
 

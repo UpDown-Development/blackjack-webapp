@@ -23,8 +23,8 @@ const SetupGame = () => {
 
   const formik = useFormik({
     initialValues: {
-      decks: undefined,
-      wallet: 0,
+      decks: 2,
+      wallet: 50,
     },
     onSubmit: values => {
       dispatch(initBlackJack(values.decks, values.wallet))
