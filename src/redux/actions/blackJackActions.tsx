@@ -1,5 +1,5 @@
 import { deck } from "../../utils/blackJackDeck";
-import { BlackJack, Card } from "../../models/generic";
+import {BlackJack, Card, Player} from "../../models/generic";
 import _ from "lodash";
 
 export interface BlackJackAction {
@@ -7,15 +7,32 @@ export interface BlackJackAction {
   payload: BlackJack;
 }
 
-export const initBlackJack = (numberOfDecks: number) => async (
+export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => async (
   dispatch: any
 ) => {
+  const dealer: Player = {
+    currentBet: 0,
+    hand: [],
+    isTurn: false,
+    wallet: 9999999999
+  }
+
+  const player: Player = {
+    currentBet: 0,
+    hand: [],
+    isTurn: true,
+    wallet: wallet
+  }
+
+  const players: Player[] = [player, dealer]
+
   const blackJackDeck = shuffle(numberOfDecks);
 
   dispatch({
     type: "INIT_BLACKJACK",
     payload: {
       deck: blackJackDeck,
+      players
     },
   });
 };

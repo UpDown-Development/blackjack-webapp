@@ -1,8 +1,11 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router";
-import Home from "../Home/Home";
 import { AnimatePresence } from "framer-motion";
+
+// local imports
+import SetupGame from "../SetupGame/SetupGame";
 import BlackJackGame from "../BlackJackGame/BlackJackGame";
+import Home from "../Home/Home";
 
 function App() {
   const location = useLocation();
@@ -10,6 +13,7 @@ function App() {
     <AnimatePresence>
       <Switch location={location} key={location.key}>
         <Route exact path={"/"} component={Home} />
+        <Route path={"/setup"} component={SetupGame} />
         <Route path={"/play"} component={BlackJackGame} />
       </Switch>
     </AnimatePresence>
