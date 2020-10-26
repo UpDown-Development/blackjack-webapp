@@ -1,9 +1,6 @@
 import { BlackJack } from "../../models/generic";
-
-interface BlackJackAction {
-  type: string;
-  payload: BlackJack;
-}
+import produce from "immer";
+import {BlackJackAction} from "../actions/blackJackActions";
 
 const defaultState: BlackJack = {
   name: "",
@@ -12,16 +9,14 @@ const defaultState: BlackJack = {
   deck: [],
 };
 
-const BlackJackReducer = (state = defaultState, action: BlackJackAction) => {
+const BlackJackReducer = produce((state = defaultState, action: BlackJackAction) => {
   switch (action.type) {
     case "INIT_BLACKJACK":
-      return {
-        ...state,
-        deck: action.payload.deck,
-      };
+      state.deck = action.payload.deck
+      break;
     default:
       return state;
   }
-};
+}, defaultState);
 
 export default BlackJackReducer;
