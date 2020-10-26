@@ -26,8 +26,16 @@ export interface Game {
   players: Player[];
 }
 
+export enum BlackJackState {
+  BETTING,
+  DEALING,
+  PLAYING,
+  CLEANUP,
+}
+
 export interface BlackJack extends Game {
   deck: Card[];
+  state: BlackJackState
 }
 
 export interface Card {

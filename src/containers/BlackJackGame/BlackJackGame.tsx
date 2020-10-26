@@ -10,14 +10,8 @@ const BlackJackGame = () => {
     (state: RootState) => state.BlackJackReducer,
     shallowEqual
   );
-
-  useEffect(() => {
-    dispatch(initBlackJack(2));
-  }, []);
-
   return (
     <div>
-      <button onClick={() => dispatch(initBlackJack(2))}>Shuffle</button>
       {blackjackState.deck.map((card: Card) => {
         return <img style={{ height: "70px" }} src={card.img} />;
       })}

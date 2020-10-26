@@ -58,16 +58,18 @@ const Home = () => {
           >
             Stats
           </motion.button>
-          <motion.button
-            variants={animationVariants}
-            initial={{y: 1000}}
-            animate={{y: 0, scale: 0.7}}
-            transition={{delay: 2, type: "spring", stiffness: 100}}
-            whileHover="hover"
-            className={styles.button}
-          >
-            Play
-          </motion.button>
+          <Link to={"/setup"}>
+            <motion.button
+              variants={animationVariants}
+              initial={{y: 1000}}
+              animate={{y: 0, scale: 0.7}}
+              transition={{delay: 2, type: "spring", stiffness: 100}}
+              whileHover="hover"
+              className={styles.button}
+            >
+              Play
+            </motion.button>
+          </Link>
           <Link to={"play"}>
             <motion.button
               variants={animationVariants}
