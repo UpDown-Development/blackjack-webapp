@@ -45,7 +45,7 @@ const SetupGame = () => {
           <TextField
             fullWidth
             variant={'filled'}
-            id='decks'
+            id='wallet'
             label='Wallet'
             type='number'
             value={formik.values.wallet}

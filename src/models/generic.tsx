@@ -27,10 +27,10 @@ export interface Game {
 }
 
 export enum BlackJackState {
-  BETTING,
-  DEALING,
-  PLAYING,
-  CLEANUP,
+  BETTING="BETTING",
+  DEALING="DEALING",
+  PLAYING="PLAYING",
+  CLEANUP="CLEANUP",
 }
 
 export interface BlackJack extends Game {

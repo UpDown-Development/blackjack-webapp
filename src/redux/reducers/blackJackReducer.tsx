@@ -17,6 +17,10 @@ const BlackJackReducer = produce(
         state.deck = action.payload.deck;
         state.players = action.payload.players;
         break;
+      case "PLACE_BET_BLACKJACK":
+        state.players[0].currentBet = action.payload.currentBet;
+        state.players[0].wallet = action.payload.wallet;
+        break;
       default:
         return state;
     }

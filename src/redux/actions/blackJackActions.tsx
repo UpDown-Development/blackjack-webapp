@@ -4,7 +4,7 @@ import _ from "lodash";
 
 export interface BlackJackAction {
   type: string;
-  payload: BlackJack;
+  payload: any;
 }
 
 export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => async (
@@ -36,6 +36,17 @@ export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => asyn
     },
   });
 };
+
+export const placeBet = (bet: number, wallet: number) => async (
+    dispatch: any
+) => {
+  dispatch({
+    type: "PLACE_BET_BLACKJACK",
+    payload: {
+      currentBet: bet,
+      wallet: wallet-bet
+    }
+  });}
 
 function shuffle(numberOfDecks: number): Card[] {
   let blackJackDeck: Card[] = [];
