@@ -1,6 +1,11 @@
 import { deck } from "../../utils/blackJackDeck";
-import { Card } from "../../models/generic";
+import {BlackJack, Card} from "../../models/generic";
 import _ from "lodash";
+
+export interface BlackJackAction {
+  type: string;
+  payload: BlackJack;
+}
 
 export const initBlackJack = (numberOfDecks: number) => async (
   dispatch: any
