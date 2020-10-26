@@ -30,8 +30,8 @@ $baby-blue: #569352;
 }
 
 .button {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   display: inline-block;
   font-size: 2em;
   margin-bottom: 60px;
@@ -40,12 +40,9 @@ $baby-blue: #569352;
   background-color: transparent;
   color: $button-text-color;
   text-align: center;
-  vertical-align: middle;
   border-radius: 50%;
   border: 2px $button-bg solid;
   cursor: pointer;
-  position: relative;
-  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
 
   &:focus {
     outline: 0;

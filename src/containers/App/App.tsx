@@ -1,72 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import { initBlackJack } from "../../redux/actions/blackJackActions";
-import pips from "../../images/resources/4_pips.png";
-import styles from "./app.module.scss";
-import { motion } from "framer-motion";
+import React from "react";
+import {Route, Switch, useLocation} from "react-router";
+import Home from "../Home/Home";
+import {AnimatePresence} from "framer-motion";
+import BlackJackGame from "../BlackJackGame/BlackJackGame";
 
 function App() {
-  const dispatch = useDispatch();
-  const blackJackGame = useSelector(
-    (state: RootState) => state.BlackJackReducer
-  );
-
-  const initGame = () => {
-    dispatch(initBlackJack(2));
-  };
-
-  useEffect(() => {
-    initGame();
-  }, []);
-
+  const location = useLocation();
   return (
-    <div>
-      <div className={styles.container}>
-        <motion.img
-          initial={{ width: 0, height: 0 }}
-          animate={{ width: 700, height: 400, rotateX: 360, rotateZ: 360 }}
-          transition={{ duration: 2 }}
-          className={styles.pips}
-          src={pips}
-        />
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-          className={styles.title}
-        >
-          Blackjack
-        </motion.h1>
-      </div>
-      <div className={styles.buttonContainer}>
-        <motion.button
-          initial={{ y: 250 }}
-          animate={{ y: -50 }}
-          transition={{ duration: 3 }}
-          className={styles.button}
-        >
-          Stats
-        </motion.button>
-        <motion.button
-          initial={{ y: 200 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 3 }}
-          className={styles.button}
-        >
-          Play
-        </motion.button>
-        <motion.button
-          initial={{ y: 300 }}
-          animate={{ y: -50 }}
-          transition={{ duration: 3 }}
-          style={{ fontSize: "22px" }}
-          className={styles.button}
-        >
-          Customize
-        </motion.button>
-      </div>
-    </div>
+    <AnimatePresence>
+      <Switch location={location} key={location.key}>
+        <Route exact path={"/"} component={Home}/>
+        <Route path={"/play"} component={BlackJackGame} />
+      </Switch>
+    </AnimatePresence>
   );
 }
 
