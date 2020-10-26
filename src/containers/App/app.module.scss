@@ -12,7 +12,7 @@ $baby-blue: #569352;
   width: 40%;
   height: auto;
   margin-top: 2%;
-  margin-bottom: -50px;
+  margin-bottom: -100px;
 }
 
 .container {
@@ -22,17 +22,26 @@ $baby-blue: #569352;
   flex-direction: column;
 }
 
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: space-evenly;
+  justify-content: space-evenly;
+}
+
 .button {
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  width: 120px;
+  height: 120px;
   display: inline-block;
-  font-size: 1em;
-  padding: 1em 2em;
+  font-size: 2em;
   margin-bottom: 60px;
   -webkit-appearance: none;
   appearance: none;
   background-color: $button-bg;
   color: $button-text-color;
-  border-radius: 4px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
   border: none;
   cursor: pointer;
   position: relative;
