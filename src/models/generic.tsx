@@ -12,7 +12,6 @@ export interface Player {
   currentBet: number;
   hand: Card[];
   score?: number;
-  isTurn: boolean;
 }
 
 export interface User {
