@@ -145,7 +145,8 @@
     "exclude": [
       "src/models/*.tsx",
       "src/index.tsx",
-      "src/serviceWorker.ts"
+      "src/serviceWorker.ts",
+      "src/redux/rootReducer.tsx"
     ],
     "reporter": [
       "html",

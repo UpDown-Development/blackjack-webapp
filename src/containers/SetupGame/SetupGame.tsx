@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { initBlackJack } from "../../redux/actions/blackJackActions";
 import { Redirect } from "react-router";
 
-const SetupGame = () => {
+const SetupGame = (props: any) => {
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
 

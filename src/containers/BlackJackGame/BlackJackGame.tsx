@@ -15,6 +15,8 @@ import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 
+// TODO: Run out of money support, leave table support
+
 const BlackJackGame = () => {
   const dispatch = useDispatch();
   const blackjackState = useSelector(
@@ -26,10 +28,12 @@ const BlackJackGame = () => {
     if (blackjackState.state === BlackJackState.DEALER_PLAYING) {
       dealerAI();
     }
+    // @ts-ignore
   }, [blackjackState.players[1].score]);
 
   useEffect(() => {
     checkScore();
+    // @ts-ignore
   }, [blackjackState.players[0].score]);
 
   const animationVariants = {
