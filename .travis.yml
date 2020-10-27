@@ -14,7 +14,7 @@ defaults: &defaults
 
 script:
   - npm run start:ci &
-  - npm test
+  - npm test:unit
   - bash <(curl -s https://codecov.io/bash)
   # after all tests finish running we need
   # to kill all background jobs (like "npm start &")
