@@ -9,6 +9,7 @@ import BlackJackGame from "./BlackJackGame";
 import { defaultState } from "../../redux/reducers/BlackJackReducer/blackJackReducer";
 import { BlackJack, BlackJackState, Card, Player } from "../../models/generic";
 import { deck } from "../../utils/blackJackDeck";
+import { genericState } from "../../utils/testData";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -17,36 +18,6 @@ describe("Setup Game Component", () => {
   afterAll(() => {
     jest.resetAllMocks();
   });
-  const card: Card = {
-    name: "Test Name",
-    img: "Test link",
-    value: 9001,
-    isFaceUp: true,
-  };
-  const hand: Card[] = [card, card];
-  const players: Player[] = [
-    {
-      name: "player",
-      wallet: 50,
-      currentBet: 0,
-      hand: [],
-      score: 0,
-    } as Player,
-    {
-      name: "dealer",
-      wallet: 50,
-      currentBet: 0,
-      hand: [],
-      score: 0,
-    } as Player,
-  ];
-  const genericState: BlackJack = {
-    deck: deck,
-    players: players,
-    state: BlackJackState.BETTING,
-    name: "BlackJack",
-    numberOfDecks: 2,
-  };
   let store: Store<any, AnyAction>;
   let component: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
   const setup = (data: any) => {
