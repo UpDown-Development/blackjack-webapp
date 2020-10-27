@@ -35,7 +35,7 @@ describe("Setup Game Component", () => {
     expect(component.text()).toEqual("WalletNumber Of decksPlay");
   });
 
-  it("should submit", async function () {
+  it("should submit", function () {
     setup({});
     Promise.all([component.find("form").simulate("submit")])
       .then(() => {
