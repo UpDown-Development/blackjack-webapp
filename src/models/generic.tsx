@@ -11,6 +11,7 @@ export interface Player {
   wallet: number;
   currentBet: number;
   hand: Card[];
+  score?: number,
   isTurn: boolean;
 }
 
