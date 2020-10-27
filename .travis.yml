@@ -1,5 +1,9 @@
 language: node_js
 
+branches:
+  only:
+    - master
+
 node_js:
   # Node 10.3+ includes npm@6 which has good "npm ci" command
   - node
