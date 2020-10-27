@@ -7,11 +7,11 @@ export interface Data {
 }
 
 export interface Player {
-  name: string
+  name: string;
   wallet: number;
   currentBet: number;
   hand: Card[];
-  score?: number,
+  score?: number;
   isTurn: boolean;
 }
 
@@ -29,16 +29,16 @@ export interface Game {
 }
 
 export enum BlackJackState {
-  BETTING="BETTING",
-  DEALING="DEALING",
-  PLAYING="PLAYING",
-  DEALER_PLAYING="DEALER_PLAYING",
-  CLEANUP="CLEANUP",
+  BETTING = "BETTING",
+  DEALING = "DEALING",
+  PLAYING = "PLAYING",
+  DEALER_PLAYING = "DEALER_PLAYING",
+  CLEANUP = "CLEANUP",
 }
 
 export interface BlackJack extends Game {
   deck: Card[];
-  state: BlackJackState
+  state: BlackJackState;
 }
 
 export interface Card {

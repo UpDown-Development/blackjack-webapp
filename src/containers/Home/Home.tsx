@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./home.module.scss";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import pips from "../../images/resources/4_pips.png";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // local imports
 
@@ -26,22 +26,22 @@ const Home = () => {
     <>
       <motion.div
         variants={animationVariants}
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         exit="exit"
       >
         <div className={styles.container}>
           <motion.img
-            initial={{width: 0, height: 0}}
-            animate={{width: 700, height: 400, rotateX: 360, rotateZ: 360}}
-            transition={{duration: 2}}
+            initial={{ width: 0, height: 0 }}
+            animate={{ width: 700, height: 400, rotateX: 360, rotateZ: 360 }}
+            transition={{ duration: 2 }}
             className={styles.pips}
             src={pips}
           />
           <motion.h1
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            transition={{duration: 2, delay: 3}}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 3 }}
             className={styles.title}
           >
             Blackjack
@@ -50,9 +50,9 @@ const Home = () => {
         <div className={styles.buttonContainer}>
           <motion.button
             variants={animationVariants}
-            initial={{y: 1000}}
-            animate={{y: -50, scale: 0.7}}
-            transition={{delay: 2.5, type: "spring", stiffness: 100}}
+            initial={{ y: 1000 }}
+            animate={{ y: -50, scale: 0.7 }}
+            transition={{ delay: 2.5, type: "spring", stiffness: 100 }}
             whileHover="hover"
             className={styles.button}
           >
@@ -61,9 +61,9 @@ const Home = () => {
           <Link to={"/setup"}>
             <motion.button
               variants={animationVariants}
-              initial={{y: 1000}}
-              animate={{y: 0, scale: 0.7}}
-              transition={{delay: 2, type: "spring", stiffness: 100}}
+              initial={{ y: 1000 }}
+              animate={{ y: 0, scale: 0.7 }}
+              transition={{ delay: 2, type: "spring", stiffness: 100 }}
               whileHover="hover"
               className={styles.button}
             >
@@ -73,11 +73,11 @@ const Home = () => {
           <Link to={"play"}>
             <motion.button
               variants={animationVariants}
-              initial={{y: 1000}}
-              animate={{y: -50, scale: 0.7}}
-              transition={{delay: 3, type: "spring", stiffness: 100}}
+              initial={{ y: 1000 }}
+              animate={{ y: -50, scale: 0.7 }}
+              transition={{ delay: 3, type: "spring", stiffness: 100 }}
               whileHover="hover"
-              style={{fontSize: "16px"}}
+              style={{ fontSize: "16px" }}
               className={styles.button}
             >
               Customize
