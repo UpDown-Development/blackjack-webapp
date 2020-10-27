@@ -1,5 +1,5 @@
 import { deck } from "../../utils/blackJackDeck";
-import { Card, Player } from "../../models/generic";
+import {BlackJack, BlackJackState, Card, Player} from "../../models/generic";
 import _ from "lodash";
 
 export interface BlackJackAction {
@@ -8,8 +8,8 @@ export interface BlackJackAction {
 }
 
 export const initBlackJack = (
-  numberOfDecks: number = 1,
-  wallet: number
+    numberOfDecks: number = 1,
+    wallet: number
 ) => async (dispatch: any) => {
   const dealer: Player = {
     currentBet: 0,
@@ -43,7 +43,7 @@ export const initBlackJack = (
 };
 
 export const placeBet = (bet: number, wallet: number) => async (
-  dispatch: any
+    dispatch: any
 ) => {
   dispatch({
     type: "PLACE_BET_BLACKJACK",
@@ -61,15 +61,53 @@ export const endPlaying = (hand: Card[], dealer: Player) => async (dispatch: any
     dealerHand.push({ ...card, isFaceUp: true });
   });
   Promise.all([
-  dispatch({
-    type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
-    payload: dealerHand,
-  })
+    dispatch({
+      type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
+      payload: dealerHand,
+    })
   ]).then(dispatch(calculateScore(dealerHand, dealer)))
 };
 
+export const cleanUp = (state: number, gameState: BlackJack) => async (dispatch: any) => {
+  const player = gameState.players[0]
+  const deck = gameState.deck
+  const deckNum = gameState.numberOfDecks;
+
+  let newDeck: Card[];
+  let wallet;
+
+  if (state === -1) {
+    wallet = player.wallet
+  } else if (state === 0) {
+    wallet = player.wallet + player.currentBet
+  } else if (state === 1) {
+    wallet = player.wallet + (player.currentBet*2)
+  }
+
+  if (deck.length < (52*deckNum)/5) {
+    newDeck = shuffle(deckNum)
+  } else {
+    newDeck = deck
+  }
+
+  dispatch({
+    type: "MOVE_TO_CLEANUP_BLACKJACK",
+    payload: {
+      deck: newDeck,
+      wallet: wallet,
+    }
+
+  })};
+
+export const moveToComplete = () => async (dispatch: any) => {
+
+  dispatch({
+    type: "MOVE_TO_COMPLETE_BLACKJACK",
+
+  })};
+
 export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
-  dispatch: any
+    dispatch: any
 ) => {
   let hand1: Card[] = [];
   let hand2: Card[] = [];
@@ -99,32 +137,32 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
       },
     }),
   ])
-    .then(() => {
-      dispatch(calculateScore(hands[0], players[0]));
-    })
-    .then(() => {
-      dispatch(calculateScore(hands[1], players[1]));
-    });
+      .then(() => {
+        dispatch(calculateScore(hands[0], players[0]));
+      })
+      .then(() => {
+        dispatch(calculateScore(hands[1], players[1]));
+      });
 };
 
 export const calculateScore = (hand: Card[], player: Player) => async (
-  dispatch: any
+    dispatch: any
 ) => {
   const playerId = findPlayerId(player);
   let score: number = 0;
   const newHand = hand.filter((card) => card.isFaceUp);
   newHand
-    .filter((card) => card.value !== 11)
-    .forEach((card) => {
-      score += card.value;
-    });
+      .filter((card) => card.value !== 11)
+      .forEach((card) => {
+        score += card.value;
+      });
 
   newHand
-    .filter((card) => card.value === 11)
-    .forEach((card) => {
-      // @ts-ignore
-      score += score + card.value > 21 ? card.secondaryValue : card.value;
-    });
+      .filter((card) => card.value === 11)
+      .forEach((card) => {
+        // @ts-ignore
+        score += score + card.value > 21 ? card.secondaryValue : card.value;
+      });
 
   dispatch({
     type: "CALCULATE_SCORE_BLACKJACK",
@@ -136,7 +174,7 @@ export const calculateScore = (hand: Card[], player: Player) => async (
 };
 
 export const dealCard = (deck: Card[], player: Player) => async (
-  dispatch: any
+    dispatch: any
 ) => {
   const playerId = findPlayerId(player);
   let card = deck.slice(-1)[0];
@@ -159,8 +197,7 @@ export const dealCard = (deck: Card[], player: Player) => async (
 function shuffle(numberOfDecks: number): Card[] {
   let blackJackDeck: Card[] = [];
   for (let i = 0; i < numberOfDecks; i++) {
-    const newDeck = deck;
-    const shuffledDeck = _.shuffle(newDeck);
+    const shuffledDeck = _.shuffle(deck);
     shuffledDeck.forEach((card) => {
       blackJackDeck.push(card);
     });
