@@ -59,9 +59,7 @@ const SetupGame = (props: any) => {
             value={formik.values.decks}
             onChange={formik.handleChange}
           />
-          <Button id="1" type="submit">
-            Play
-          </Button>
+          <Button type="submit">Play</Button>
         </form>
       </Paper>
       {redirect && <Redirect to={"/play"} />}

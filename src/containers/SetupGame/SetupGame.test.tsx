@@ -6,9 +6,7 @@ import thunk from "redux-thunk";
 import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
 import SetupGame from "./SetupGame";
-import { useFormik } from "formik";
-
-jest.mock("formik");
+import { act } from "react-dom/test-utils";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -32,15 +30,17 @@ describe("Setup Game Component", () => {
   };
 
   it("should show the correct text", function () {
-    setup({ redirect: false });
+    setup({});
     expect(component.text()).toEqual("WalletNumber Of decksPlay");
   });
 
   it("should submit", function () {
-    setup({});
-    const spy = spyOn(useFormik, "handleSubmit").and.stub();
-    console.log(component.find("button").text());
-
-    expect(useFormik).toHaveBeenCalled();
+    act(() => {
+      setup({});
+      component.find("form").simulate("submit");
+      component.update();
+    });
+    expect(component.text()).toEqual("WalletNumber Of decksPlay");
+    jest.resetAllMocks();
   });
 });
