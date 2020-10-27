@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
 import SetupGame from "./SetupGame";
-import { act } from "react-dom/test-utils";
+import { act } from "react-test-renderer";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -34,13 +34,11 @@ describe("Setup Game Component", () => {
     expect(component.text()).toEqual("WalletNumber Of decksPlay");
   });
 
-  it("should submit", function () {
+  it("should submit", async function () {
+    setup({});
     act(() => {
-      setup({});
       component.find("form").simulate("submit");
-      component.update();
     });
-    expect(component.text()).toEqual("WalletNumber Of decksPlay");
-    jest.resetAllMocks();
+    await expect(component.text()).toEqual("WalletNumber Of decksPlay");
   });
 });
