@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import App from "../App/App";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
 it("renders without crashing", () => {
