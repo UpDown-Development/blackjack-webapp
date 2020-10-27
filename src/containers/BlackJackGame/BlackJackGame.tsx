@@ -28,10 +28,12 @@ const BlackJackGame = () => {
     if (blackjackState.state === BlackJackState.DEALER_PLAYING) {
       dealerAI();
     }
+    // @ts-ignore
   }, [blackjackState.players[1].score]);
 
   useEffect(() => {
     checkScore();
+    // @ts-ignore
   }, [blackjackState.players[0].score]);
 
   const animationVariants = {

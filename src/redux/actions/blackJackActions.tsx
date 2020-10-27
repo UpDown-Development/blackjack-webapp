@@ -1,5 +1,5 @@
 import { deck } from "../../utils/blackJackDeck";
-import { BlackJack, BlackJackState, Card, Player } from "../../models/generic";
+import { BlackJack, Card, Player } from "../../models/generic";
 import _ from "lodash";
 
 export interface BlackJackAction {
@@ -14,7 +14,6 @@ export const initBlackJack = (
   const dealer: Player = {
     currentBet: 0,
     hand: [],
-    isTurn: false,
     wallet: 9999999999,
     name: "Dealer",
     score: 0,
@@ -23,7 +22,6 @@ export const initBlackJack = (
   const player: Player = {
     currentBet: 0,
     hand: [],
-    isTurn: true,
     wallet: wallet,
     name: "Player",
     score: 0,
@@ -59,7 +57,7 @@ export const endPlaying = (hand: Card[], dealer: Player) => async (
 ) => {
   const dealerHand: Card[] = [];
 
-  hand.map((card: Card) => {
+  hand.forEach((card: Card) => {
     dealerHand.push({ ...card, isFaceUp: true });
   });
   Promise.all([
