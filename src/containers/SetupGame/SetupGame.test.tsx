@@ -37,8 +37,12 @@ describe("Setup Game Component", () => {
 
   it("should submit", async function () {
     setup({});
-    Promise.all([component.find("form").simulate("submit")]).then(() => {
-      expect(store.dispatch).toHaveBeenCalled();
-    });
+    Promise.all([component.find("form").simulate("submit")])
+      .then(() => {
+        expect(store.dispatch).toHaveBeenCalled();
+      })
+      .catch(() => {
+        expect(1).toEqual(2);
+      });
   });
 });

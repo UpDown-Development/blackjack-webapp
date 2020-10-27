@@ -14,6 +14,9 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe("Setup Game Component", () => {
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
   const card: Card = {
     name: "Test Name",
     img: "Test link",
