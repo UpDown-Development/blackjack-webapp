@@ -34,7 +34,7 @@ export enum BlackJackState {
   PLAYER_PLAYING = "PLAYER_PLAYING",
   DEALER_PLAYING = "DEALER_PLAYING",
   COMPLETE = "COMPLETE",
-  CLEANUP = "CLEANUP"
+  CLEANUP = "CLEANUP",
 }
 
 export interface BlackJack extends Game {
