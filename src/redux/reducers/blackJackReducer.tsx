@@ -24,17 +24,14 @@ const BlackJackReducer = produce(
           break;
         case "MOVE_TO_DEALER_PLAYING_BLACKJACK":
           state.state = BlackJackState.DEALER_PLAYING
+          state.players[1].hand = action.payload
           break;
         case "DEAL_CARD_BLACKJACK":
-          let playerNum: number
-
-          if (action.payload.player === 'Dealer') {
-            playerNum = 1
-          } else {
-            playerNum = 0
-          }
           state.deck = action.payload.deck;
-          state.players[playerNum].hand = action.payload.hand
+          state.players[action.payload.playerId].hand = action.payload.hand
+          break;
+        case "CALCULATE_SCORE_BLACKJACK":
+            state.players[action.payload.playerId].score = action.payload.score
           break;
         case "DEAL_OPENING_CARDS_BLACKJACK":
           state.deck = action.payload.deck;

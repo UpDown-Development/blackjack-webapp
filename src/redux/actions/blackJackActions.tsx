@@ -1,5 +1,5 @@
-import { deck } from "../../utils/blackJackDeck";
-import { Card, Player} from "../../models/generic";
+import {deck} from "../../utils/blackJackDeck";
+import {Card, Player} from "../../models/generic";
 import _ from "lodash";
 
 export interface BlackJackAction {
@@ -8,14 +8,15 @@ export interface BlackJackAction {
 }
 
 export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => async (
-    dispatch: any
+  dispatch: any
 ) => {
   const dealer: Player = {
     currentBet: 0,
     hand: [],
     isTurn: false,
     wallet: 9999999999,
-    name: 'Dealer'
+    name: 'Dealer',
+    score: 0
   }
 
   const player: Player = {
@@ -23,7 +24,8 @@ export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => asyn
     hand: [],
     isTurn: true,
     wallet: wallet,
-    name: 'Player'
+    name: 'Player',
+    score: 0
   }
 
   const players: Player[] = [player, dealer]
@@ -40,29 +42,36 @@ export const initBlackJack = (numberOfDecks: number = 1, wallet: number) => asyn
 };
 
 export const placeBet = (bet: number, wallet: number) => async (
-    dispatch: any
+  dispatch: any
 ) => {
   dispatch({
     type: "PLACE_BET_BLACKJACK",
     payload: {
       currentBet: bet,
-      wallet: wallet-bet
+      wallet: wallet - bet
     }
-  });}
+  });
+}
 
-export const endPlaying = () => async (
-    dispatch: any
+export const endPlaying = (hand: Card[]) => async (
+  dispatch: any
 ) => {
+  const dealerHand: Card[] = []
+
+  hand.map((card: Card) => {
+    dealerHand.push({...card, isFaceUp: true});
+  })
 
 
   dispatch({
     type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
+    payload: dealerHand
+  });
+}
 
-  });}
 
-
-export const dealOpeningCards = (deck: Card[]) => async (
-    dispatch: any
+export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
+  dispatch: any
 ) => {
   let hand1: Card[] = []
   let hand2: Card[] = []
@@ -71,41 +80,74 @@ export const dealOpeningCards = (deck: Card[]) => async (
 
   let hands = [hand1, hand2]
 
-  for (let i = deck.length; i > deck.length-4; i--) {
+  for (let i = deck.length; i > deck.length - 4; i--) {
     let card: Card = newDeck.slice(-1)[0];
     newDeck = newDeck.slice(1, -1)
 
-    if (i === deck.length-3) {
-      card = {...deck[i-1], isFaceUp:false}
+    if (i === deck.length - 3) {
+      card = {...deck[i - 1], isFaceUp: false}
     } else {
-      card = deck[i-1]
+      card = deck[i - 1]
     }
     hands[i % 2].push(card)
   }
+  Promise.all([
+    dispatch({
+      type: "DEAL_OPENING_CARDS_BLACKJACK",
+      payload: {
+        deck: newDeck,
+        hand1: hands[0],
+        hand2: hands[1]
+      }
+    })
+  ]).then(() => {
+    dispatch(calculateScore(hands[0], players[0]))
+  }).then(() => {
+    dispatch(calculateScore(hands[1], players[1]))
+  })
+}
+
+export const calculateScore = (hand: Card[], player: Player) => async (dispatch: any) => {
+  const playerId = findPlayerId(player)
+  let score: number = 0;
+  const newHand = hand.filter((card) => card.isFaceUp);
+  newHand.filter(card => card.value !== 11).forEach((card) => {
+    score += card.value
+  })
+
+  newHand.filter(card => card.value === 11).forEach((card) => {
+    // @ts-ignore
+    score += (score + card.value > 21) ? card.secondaryValue : card.value
+  })
 
   dispatch({
-    type: "DEAL_OPENING_CARDS_BLACKJACK",
+    type: "CALCULATE_SCORE_BLACKJACK",
     payload: {
-      deck: newDeck,
-      hand1: hands[0],
-      hand2: hands[1]
+      playerId: playerId,
+      score: score,
     }
-  });}
+  })
+}
 
 export const dealCard = (deck: Card[], player: Player) => async (
-    dispatch: any
+  dispatch: any
 ) => {
+  const playerId = findPlayerId(player);
+  let card = deck.slice(-1)[0];
 
-  let card = deck.slice(-1)[0]
-
-  dispatch({
-    type: "DEAL_CARD_BLACKJACK",
-    payload: {
-      deck: deck.slice(1, -1),
-      hand: [...player.hand, card],
-      player: player.name
-    }
-  });}
+  Promise.all([
+    dispatch({
+      type: "DEAL_CARD_BLACKJACK",
+      payload: {
+        playerId: playerId,
+        deck: deck.slice(1, -1),
+        hand: [...player.hand, card],
+        player: player.name
+      }
+    })]).then(() => {
+    dispatch(calculateScore([...player.hand, card], player))
+  })
+}
 
 function shuffle(numberOfDecks: number): Card[] {
   let blackJackDeck: Card[] = [];
@@ -117,4 +159,14 @@ function shuffle(numberOfDecks: number): Card[] {
     });
   }
   return blackJackDeck;
+}
+
+function findPlayerId(player: Player) {
+  let playerId;
+  if(player.name === 'Dealer'){
+    playerId = 1;
+  } else {
+    playerId = 0;
+  }
+  return playerId;
 }
