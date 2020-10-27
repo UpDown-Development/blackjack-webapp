@@ -15,6 +15,8 @@ import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 
+// TODO: Run out of money support, leave table support
+
 const BlackJackGame = () => {
   const dispatch = useDispatch();
   const blackjackState = useSelector(

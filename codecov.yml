@@ -4,6 +4,7 @@ ignore:
   - "src/index.tsx"
   - "src/setupTests.tsx"
   - "src/models/**"
+  - "src/redux/rootReducer.tsx"
 coverage:
   precision: 2
   round: nearest

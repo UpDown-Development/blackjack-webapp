@@ -1,7 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import App from "../App/App";
+import { BrowserRouter } from "react-router-dom";
 
 it("renders without crashing", () => {
-  shallow(<App />);
+  mount(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
 });
