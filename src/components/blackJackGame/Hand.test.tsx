@@ -20,7 +20,7 @@ describe("Setup Game Component", () => {
   it("should show the correct text", function () {
     setup({
       ...players[0],
-      hand: [card, card],
+      hand: [card, { ...card, isFaceUp: false }],
     });
     // @ts-ignore
     expect(component.text()).toEqual("player's Hand");
