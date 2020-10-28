@@ -5,21 +5,25 @@ import { mount, ReactWrapper } from "enzyme";
 import thunk from "redux-thunk";
 import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
-import { genericState, players } from "../../utils/testData";
+import { card, genericState, players } from "../../utils/testData";
 import { BlackJackGame } from "./BlackJackGame";
 import { BlackJackState } from "../../models/generic";
 import { Button } from "@material-ui/core";
+import { wait } from "../../setupTests";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe("BlackJackGame Container", () => {
+  let spy: jasmine.Spy;
   let store: MockStoreEnhanced<unknown, {}>;
   let component: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
   const setup = (data: any) => {
     store = mockStore({
       ...data,
     });
+
+    spy = spyOn(store, "dispatch").and.callThrough();
 
     const rootComponent = mount(
       <Provider store={store}>
@@ -121,7 +125,6 @@ describe("BlackJackGame Container", () => {
     component.find(Button).at(0).simulate("click");
     expect(store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
   });
-  // formik test. it tests nothing just adds coverage
   it("should place a bet on button click", function () {
     setup({
       BlackJackReducer: {
@@ -130,5 +133,15 @@ describe("BlackJackGame Container", () => {
       },
     });
     component.find("form").simulate("submit");
+  });
+  it("should bust a player", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.PLAYER_PLAYING,
+        players: [{ ...players[0], score: 33 }, players[1]],
+      },
+    });
+    wait(spy);
   });
 });
