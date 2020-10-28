@@ -121,6 +121,7 @@ export const BlackJackGame = () => {
       {bjState.state !== BJS.BETTING && (
         <Paper style={{ minWidth: 800, textAlign: "center" }}>
           <Hand player={bjState.players[1]} />
+          <Typography>{bjState.players[1].score}</Typography>
           <Hand player={bjState.players[0]} />
           <Typography>{bjState.players[0].score}</Typography>
           {bjState.state === BJS.PLAYER_PLAYING && (
