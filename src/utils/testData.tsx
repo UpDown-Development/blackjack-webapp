@@ -4,7 +4,7 @@ import { deck } from "./blackJackDeck";
 export const card: Card = {
   name: "Test Name",
   img: "Test link",
-  value: 9001,
+  value: 7,
   isFaceUp: true,
 };
 export const hand: Card[] = [card, card];
@@ -12,7 +12,7 @@ export const players: Player[] = [
   {
     name: "player",
     wallet: 50,
-    currentBet: 0,
+    currentBet: 20,
     hand: [],
     score: 0,
   } as Player,
