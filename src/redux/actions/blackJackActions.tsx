@@ -93,7 +93,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   }
 
   dispatch({
-    type: "MOVE_TO_CLEANUP_BLACKJACK",
+    type: "CLEANUP_BLACKJACK",
     payload: {
       deck: newDeck,
       wallet: wallet,

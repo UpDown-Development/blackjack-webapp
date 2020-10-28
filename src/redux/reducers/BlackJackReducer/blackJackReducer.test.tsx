@@ -193,7 +193,7 @@ describe("BlackJack Reducer", () => {
 
   it("should clean up after us", function () {
     const result = BlackJackReducer(scoreState, {
-      type: "MOVE_TO_CLEANUP_BLACKJACK",
+      type: "CLEANUP_BLACKJACK",
       payload: {
         deck: newDeck,
         wallet: 100,

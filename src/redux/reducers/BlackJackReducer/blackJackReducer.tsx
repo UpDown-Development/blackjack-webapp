@@ -42,7 +42,7 @@ const BlackJackReducer = produce(
       case "MOVE_TO_COMPLETE_BLACKJACK":
         state.state = BlackJackState.COMPLETE;
         break;
-      case "MOVE_TO_CLEANUP_BLACKJACK":
+      case "CLEANUP_BLACKJACK":
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;
