@@ -125,6 +125,7 @@ describe("BlackJackGame Container", () => {
     component.find(Button).at(0).simulate("click");
     expect(store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
   });
+  // formik test asserts nothing. coverage only
   it("should place a bet on button click", function () {
     setup({
       BlackJackReducer: {
