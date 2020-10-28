@@ -1,6 +1,6 @@
 import { myFirebase } from "../../../utils/firebaseConfig";
 
-interface UserAction {
+export interface UserAction {
   type: string;
   payload?: object;
 }

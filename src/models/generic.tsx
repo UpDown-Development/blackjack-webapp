@@ -18,12 +18,13 @@ export interface Player {
 }
 
 export interface GameUser {
+  errorMessage: string;
   loading: boolean;
-  user: User;
+  user: User | undefined;
   username: string;
   nickname: string;
   currentCardBackground: string;
-  data: Data;
+  data: Data | undefined;
 }
 
 export interface Game {
