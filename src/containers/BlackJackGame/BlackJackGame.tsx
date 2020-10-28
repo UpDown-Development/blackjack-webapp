@@ -19,7 +19,7 @@ import Hand from "../../components/blackJackGame/Hand";
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
 
-const BlackJackGame = () => {
+export const BlackJackGame = () => {
   const dispatch = useDispatch();
   const bjState = useSelector(
     (state: RootState) => state.BlackJackReducer,
@@ -159,5 +159,3 @@ const BlackJackGame = () => {
     </motion.div>
   );
 };
-
-export default BlackJackGame;
