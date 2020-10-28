@@ -8,7 +8,7 @@ import { rootReducer } from "./redux/rootReducer";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import thunk from "redux-thunk";
-import "./index.css";
+import "./index.scss";
 
 const store = createStore(
   rootReducer,
