@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { BlackJackState, Card } from "../../models/generic";
+import { BlackJackState as BJS } from "../../models/generic";
 import { motion } from "framer-motion";
 import {
   cleanUp,
@@ -14,28 +14,29 @@ import {
 import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
+import Hand from "../../components/blackJackGame/Hand";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
 
 const BlackJackGame = () => {
   const dispatch = useDispatch();
-  const blackjackState = useSelector(
+  const bjState = useSelector(
     (state: RootState) => state.BlackJackReducer,
     shallowEqual
   );
 
   useEffect(() => {
-    if (blackjackState.state === BlackJackState.DEALER_PLAYING) {
+    if (bjState.state === BJS.DEALER_PLAYING) {
       dealerAI();
     }
     // @ts-ignore
-  }, [blackjackState.players[1].score]);
+  }, [bjState.players[1].score]);
 
   useEffect(() => {
     checkScore();
     // @ts-ignore
-  }, [blackjackState.players[0].score]);
+  }, [bjState.players[0].score]);
 
   const animationVariants = {
     exit: {
@@ -51,13 +52,13 @@ const BlackJackGame = () => {
       bet: 5,
     },
     onSubmit: (values) => {
-      dispatch(placeBet(values.bet, blackjackState.players[0].wallet));
+      dispatch(placeBet(values.bet, bjState.players[0].wallet));
     },
   });
 
   const dealerAI = () => {
-    if (blackjackState.players[1].score < 18) {
-      dispatch(dealCard(blackjackState.deck, blackjackState.players[1]));
+    if (bjState.players[1].score < 17) {
+      dispatch(dealCard(bjState.deck, bjState.players[1]));
       return true;
     } else {
       dispatch(moveToComplete());
@@ -69,8 +70,8 @@ const BlackJackGame = () => {
     let winMessage: string = "It's a push";
     let state = 0;
 
-    const player = blackjackState.players[0];
-    const dealer = blackjackState.players[1];
+    const player = bjState.players[0];
+    const dealer = bjState.players[1];
 
     if (
       (player.score > dealer.score && player.score <= 21) ||
@@ -90,11 +91,21 @@ const BlackJackGame = () => {
   };
 
   const checkScore = () => {
-    if (blackjackState.players[0].score > 21) {
-      dispatch(
-        endPlaying(blackjackState.players[1].hand, blackjackState.players[1])
-      );
+    if (bjState.players[0].score > 21) {
+      dispatch(endPlaying(bjState.players[1].hand, bjState.players[1]));
     }
+  };
+
+  const handleHit = () => {
+    dispatch(dealCard(bjState.deck, bjState.players[0]));
+  };
+
+  const handleStay = () => {
+    dispatch(endPlaying(bjState.players[1].hand, bjState.players[1]));
+  };
+
+  const handleNextGame = () => {
+    dispatch(cleanUp(displayWinMessage().state, bjState));
   };
 
   return (
@@ -105,74 +116,31 @@ const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
-      {blackjackState.state === BlackJackState.DEALING &&
-        dispatch(dealOpeningCards(blackjackState.deck, blackjackState.players))}
-      {blackjackState.state !== BlackJackState.BETTING && (
+      {bjState.state === BJS.DEALING &&
+        dispatch(dealOpeningCards(bjState.deck, bjState.players))}
+      {bjState.state !== BJS.BETTING && (
         <Paper style={{ minWidth: 800, textAlign: "center" }}>
-          <Typography>Dealer's Hand</Typography>
-          {blackjackState.players[1].hand.map((card: Card) => {
-            return card.isFaceUp ? (
-              <img src={card.img} alt={card.name} style={{ height: 120 }} />
-            ) : (
-              <img
-                src={"http://localhost:3000/imgs/cards/backs/back1.png"}
-                alt={"?"}
-                style={{ height: 120 }}
-              />
-            );
-          })}
-          <Typography>{blackjackState.players[1].score}</Typography>
-          <Typography>Player's Hand</Typography>
-          {blackjackState.players[0].hand.map((card: Card) => {
-            return (
-              <img src={card.img} alt={card.name} style={{ height: 120 }} />
-            );
-          })}
-          <br />
-          <Typography>{blackjackState.players[0].score}</Typography>
-          {blackjackState.state === BlackJackState.PLAYER_PLAYING && (
+          <Hand player={bjState.players[1]} />
+          <Hand player={bjState.players[0]} />
+          <Typography>{bjState.players[0].score}</Typography>
+          {bjState.state === BJS.PLAYER_PLAYING && (
             <div>
-              <Button
-                onClick={() =>
-                  dispatch(
-                    dealCard(blackjackState.deck, blackjackState.players[0])
-                  )
-                }
-              >
-                Hit
-              </Button>
-              <Button
-                onClick={() =>
-                  dispatch(
-                    endPlaying(
-                      blackjackState.players[1].hand,
-                      blackjackState.players[1]
-                    )
-                  )
-                }
-              >
-                Stay
-              </Button>
+              <Button onClick={() => handleHit()}>Hit</Button>
+              <Button onClick={() => handleStay()}>Stay</Button>
             </div>
           )}
           <br />
-          <Typography>Wallet: ${blackjackState.players[0].wallet}</Typography>
-          <Typography>Bet: ${blackjackState.players[0].currentBet}</Typography>
-          {blackjackState.state === BlackJackState.COMPLETE && (
+          <Typography>Wallet: ${bjState.players[0].wallet}</Typography>
+          <Typography>Bet: ${bjState.players[0].currentBet}</Typography>
+          {bjState.state === BJS.COMPLETE && (
             <>
               <Typography>{displayWinMessage().winMessage}</Typography>
-              <Button
-                onClick={() =>
-                  dispatch(cleanUp(displayWinMessage().state, blackjackState))
-                }
-              >
-                Next game
-              </Button>
+              <Button onClick={() => handleNextGame()}>Next game</Button>
             </>
           )}
         </Paper>
       )}
-      {blackjackState.state === BlackJackState.BETTING && (
+      {bjState.state === BJS.BETTING && (
         <Paper>
           <form onSubmit={formik.handleSubmit}>
             <TextField
