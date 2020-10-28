@@ -1,3 +1,6 @@
+import firebase from "firebase";
+import User = firebase.User;
+
 export interface Data {
   netWorth: number;
   totalCurrencyWon: number;
@@ -14,10 +17,12 @@ export interface Player {
   score?: number;
 }
 
-export interface User {
+export interface GameUser {
+  loading: boolean;
+  user: User;
   username: string;
   nickname: string;
-  currentBackground: string;
+  currentCardBackground: string;
   data: Data;
 }
 

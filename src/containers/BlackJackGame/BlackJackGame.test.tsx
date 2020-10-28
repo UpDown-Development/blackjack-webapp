@@ -5,11 +5,9 @@ import { mount, ReactWrapper } from "enzyme";
 import thunk from "redux-thunk";
 import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
-import { card, genericState, players } from "../../utils/testData";
+import { genericState, players } from "../../utils/testData";
 import { BlackJackGame } from "./BlackJackGame";
 import { BlackJackState } from "../../models/generic";
-import _ from "lodash";
-import { calculateScore } from "../../redux/actions/blackJackActions";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);

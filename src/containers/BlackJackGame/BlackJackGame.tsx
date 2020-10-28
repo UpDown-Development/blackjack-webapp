@@ -10,7 +10,7 @@ import {
   endPlaying,
   moveToComplete,
   placeBet,
-} from "../../redux/actions/blackJackActions";
+} from "../../redux/actions/BlackJackActions/blackJackActions";
 import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";

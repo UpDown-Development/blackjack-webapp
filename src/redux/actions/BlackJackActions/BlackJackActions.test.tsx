@@ -1,6 +1,6 @@
 import thunk from "redux-thunk";
 import configureStore, { MockStoreEnhanced } from "redux-mock-store";
-import { genericState, hand, players } from "../../utils/testData";
+import { genericState, hand, players } from "../../../utils/testData";
 import {
   cleanUp,
   dealCard,
@@ -10,8 +10,8 @@ import {
   moveToComplete,
   placeBet,
 } from "./blackJackActions";
-import { deck } from "../../utils/blackJackDeck";
-import { BlackJackState } from "../../models/generic";
+import { deck } from "../../../utils/blackJackDeck";
+import { BlackJackState } from "../../../models/generic";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
