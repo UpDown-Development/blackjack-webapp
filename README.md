@@ -8,7 +8,6 @@
 </div>
 </h1>
 
-## HEY
 ### We haven't put much here yet
 but we're excited for what we're working on, and we hope you'll all enjoy it once it's released.
 
