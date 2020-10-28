@@ -1,18 +1,21 @@
 import React from "react";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
+import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import { mount, ReactWrapper } from "enzyme";
 import thunk from "redux-thunk";
 import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
-import { genericState } from "../../utils/testData";
+import { card, genericState, players } from "../../utils/testData";
 import { BlackJackGame } from "./BlackJackGame";
+import { BlackJackState } from "../../models/generic";
+import _ from "lodash";
+import { calculateScore } from "../../redux/actions/blackJackActions";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-describe("Setup Game Component", () => {
-  let store: Store<any, AnyAction>;
+describe("BlackJackGame Container", () => {
+  let store: MockStoreEnhanced<unknown, {}>;
   let component: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
   const setup = (data: any) => {
     store = mockStore({
@@ -33,5 +36,58 @@ describe("Setup Game Component", () => {
       BlackJackReducer: genericState,
     });
     expect(component).toBeTruthy();
+  });
+
+  it("should handle dealer hit", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.DEALER_PLAYING,
+      },
+    });
+
+    expect(store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+  });
+
+  it("should handle dealer stay", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.DEALER_PLAYING,
+        players: [players[0], { ...players[1], score: 19 }],
+      },
+    });
+
+    expect(store.getActions()[0].type).toEqual("MOVE_TO_COMPLETE_BLACKJACK");
+  });
+
+  it("should handle dealer win", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.COMPLETE,
+        players: [
+          { ...players[0], score: 20 },
+          { ...players[1], score: 21 },
+        ],
+      },
+    });
+
+    expect(component.text()).toContain("...");
+  });
+
+  it("should handle player win", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.COMPLETE,
+        players: [
+          { ...players[0], score: 21 },
+          { ...players[1], score: 20 },
+        ],
+      },
+    });
+
+    expect(component.text()).toContain("!");
   });
 });
