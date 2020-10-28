@@ -3,6 +3,7 @@ import styles from "./home.module.scss";
 import { motion } from "framer-motion";
 import pips from "../../images/resources/4_pips.png";
 import { Link } from "react-router-dom";
+import { Paper, Typography } from "@material-ui/core";
 
 // local imports
 

@@ -15,6 +15,7 @@ import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 
+// TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
 
 const BlackJackGame = () => {
