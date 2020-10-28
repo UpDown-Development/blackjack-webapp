@@ -72,9 +72,6 @@ const BlackJackGame = () => {
     const player = blackjackState.players[0];
     const dealer = blackjackState.players[1];
 
-    console.log("Dealer's score", dealer.score);
-    console.log("Player's score", player.score);
-
     if (
       (player.score > dealer.score && player.score <= 21) ||
       (player.score <= 21 && dealer.score > 21)
