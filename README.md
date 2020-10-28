@@ -8,14 +8,7 @@
 </div>
 </h1>
 
-## TODO
-### Before you get started head on over and sign up on
-[Travis Ci](https://travis-ci.com) and
-[CodeCov](https://coodecov.io) 
-    
-### Next Steps
-    - replace travisCI badge link
-    - replace codecov badge link
-    - replace README
-    - setup github branch settings to require prs and status checks
-    - code your brains out
+## HEY
+### We haven't put much here yet
+but we're excited for what we're working on, and we hope you'll all enjoy it once it's released.
+
