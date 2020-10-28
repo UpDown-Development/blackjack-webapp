@@ -88,7 +88,6 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
 
   if (deck.length < (52 * deckNum) / 5) {
     newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
-    newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
   } else {
     newDeck = deck;
   }
@@ -120,7 +119,7 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
 
   for (let i = deck.length; i > deck.length - 4; i--) {
     let card: Card = newDeck.slice(-1)[0];
-    newDeck = newDeck.slice(1, -1);
+    newDeck = newDeck.slice(0, -1);
 
     if (i === deck.length - 3) {
       card = { ...deck[i - 1], isFaceUp: false };
@@ -186,7 +185,7 @@ export const dealCard = (deck: Card[], player: Player) => async (
       type: "DEAL_CARD_BLACKJACK",
       payload: {
         playerId: playerId,
-        deck: deck.slice(1, -1),
+        deck: deck.slice(0, -1),
         hand: [...player.hand, card],
         player: player.name,
       },
