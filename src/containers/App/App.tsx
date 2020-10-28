@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 // local imports
 import SetupGame from "../SetupGame/SetupGame";
 import Home from "../Home/Home";
-import BlackJackGame from "../BlackJackGame/BlackJackGame";
+import { BlackJackGame } from "../BlackJackGame/BlackJackGame";
 
 function App() {
   const location = useLocation();

@@ -88,6 +88,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
 
   if (deck.length < (52 * deckNum) / 5) {
     newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
+    newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
   } else {
     newDeck = deck;
   }
