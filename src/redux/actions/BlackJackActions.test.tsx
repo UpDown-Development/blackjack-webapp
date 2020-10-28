@@ -11,6 +11,7 @@ import {
   placeBet,
 } from "./blackJackActions";
 import { deck } from "../../utils/blackJackDeck";
+import { BlackJackState } from "../../models/generic";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -36,7 +37,6 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(placeBet(200, 500)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].type).toEqual("PLACE_BET_BLACKJACK");
       expect(store.getActions()[0].payload).toEqual({
         currentBet: 200,
@@ -49,7 +49,6 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(endPlaying(hand, players[1])).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].type).toEqual(
         "MOVE_TO_DEALER_PLAYING_BLACKJACK"
       );
@@ -61,7 +60,6 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(cleanUp(0, genericState)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].payload.wallet).toEqual(70);
     });
   });
@@ -70,7 +68,6 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(cleanUp(1, genericState)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].payload.wallet).toEqual(90);
     });
   });
@@ -79,10 +76,7 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(moveToComplete(1)).then(() => {
-      console.log(store.getActions());
-      expect(store.getActions()[0].payload.type).toEqual(
-        "MOVE_TO_COMPLETE_BLACKJACK"
-      );
+      expect(store.getActions()[0].type).toEqual("MOVE_TO_COMPLETE_BLACKJACK");
     });
   });
   it("should deal opening cards", function () {
@@ -90,7 +84,6 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(dealOpeningCards(deck, players)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].type).toEqual(
         "DEAL_OPENING_CARDS_BLACKJACK"
       );
@@ -102,7 +95,6 @@ describe("Blackjack Actions Tests", () => {
     setup(genericState);
     // @ts-ignore
     return store.dispatch(dealCard(deck, players[0])).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
       expect(store.getActions()[0].payload.hand.length).toEqual(1);
       expect(store.getActions()[0].payload.deck.length).toEqual(51);
@@ -113,17 +105,25 @@ describe("Blackjack Actions Tests", () => {
 
     // @ts-ignore
     return store.dispatch(cleanUp(-1, genericState)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()[0].payload.wallet).toEqual(50);
     });
   });
-  it("should shuffle a lowgit deck", function () {
+  it("should shuffle a low deck", function () {
     setup({ ...genericState, deck: hand });
 
-    // @ts-ignore
-    return store.dispatch(cleanUp(-1, genericState)).then(() => {
-      console.log(store.getActions());
-      expect(store.getActions()[0].payload.deck.length).toEqual(104);
-    });
+    return store
+      .dispatch(
+        // @ts-ignore
+        cleanUp(-1, {
+          deck: hand,
+          players: players,
+          state: BlackJackState.BETTING,
+          name: "BlackJack",
+          numberOfDecks: 2,
+        })
+      )
+      .then(() => {
+        expect(store.getActions()[0].payload.deck.length).toEqual(104);
+      });
   });
 });
