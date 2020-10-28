@@ -117,7 +117,7 @@ describe("Blackjack Actions Tests", () => {
       expect(store.getActions()[0].payload.wallet).toEqual(50);
     });
   });
-  it("should shuffle a low deck", function () {
+  it("should shuffle a lowgit deck", function () {
     setup({ ...genericState, deck: hand });
 
     // @ts-ignore
