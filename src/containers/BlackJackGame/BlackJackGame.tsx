@@ -126,7 +126,9 @@ export const BlackJackGame = () => {
           <Typography>{bjState.players[0].score}</Typography>
           {bjState.state === BJS.PLAYER_PLAYING && (
             <div>
-              <Button onClick={() => handleHit()}>Hit</Button>
+              <Button data-test-id="hit" onClick={() => handleHit()}>
+                Hit
+              </Button>
               <Button onClick={() => handleStay()}>Stay</Button>
             </div>
           )}

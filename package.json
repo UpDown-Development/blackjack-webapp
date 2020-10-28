@@ -21,6 +21,7 @@
     "@types/eslint-config-prettier": "6.11.0",
     "@types/eslint-plugin-prettier": "3.1.0",
     "@types/faker": "5.1.2",
+    "@types/firebase": "^3.2.1",
     "@types/jest": "26.0.14",
     "@types/lodash": "4.14.161",
     "@types/moxios": "0.4.9",

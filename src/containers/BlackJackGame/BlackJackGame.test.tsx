@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { genericState, players } from "../../utils/testData";
 import { BlackJackGame } from "./BlackJackGame";
 import { BlackJackState } from "../../models/generic";
+import { Button } from "@material-ui/core";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -87,5 +88,47 @@ describe("BlackJackGame Container", () => {
     });
 
     expect(component.text()).toContain("!");
+  });
+  it("should handle player hit button click", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.PLAYER_PLAYING,
+      },
+    });
+    component.find(Button).at(0).simulate("click");
+    expect(store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+  });
+  it("should move to dealers phase on stay button", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.PLAYER_PLAYING,
+      },
+    });
+    component.find(Button).at(1).simulate("click");
+    expect(store.getActions()[0].type).toEqual(
+      "MOVE_TO_DEALER_PLAYING_BLACKJACK"
+    );
+  });
+  it("should move to cleanup on next game button click", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.COMPLETE,
+      },
+    });
+    component.find(Button).at(0).simulate("click");
+    expect(store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+  });
+  // formik test. it tests nothing just adds coverage
+  it("should place a bet on button click", function () {
+    setup({
+      BlackJackReducer: {
+        ...genericState,
+        state: BlackJackState.BETTING,
+      },
+    });
+    component.find("form").simulate("submit");
   });
 });

@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import User = firebase.User;
+const User = require("firebase");
 
 export interface Data {
   netWorth: number;
@@ -20,7 +20,7 @@ export interface Player {
 export interface GameUser {
   errorMessage: string;
   loading: boolean;
-  user: User | undefined;
+  user: typeof User | undefined;
   username: string;
   nickname: string;
   currentCardBackground: string;
