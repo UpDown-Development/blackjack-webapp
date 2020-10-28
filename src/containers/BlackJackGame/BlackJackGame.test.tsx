@@ -3,9 +3,8 @@ import { Provider } from "react-redux";
 import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import { mount, ReactWrapper } from "enzyme";
 import thunk from "redux-thunk";
-import { AnyAction, Store } from "redux";
 import { BrowserRouter } from "react-router-dom";
-import { card, genericState, players } from "../../utils/testData";
+import { genericState, players } from "../../utils/testData";
 import { BlackJackGame } from "./BlackJackGame";
 import { BlackJackState } from "../../models/generic";
 import { Button } from "@material-ui/core";
@@ -18,12 +17,13 @@ describe("BlackJackGame Container", () => {
   let spy: jasmine.Spy;
   let store: MockStoreEnhanced<unknown, {}>;
   let component: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
-  const setup = (data: any) => {
+  const setup = (data: any, callback?: any) => {
     store = mockStore({
       ...data,
     });
-
-    spy = spyOn(store, "dispatch").and.callThrough();
+    if (callback) {
+      callback();
+    }
 
     const rootComponent = mount(
       <Provider store={store}>
@@ -136,13 +136,18 @@ describe("BlackJackGame Container", () => {
     component.find("form").simulate("submit");
   });
   it("should bust a player", function () {
-    setup({
-      BlackJackReducer: {
-        ...genericState,
-        state: BlackJackState.PLAYER_PLAYING,
-        players: [{ ...players[0], score: 33 }, players[1]],
+    setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.PLAYER_PLAYING,
+          players: [{ ...players[0], score: 33 }, players[1]],
+        },
       },
-    });
+      () => {
+        spy = spyOn(store, "dispatch").and.callThrough();
+      }
+    );
     wait(spy);
   });
 });
