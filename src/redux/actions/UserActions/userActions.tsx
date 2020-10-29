@@ -1,4 +1,4 @@
-import { myFirebase } from "../../../utils/firebaseConfig";
+import { db, myFirebase } from "../../../utils/firebaseConfig";
 
 export interface UserAction {
   type: string;
@@ -12,7 +12,7 @@ export const loginUser = (email: string, password: string) => async (
     type: "USER_LOADING",
   });
 
-  myFirebase
+  await myFirebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
@@ -45,6 +45,23 @@ export const signUpUserEmailAndPassword = (
         type: "USER_SIGNUP_SUCCESS",
         payload: user,
       });
+
+      db.collection("users")
+        // @ts-ignore
+        .doc(`/${user.user.uid}`)
+        .set({
+          bank: 1000,
+          blackjacks: 0,
+          gamesPlayed: 0,
+          losses: 0,
+          wins: 0,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       dispatch({

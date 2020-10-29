@@ -1,16 +1,10 @@
 import React from "react";
 import configureStore from "redux-mock-store";
-import { ReactWrapper, shallow } from "enzyme";
-import thunk from "redux-thunk";
-import { AnyAction, Store } from "redux";
+import { shallow } from "enzyme";
 import Hand from "./Hand";
 import { card, players } from "../../utils/testData";
 
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
-
-describe("Setup Game Component", () => {
-  let store: Store<any, AnyAction>;
+describe("Hand Component", () => {
   // @ts-ignore
   let component;
   const setup = (data: any) => {
