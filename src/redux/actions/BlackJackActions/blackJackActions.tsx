@@ -1,5 +1,5 @@
-import { deck } from "../../utils/blackJackDeck";
-import { BlackJack, Card, Player } from "../../models/generic";
+import { deck } from "../../../utils/blackJackDeck";
+import { BlackJack, Card, Player } from "../../../models/generic";
 import _ from "lodash";
 
 export interface BlackJackAction {

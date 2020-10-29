@@ -1,93 +1,153 @@
 import React from "react";
-import { Provider } from "react-redux";
-import configureStore, { MockStoreEnhanced } from "redux-mock-store";
-import { mount, ReactWrapper } from "enzyme";
-import thunk from "redux-thunk";
-import { AnyAction, Store } from "redux";
-import { BrowserRouter } from "react-router-dom";
-import { card, genericState, players } from "../../utils/testData";
-import { BlackJackGame } from "./BlackJackGame";
+import { genericState, players } from "../../utils/testData";
 import { BlackJackState } from "../../models/generic";
-import _ from "lodash";
-import { calculateScore } from "../../redux/actions/blackJackActions";
-
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
+import { Button } from "@material-ui/core";
+import { setup, wait } from "../../setupTests";
+import { BlackJackGame } from "./BlackJackGame";
 
 describe("BlackJackGame Container", () => {
-  let store: MockStoreEnhanced<unknown, {}>;
-  let component: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
-  const setup = (data: any) => {
-    store = mockStore({
-      ...data,
-    });
-
-    const rootComponent = mount(
-      <Provider store={store}>
-        <BrowserRouter>
-          <BlackJackGame />
-        </BrowserRouter>
-      </Provider>
-    );
-    component = rootComponent;
-  };
   it("should render", () => {
-    setup({
-      BlackJackReducer: genericState,
-    });
-    expect(component).toBeTruthy();
+    const testObj = setup(
+      {
+        BlackJackReducer: genericState,
+      },
+      <BlackJackGame />
+    );
+    expect(testObj.wrapper).toBeTruthy();
   });
 
   it("should handle dealer hit", function () {
-    setup({
-      BlackJackReducer: {
-        ...genericState,
-        state: BlackJackState.DEALER_PLAYING,
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.DEALER_PLAYING,
+        },
       },
-    });
-
-    expect(store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+      <BlackJackGame />
+    );
+    expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
   });
 
   it("should handle dealer stay", function () {
-    setup({
-      BlackJackReducer: {
-        ...genericState,
-        state: BlackJackState.DEALER_PLAYING,
-        players: [players[0], { ...players[1], score: 19 }],
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.DEALER_PLAYING,
+          players: [players[0], { ...players[1], score: 19 }],
+        },
       },
-    });
+      <BlackJackGame />
+    );
 
-    expect(store.getActions()[0].type).toEqual("MOVE_TO_COMPLETE_BLACKJACK");
+    expect(testObj.store.getActions()[0].type).toEqual(
+      "MOVE_TO_COMPLETE_BLACKJACK"
+    );
   });
 
   it("should handle dealer win", function () {
-    setup({
-      BlackJackReducer: {
-        ...genericState,
-        state: BlackJackState.COMPLETE,
-        players: [
-          { ...players[0], score: 20 },
-          { ...players[1], score: 21 },
-        ],
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.COMPLETE,
+          players: [
+            { ...players[0], score: 20 },
+            { ...players[1], score: 21 },
+          ],
+        },
       },
-    });
+      <BlackJackGame />
+    );
 
-    expect(component.text()).toContain("...");
+    expect(testObj.wrapper?.text()).toContain("...");
   });
 
   it("should handle player win", function () {
-    setup({
-      BlackJackReducer: {
-        ...genericState,
-        state: BlackJackState.COMPLETE,
-        players: [
-          { ...players[0], score: 21 },
-          { ...players[1], score: 20 },
-        ],
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.COMPLETE,
+          players: [
+            { ...players[0], score: 21 },
+            { ...players[1], score: 20 },
+          ],
+        },
       },
-    });
+      <BlackJackGame />
+    );
 
-    expect(component.text()).toContain("!");
+    expect(testObj.wrapper?.text()).toContain("!");
+  });
+  it("should handle player hit button click", function () {
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.PLAYER_PLAYING,
+        },
+      },
+      <BlackJackGame />
+    );
+    testObj.wrapper?.find(Button).at(0).simulate("click");
+    expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+  });
+  it("should move to dealers phase on stay button", function () {
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.PLAYER_PLAYING,
+        },
+      },
+      <BlackJackGame />
+    );
+    testObj.wrapper?.find(Button).at(1).simulate("click");
+    expect(testObj.store.getActions()[0].type).toEqual(
+      "MOVE_TO_DEALER_PLAYING_BLACKJACK"
+    );
+  });
+  it("should move to cleanup on next game button click", function () {
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.COMPLETE,
+        },
+      },
+      <BlackJackGame />
+    );
+    testObj.wrapper?.find(Button).at(0).simulate("click");
+    expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+  });
+  // formik test asserts nothing. coverage only
+  it("should place a bet on button click", function () {
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.BETTING,
+        },
+      },
+      <BlackJackGame />
+    );
+    testObj.wrapper?.find("form").simulate("submit");
+  });
+  it("should bust a player", function () {
+    let spy: any;
+    const testObj = setup(
+      {
+        BlackJackReducer: {
+          ...genericState,
+          state: BlackJackState.PLAYER_PLAYING,
+          players: [{ ...players[0], score: 33 }, players[1]],
+        },
+      },
+      <BlackJackGame />
+    );
+    spy = spyOn(testObj.store, "dispatch").and.callThrough();
+    wait(spy);
   });
 });

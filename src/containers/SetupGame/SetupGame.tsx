@@ -4,7 +4,7 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import styles from "./setupGame.module.scss";
 import { useDispatch } from "react-redux";
-import { initBlackJack } from "../../redux/actions/blackJackActions";
+import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { Redirect } from "react-router";
 
 const SetupGame = (props: any) => {

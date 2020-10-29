@@ -1,3 +1,6 @@
+import firebase from "firebase";
+const User = require("firebase");
+
 export interface Data {
   netWorth: number;
   totalCurrencyWon: number;
@@ -14,11 +17,14 @@ export interface Player {
   score?: number;
 }
 
-export interface User {
+export interface GameUser {
+  errorMessage: string;
+  loading: boolean;
+  user: typeof User | undefined;
   username: string;
   nickname: string;
-  currentBackground: string;
-  data: Data;
+  currentCardBackground: string;
+  data: Data | undefined;
 }
 
 export interface Game {

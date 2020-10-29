@@ -10,7 +10,7 @@ import {
   endPlaying,
   moveToComplete,
   placeBet,
-} from "../../redux/actions/blackJackActions";
+} from "../../redux/actions/BlackJackActions/blackJackActions";
 import styles from "../SetupGame/setupGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
@@ -126,7 +126,9 @@ export const BlackJackGame = () => {
           <Typography>{bjState.players[0].score}</Typography>
           {bjState.state === BJS.PLAYER_PLAYING && (
             <div>
-              <Button onClick={() => handleHit()}>Hit</Button>
+              <Button data-test-id="hit" onClick={() => handleHit()}>
+                Hit
+              </Button>
               <Button onClick={() => handleStay()}>Stay</Button>
             </div>
           )}
