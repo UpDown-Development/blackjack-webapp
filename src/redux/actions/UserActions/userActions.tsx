@@ -2,7 +2,7 @@ import { db, myFirebase } from "../../../utils/firebaseConfig";
 
 export interface UserAction {
   type: string;
-  payload?: object;
+  payload?: any;
 }
 
 export const loginUser = (email: string, password: string) => async (
