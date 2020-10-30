@@ -49,6 +49,7 @@ export const genericState: RootState = {
     username: "",
   },
   BlackJackReducer: {
+    userId: "",
     playerInfo: {},
     deck: deck,
     players: players,

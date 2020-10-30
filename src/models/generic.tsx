@@ -36,6 +36,7 @@ export interface Game {
   name: string;
   players: Player[];
   playerInfo: any;
+  userId: string;
 }
 
 export enum BlackJackState {

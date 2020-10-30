@@ -34,6 +34,7 @@ const deck: Card[] = [card, card, card, card];
 const newDeck: Card[] = [card, card];
 
 const genericState: BlackJack = {
+  userId: "",
   playerInfo: {},
   deck: deck,
   players: players,
@@ -43,6 +44,7 @@ const genericState: BlackJack = {
 };
 
 const scoreState: BlackJack = {
+  userId: "",
   playerInfo: {},
   deck: deck,
   players: [
@@ -70,6 +72,7 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      userId: "",
       playerInfo: {},
       players: players,
       deck: deck,
@@ -88,6 +91,8 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
+      userId: "",
       players: [
         {
           ...players[0],
@@ -113,6 +118,8 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
+      userId: "",
       players: [
         {
           ...players[0],
@@ -139,6 +146,8 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
+      userId: "",
       players: [
         {
           ...scoreState.players[0],
@@ -163,6 +172,8 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
+      userId: "",
       players: [
         {
           ...scoreState.players[0],
@@ -203,6 +214,8 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
+      userId: "",
       players: [
         {
           ...scoreState.players[0],

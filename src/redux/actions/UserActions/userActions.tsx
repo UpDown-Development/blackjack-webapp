@@ -42,7 +42,10 @@ export const loadGameData = (userid: string, currentGame: CurrentGame) => (
     .then((res) => {
       dispatch({
         type: "LOAD_BLACKJACK_DATA",
-        payload: res.data(),
+        payload: {
+          data: res.data(),
+          userid: userid,
+        },
       });
     });
 };
