@@ -1,5 +1,12 @@
-import { BlackJack, BlackJackState, Card, Player } from "../models/generic";
+import {
+  BlackJack,
+  BlackJackState,
+  Card,
+  GameUser,
+  Player,
+} from "../models/generic";
 import { deck } from "./blackJackDeck";
+import { RootState } from "../redux/rootReducer";
 
 export const card: Card = {
   name: "Test Name",
@@ -24,11 +31,29 @@ export const players: Player[] = [
     score: 0,
   } as Player,
 ];
-export const genericState: BlackJack = {
-  playerInfo: {},
-  deck: deck,
-  players: players,
-  state: BlackJackState.BETTING,
-  name: "BlackJack",
-  numberOfDecks: 2,
+
+export const genericState: RootState = {
+  UserReducer: {
+    currentCardBackground: "",
+    data: undefined,
+    errorMessage: "",
+    loading: false,
+    nickname: "",
+    user: {
+      user: {
+        user: {
+          uid: "123",
+        },
+      },
+    },
+    username: "",
+  },
+  BlackJackReducer: {
+    playerInfo: {},
+    deck: deck,
+    players: players,
+    state: BlackJackState.BETTING,
+    name: "BlackJack",
+    numberOfDecks: 2,
+  },
 };

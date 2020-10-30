@@ -12,7 +12,7 @@ import {
 } from "./blackJackActions";
 import { deck } from "../../../utils/blackJackDeck";
 import { BlackJackState } from "../../../models/generic";
-import { setup } from "../../../setupTests";
+import { setup, wait } from "../../../setupTests";
 
 describe("Blackjack Actions Tests", () => {
   it("should create and setup a game", function () {
@@ -51,18 +51,26 @@ describe("Blackjack Actions Tests", () => {
   it("should cleanup correctly after push", function () {
     const testObj = setup(genericState);
 
-    // @ts-ignore
-    return testObj.store.dispatch(cleanUp(0, genericState)).then(() => {
-      expect(testObj.store.getActions()[0].payload.wallet).toEqual(70);
-    });
+    return (
+      testObj.store
+        // @ts-ignore
+        .dispatch(cleanUp(0, genericState.BlackJackReducer))
+        .then(() => {
+          expect(testObj.store.getActions()[0].payload.wallet).toEqual(70);
+        })
+    );
   });
   it("should cleanup correctly after win", function () {
     const testObj = setup(genericState);
 
-    // @ts-ignore
-    return testObj.store.dispatch(cleanUp(1, genericState)).then(() => {
-      expect(testObj.store.getActions()[0].payload.wallet).toEqual(90);
-    });
+    return (
+      testObj.store
+        // @ts-ignore
+        .dispatch(cleanUp(1, genericState.BlackJackReducer))
+        .then(() => {
+          expect(testObj.store.getActions()[0].payload.wallet).toEqual(90);
+        })
+    );
   });
   it("should change phases", function () {
     const testObj = setup(genericState);
@@ -98,10 +106,14 @@ describe("Blackjack Actions Tests", () => {
   it("should cleanup correctly after loss", function () {
     const testObj = setup(genericState);
 
-    // @ts-ignore
-    return testObj.store.dispatch(cleanUp(-1, genericState)).then(() => {
-      expect(testObj.store.getActions()[0].payload.wallet).toEqual(50);
-    });
+    return (
+      testObj.store
+        // @ts-ignore
+        .dispatch(cleanUp(-1, genericState.BlackJackReducer))
+        .then(() => {
+          expect(testObj.store.getActions()[0].payload.wallet).toEqual(50);
+        })
+    );
   });
   it("should shuffle a low deck", function () {
     const testObj = setup({ ...genericState, deck: hand });

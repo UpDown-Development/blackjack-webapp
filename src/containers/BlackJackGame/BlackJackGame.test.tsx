@@ -7,33 +7,31 @@ import { BlackJackGame } from "./BlackJackGame";
 
 describe("BlackJackGame Container", () => {
   it("should render", () => {
-    const testObj = setup(
-      {
-        BlackJackReducer: genericState,
-      },
-      <BlackJackGame />
-    );
+    const testObj = setup(genericState, <BlackJackGame />);
     expect(testObj.wrapper).toBeTruthy();
   });
 
   it("should handle dealer hit", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.DEALER_PLAYING,
         },
       },
       <BlackJackGame />
     );
+    const spy = spyOn(testObj.store, "dispatch").and.callThrough();
+    wait(spy);
     expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
   });
 
   it("should handle dealer stay", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
           state: BlackJackState.DEALER_PLAYING,
           players: [players[0], { ...players[1], score: 19 }],
         },
@@ -49,8 +47,8 @@ describe("BlackJackGame Container", () => {
   it("should handle dealer win", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
           state: BlackJackState.COMPLETE,
           players: [
             { ...players[0], score: 20 },
@@ -67,8 +65,8 @@ describe("BlackJackGame Container", () => {
   it("should handle player win", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
           state: BlackJackState.COMPLETE,
           players: [
             { ...players[0], score: 21 },
@@ -84,8 +82,9 @@ describe("BlackJackGame Container", () => {
   it("should handle player hit button click", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.PLAYER_PLAYING,
         },
       },
@@ -97,8 +96,9 @@ describe("BlackJackGame Container", () => {
   it("should move to dealers phase on stay button", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.PLAYER_PLAYING,
         },
       },
@@ -112,8 +112,9 @@ describe("BlackJackGame Container", () => {
   it("should move to cleanup on next game button click", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.COMPLETE,
         },
       },
@@ -126,8 +127,9 @@ describe("BlackJackGame Container", () => {
   it("should place a bet on button click", function () {
     const testObj = setup(
       {
+        ...genericState,
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.BETTING,
         },
       },

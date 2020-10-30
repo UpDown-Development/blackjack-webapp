@@ -68,6 +68,7 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      playerInfo: {},
       players: players,
       deck: deck,
       state: BlackJackState.BETTING,
