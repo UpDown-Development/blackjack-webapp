@@ -34,6 +34,7 @@ const deck: Card[] = [card, card, card, card];
 const newDeck: Card[] = [card, card];
 
 const genericState: BlackJack = {
+  playerInfo: {},
   deck: deck,
   players: players,
   state: BlackJackState.BETTING,
@@ -42,6 +43,7 @@ const genericState: BlackJack = {
 };
 
 const scoreState: BlackJack = {
+  playerInfo: {},
   deck: deck,
   players: [
     {
