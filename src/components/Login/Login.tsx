@@ -2,11 +2,15 @@ import React from "react";
 import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/actions/UserActions/userActions";
+import { GameUser } from "../../models/generic";
+import { RootState } from "../../redux/rootReducer";
+import { Redirect } from "react-router";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const user: GameUser = useSelector((state: RootState) => state.UserReducer);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -33,6 +37,7 @@ const Login = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
+      {user.user && <Redirect to={"/"} />}
       <Paper>
         <form onSubmit={formik.handleSubmit}>
           <TextField

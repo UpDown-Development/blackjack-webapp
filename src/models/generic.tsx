@@ -9,6 +9,10 @@ export interface Data {
   gamesPlayed: number;
 }
 
+export enum CurrentGame {
+  BLACKJACK = "BLACKJACK",
+}
+
 export interface Player {
   name: string;
   wallet: number;
@@ -31,6 +35,7 @@ export interface Game {
   numberOfDecks: number;
   name: string;
   players: Player[];
+  playerInfo: any;
 }
 
 export enum BlackJackState {

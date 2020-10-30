@@ -4,10 +4,11 @@ import { AnimatePresence } from "framer-motion";
 
 // local imports
 import SetupGame from "../SetupGame/SetupGame";
-import Home from "../Home/Home";
+import BlackjackHome from "../BlackjackHome/BlackjackHome";
 import { BlackJackGame } from "../BlackJackGame/BlackJackGame";
 import Login from "../../components/Login/Login";
 import Signup from "../../components/Signup/Signup";
+import Home from "../Home/Home";
 
 function App() {
   const location = useLocation();
@@ -15,6 +16,7 @@ function App() {
     <AnimatePresence>
       <Switch location={location} key={location.key}>
         <Route exact path={"/"} component={Home} />
+        <Route path={"/blackjack"} component={BlackjackHome} />
         <Route path={"/setup"} component={SetupGame} />
         <Route path={"/play"} component={BlackJackGame} />
         <Route path={"/login"} component={Login} />

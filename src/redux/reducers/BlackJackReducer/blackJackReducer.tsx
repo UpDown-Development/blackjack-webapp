@@ -3,6 +3,7 @@ import produce from "immer";
 import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions";
 
 export const defaultState: BlackJack = {
+  playerInfo: {},
   state: BlackJackState.BETTING,
   name: "BlackJack",
   numberOfDecks: 0,
@@ -16,6 +17,9 @@ const BlackJackReducer = produce(
       case "INIT_BLACKJACK":
         state.deck = action.payload.deck;
         state.players = action.payload.players;
+        break;
+      case "LOAD_BLACKJACK_DATA":
+        state.playerInfo = action.payload;
         break;
       case "PLACE_BET_BLACKJACK":
         state.players[0].currentBet = action.payload.currentBet;

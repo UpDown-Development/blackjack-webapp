@@ -25,6 +25,7 @@ export const players: Player[] = [
   } as Player,
 ];
 export const genericState: BlackJack = {
+  playerInfo: {},
   deck: deck,
   players: players,
   state: BlackJackState.BETTING,

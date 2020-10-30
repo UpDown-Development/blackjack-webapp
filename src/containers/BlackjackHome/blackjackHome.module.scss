@@ -3,6 +3,18 @@ $button-bg: $button-color;
 $button-text-color: #fff;
 $baby-blue: #569352;
 
+.title {
+  font-size: 100px;
+  color: #242424;
+}
+
+.pips {
+  width: 40%;
+  height: auto;
+  margin-top: 2%;
+  margin-bottom: -100px;
+}
+
 .container {
   display: flex;
   align-items: center;

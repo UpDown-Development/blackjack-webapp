@@ -1,4 +1,5 @@
 import { db, myFirebase } from "../../../utils/firebaseConfig";
+import { CurrentGame } from "../../../models/generic";
 
 export interface UserAction {
   type: string;
@@ -29,6 +30,23 @@ export const loginUser = (email: string, password: string) => async (
     });
 };
 
+export const loadGameData = (userid: string, currentGame: CurrentGame) => (
+  dispatch: any
+) => {
+  console.log(currentGame);
+  db.collection("users")
+    .doc(userid)
+    .collection(currentGame)
+    .doc(`${currentGame}Info`)
+    .get()
+    .then((res) => {
+      dispatch({
+        type: "LOAD_BLACKJACK_DATA",
+        payload: res.data(),
+      });
+    });
+};
+
 export const signUpUserEmailAndPassword = (
   email: string,
   password: string
@@ -49,6 +67,8 @@ export const signUpUserEmailAndPassword = (
       db.collection("users")
         // @ts-ignore
         .doc(`/${user.user.uid}`)
+        .collection("BLACKJACK")
+        .doc("BLACKJACKInfo")
         .set({
           bank: 1000,
           blackjacks: 0,
