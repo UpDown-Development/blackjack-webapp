@@ -44,7 +44,7 @@ export const loadGameData = (userid: string, currentGame: CurrentGame) => (
         type: "LOAD_BLACKJACK_DATA",
         payload: {
           data: res.data(),
-          userid: userid,
+          userId: userid,
         },
       });
     });
