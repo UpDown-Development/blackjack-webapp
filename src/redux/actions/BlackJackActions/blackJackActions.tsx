@@ -1,6 +1,7 @@
 import { deck } from "../../../utils/blackJackDeck";
-import { BlackJack, Card, Player } from "../../../models/generic";
+import { BlackJack, Card, CurrentGame, Player } from "../../../models/generic";
 import _ from "lodash";
+import { db } from "../../../utils/firebaseConfig";
 
 export interface BlackJackAction {
   type: string;
@@ -8,6 +9,7 @@ export interface BlackJackAction {
 }
 
 export const initBlackJack = (
+  userId: string,
   numberOfDecks: number = 1,
   wallet: number
 ) => async (dispatch: any) => {
@@ -26,6 +28,18 @@ export const initBlackJack = (
     name: "Player",
     score: 0,
   };
+
+  const userData = db
+    .collection("users")
+    .doc(userId)
+    .collection(CurrentGame.BLACKJACK)
+    .doc("BLACKJACKInfo");
+
+  userData.get().then((res) => {
+    // @ts-ignore
+    const newBank = res.data().bank - wallet;
+    userData.update({ bank: newBank });
+  });
 
   const players: Player[] = [player, dealer];
 

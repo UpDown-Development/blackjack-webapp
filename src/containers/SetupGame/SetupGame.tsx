@@ -3,13 +3,19 @@ import { motion } from "framer-motion";
 import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import styles from "./setupGame.module.scss";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { Redirect } from "react-router";
+import { RootState } from "../../redux/rootReducer";
+import { BlackJack } from "../../models/generic";
 
 const SetupGame = (props: any) => {
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
+  const game: BlackJack = useSelector(
+    (state: RootState) => state.BlackJackReducer,
+    shallowEqual
+  );
 
   const animationVariants = {
     exit: {
@@ -26,7 +32,7 @@ const SetupGame = (props: any) => {
       wallet: 50,
     },
     onSubmit: (values) => {
-      dispatch(initBlackJack(values.decks, values.wallet));
+      dispatch(initBlackJack(game.userId, values.decks, values.wallet));
       setRedirect(true);
     },
   });
