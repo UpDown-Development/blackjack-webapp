@@ -11,7 +11,7 @@ import {
   moveToComplete,
   placeBet,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
-import styles from "../SetupGame/setupGame.module.scss";
+import styles from "./blackjackGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import Hand from "../../components/blackJackGame/Hand";
@@ -116,49 +116,59 @@ export const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
-      {bjState.state === BJS.DEALING &&
-        dispatch(dealOpeningCards(bjState.deck, bjState.players))}
-      {bjState.state !== BJS.BETTING && (
-        <Paper style={{ minWidth: 800, textAlign: "center" }}>
-          <Hand player={bjState.players[1]} />
-          <Typography>{bjState.players[1].score}</Typography>
-          <Hand player={bjState.players[0]} />
-          <Typography>{bjState.players[0].score}</Typography>
-          {bjState.state === BJS.PLAYER_PLAYING && (
-            <div>
-              <Button data-test-id="hit" onClick={() => handleHit()}>
-                Hit
-              </Button>
-              <Button onClick={() => handleStay()}>Stay</Button>
+      <div className={styles.parent}>
+        {bjState.state === BJS.DEALING &&
+          dispatch(dealOpeningCards(bjState.deck, bjState.players))}
+        {bjState.state !== BJS.BETTING && (
+          <Paper style={{ minWidth: 800, textAlign: "center" }}>
+            <div className={styles.dealerHand}>
+              <Hand player={bjState.players[1]} />
+              <Typography style={{ color: "white" }}>
+                {bjState.players[1].score}
+              </Typography>
             </div>
-          )}
-          <br />
-          <Typography>Wallet: ${bjState.players[0].wallet}</Typography>
-          <Typography>Bet: ${bjState.players[0].currentBet}</Typography>
-          {bjState.state === BJS.COMPLETE && (
-            <>
-              <Typography>{displayWinMessage().winMessage}</Typography>
-              <Button onClick={() => handleNextGame()}>Next game</Button>
-            </>
-          )}
-        </Paper>
-      )}
-      {bjState.state === BJS.BETTING && (
-        <Paper>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              variant={"filled"}
-              id="bet"
-              label="Bet"
-              type="number"
-              value={formik.values.bet}
-              onChange={formik.handleChange}
-            />
-            <Button type="submit">Place Bet</Button>
-          </form>
-        </Paper>
-      )}
+            <div className={styles.playerHand}>
+              <Hand player={bjState.players[0]} />
+              <Typography style={{ color: "white" }}>
+                {bjState.players[0].score}
+              </Typography>
+            </div>
+            {bjState.state === BJS.PLAYER_PLAYING && (
+              <div>
+                <Button data-test-id="hit" onClick={() => handleHit()}>
+                  Hit
+                </Button>
+                <Button onClick={() => handleStay()}>Stay</Button>
+              </div>
+            )}
+            <br />
+            <Typography>Wallet: ${bjState.players[0].wallet}</Typography>
+            <Typography>Bet: ${bjState.players[0].currentBet}</Typography>
+            {bjState.state === BJS.COMPLETE && (
+              <>
+                <Typography>{displayWinMessage().winMessage}</Typography>
+                <Button onClick={() => handleNextGame()}>Next game</Button>
+              </>
+            )}
+          </Paper>
+        )}
+        {bjState.state === BJS.BETTING && (
+          <Paper>
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                fullWidth
+                variant={"filled"}
+                id="bet"
+                label="Bet"
+                type="number"
+                value={formik.values.bet}
+                onChange={formik.handleChange}
+              />
+              <Button type="submit">Place Bet</Button>
+            </form>
+          </Paper>
+        )}
+      </div>
     </motion.div>
   );
 };

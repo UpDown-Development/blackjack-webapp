@@ -7,6 +7,8 @@ import { signUpUserEmailAndPassword } from "../../redux/actions/UserActions/user
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
+import styles from "../Login/login.module.scss";
+import { checkShouldInheritVariant } from "framer-motion/types/motion/utils/should-inherit-variant";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -33,32 +35,48 @@ const Signup = () => {
   return (
     <motion.div
       variants={animationVariants}
-      initial={{ x: 2000 }}
-      animate={{ x: 0 }}
+      initial={{ x: 0, y: -1000 }}
+      animate={{ x: 0, y: "40%" }}
+      transition={{ type: "spring", duration: 1.2 }}
       exit="exit"
     >
-      {user.user && <Redirect to={"/"} />}
-      <Paper>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            placeholder="Email"
-            variant="outlined"
-            id="email"
-            type="text"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-          />
-          <TextField
-            placeholder="Password"
-            variant="outlined"
-            id="password"
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-          />
-          <Button type="submit">Signup</Button>
-        </form>
-      </Paper>
+      <div className={styles.container}>
+        {user.user && <Redirect to={"/"} />}
+        <Paper>
+          <form className={styles.form} onSubmit={formik.handleSubmit}>
+            <div style={{ marginTop: "50%" }} className={styles.inputContainer}>
+              <TextField
+                fullWidth
+                placeholder="Email"
+                variant="outlined"
+                id="email"
+                type="text"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div
+              style={{ marginBottom: "10%" }}
+              className={styles.inputContainer}
+            >
+              <TextField
+                fullWidth
+                placeholder="Password"
+                variant="outlined"
+                id="password"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className={styles.button}>
+              <Button variant={"contained"} type="submit">
+                Signup
+              </Button>
+            </div>
+          </form>
+        </Paper>
+      </div>
     </motion.div>
   );
 };

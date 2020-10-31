@@ -20,9 +20,9 @@ const Home = () => {
 
   const animationVariants = {
     exit: {
-      x: -2000,
+      y: -2000,
       transition: {
-        ease: "easeInOut",
+        duration: 0,
       },
     },
   };
