@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { BlackJackGame } from "./containers/BlackJackGame/BlackJackGame";
 import thunk from "redux-thunk";
+import { db } from "./utils/firebaseConfig";
 
 interface SetupResponse {
   wrapper?: ReactWrapper<

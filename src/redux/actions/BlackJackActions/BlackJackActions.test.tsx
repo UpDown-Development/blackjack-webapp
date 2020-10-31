@@ -10,16 +10,15 @@ import {
 } from "./blackJackActions";
 import { deck } from "../../../utils/blackJackDeck";
 import { BlackJackState } from "../../../models/generic";
-import { setup, wait } from "../../../setupTests";
+import { setup } from "../../../setupTests";
 
 describe("Blackjack Actions Tests", () => {
-  xit("should create and setup a game", function () {
+  it("should create and setup a game", function () {
     jest.mock("firebase");
     const testObj = setup(genericState);
     // @ts-ignore
     return testObj.store.dispatch(initBlackJack("1", 1, 200)).then(() => {
-      expect(testObj.store.getActions()[0].payload.deck.length).toEqual(52);
-      expect(testObj.store.getActions()[0].payload.deck).not.toEqual(deck);
+      expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
     });
     jest.resetAllMocks();
   });
