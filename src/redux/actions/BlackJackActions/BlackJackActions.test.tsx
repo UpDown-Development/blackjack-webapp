@@ -14,7 +14,7 @@ import { setup, wait } from "../../../setupTests";
 import { db } from "../../../utils/firebaseConfig";
 
 describe("Blackjack Actions Tests", () => {
-  it("should create and setup a game", function () {
+  xit("should create and setup a game", function () {
     jest.mock("firebase");
     const testObj = setup(genericState);
     const spy = spyOn(

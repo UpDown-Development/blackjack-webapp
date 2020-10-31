@@ -123,15 +123,11 @@ export const BlackJackGame = () => {
           <Paper style={{ minWidth: 800, textAlign: "center" }}>
             <div className={styles.dealerHand}>
               <Hand player={bjState.players[1]} />
-              <Typography style={{ color: "white" }}>
-                {bjState.players[1].score}
-              </Typography>
+              <Typography>{bjState.players[1].score}</Typography>
             </div>
             <div className={styles.playerHand}>
               <Hand player={bjState.players[0]} />
-              <Typography style={{ color: "white" }}>
-                {bjState.players[0].score}
-              </Typography>
+              <Typography>{bjState.players[0].score}</Typography>
             </div>
             {bjState.state === BJS.PLAYER_PLAYING && (
               <div>
