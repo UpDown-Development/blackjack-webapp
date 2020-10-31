@@ -34,6 +34,9 @@ const UserReducer = produce((state = defaultState, action: UserAction) => {
       state.loading = false;
       state.errorMessage = action.payload;
       break;
+    case "UPDATE_BANK":
+      state.data = { ...state.data, netWorth: action.payload };
+      break;
     default:
       return state;
   }

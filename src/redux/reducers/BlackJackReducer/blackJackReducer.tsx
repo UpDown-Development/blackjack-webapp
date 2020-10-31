@@ -18,6 +18,8 @@ const BlackJackReducer = produce(
       case "INIT_BLACKJACK":
         state.deck = action.payload.deck;
         state.players = action.payload.players;
+        state.numberOfDecks = action.payload.numberOfDecks;
+        state.state = BlackJackState.BETTING;
         break;
       case "LOAD_BLACKJACK_DATA":
         state.playerInfo = action.payload.data;
@@ -53,6 +55,9 @@ const BlackJackReducer = produce(
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;
         state.state = BlackJackState.BETTING;
+        break;
+      case "CASH_OUT":
+        state.state = BlackJackState.CASHOUT;
         break;
       default:
         return state;

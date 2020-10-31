@@ -40,7 +40,12 @@ export const initBlackJack = (
     .then((res) => {
       // @ts-ignore
       const newBank = res.data().bank - wallet;
-      userData.update({ bank: newBank });
+      userData.update({ bank: newBank }).then(() => {
+        dispatch({
+          type: "UPDATE_BANK",
+          payload: newBank,
+        });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -55,6 +60,7 @@ export const initBlackJack = (
     payload: {
       deck: blackJackDeck,
       players,
+      numberOfDecks,
     },
   });
 };
@@ -94,6 +100,8 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   const deck = gameState.deck;
   const deckNum = gameState.numberOfDecks;
 
+  const doShuffle = _.random(15, 30, false);
+
   let newDeck: Card[];
   let wallet;
 
@@ -105,7 +113,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     wallet = player.wallet + player.currentBet * 2;
   }
 
-  if (deck.length < (52 * deckNum) / 5) {
+  if (deck.length < doShuffle) {
     newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
   } else {
     newDeck = deck;
@@ -136,14 +144,16 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
 
   let hands = [hand1, hand2];
 
-  for (let i = deck.length; i > deck.length - 4; i--) {
+  for (let i = 4; i > 0; i--) {
+    // take new card off top of deck
     let card: Card = newDeck.slice(-1)[0];
     newDeck = newDeck.slice(0, -1);
 
-    if (i === deck.length - 3) {
-      card = { ...deck[i - 1], isFaceUp: false };
+    //lopp through 4 cards and deal them
+    if (i === 1) {
+      card = { ...card, isFaceUp: false };
     } else {
-      card = deck[i - 1];
+      card = card;
     }
     hands[i % 2].push(card);
   }
@@ -162,6 +172,36 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     })
     .then(() => {
       dispatch(calculateScore(hands[1], players[1]));
+    });
+};
+
+export const cashOut = (userId: string, wallet: number) => async (
+  dispatch: any
+) => {
+  dispatch({
+    type: "CASH_OUT",
+  });
+
+  const userData = db
+    .collection("users")
+    .doc(userId)
+    .collection(CurrentGame.BLACKJACK)
+    .doc("BLACKJACKInfo");
+
+  userData
+    .get()
+    .then((res) => {
+      // @ts-ignore
+      const newBank = res.data().bank + wallet;
+      userData.update({ bank: newBank }).then(() => {
+        dispatch({
+          type: "UPDATE_BANK",
+          payload: newBank,
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 

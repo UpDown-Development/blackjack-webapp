@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { BlackJackState as BJS } from "../../models/generic";
+import {
+  BlackJack,
+  BlackJackState,
+  BlackJackState as BJS,
+} from "../../models/generic";
 import { motion } from "framer-motion";
 import {
+  cashOut,
   cleanUp,
   dealCard,
   dealOpeningCards,
@@ -15,13 +20,14 @@ import styles from "./blackjackGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import Hand from "../../components/blackJackGame/Hand";
+import { Redirect } from "react-router";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
 
 export const BlackJackGame = () => {
   const dispatch = useDispatch();
-  const bjState = useSelector(
+  const bjState: BlackJack = useSelector(
     (state: RootState) => state.BlackJackReducer,
     shallowEqual
   );
@@ -57,6 +63,7 @@ export const BlackJackGame = () => {
   });
 
   const dealerAI = () => {
+    // @ts-ignore
     if (bjState.players[1].score < 17) {
       dispatch(dealCard(bjState.deck, bjState.players[1]));
       return true;
@@ -74,24 +81,31 @@ export const BlackJackGame = () => {
     const dealer = bjState.players[1];
 
     if (
+      // @ts-ignore
       (player.score > dealer.score && player.score <= 21) ||
+      // @ts-ignore
       (player.score <= 21 && dealer.score > 21)
     ) {
       winMessage = "You won!!!";
       state = 1;
-    } else if (
-      (dealer.score > player.score && dealer.score <= 21) ||
-      (dealer.score <= 21 && player.score > 21)
-    ) {
-      winMessage = "You lost. Better luck next time...";
-      state = -1;
+    } else {
+      if (
+        // @ts-ignore
+        (dealer.score > player.score && dealer.score <= 21) ||
+        // @ts-ignore
+        (dealer.score <= 21 && player.score > 21)
+      ) {
+        winMessage = "You lost. Better luck next time...";
+        state = -1;
+      }
     }
 
     return { winMessage, state };
   };
 
   const checkScore = () => {
-    if (bjState.players[0].score > 21) {
+    // @ts-ignore
+    if (bjState.players[0].score >= 21) {
       dispatch(endPlaying(bjState.players[1].hand, bjState.players[1]));
     }
   };
@@ -108,6 +122,10 @@ export const BlackJackGame = () => {
     dispatch(cleanUp(displayWinMessage().state, bjState));
   };
 
+  const handleCashOut = () => {
+    dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
+  };
+
   return (
     <motion.div
       className={styles.container}
@@ -116,6 +134,7 @@ export const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
+      {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
       <div className={styles.parent}>
         {bjState.state === BJS.DEALING &&
           dispatch(dealOpeningCards(bjState.deck, bjState.players))}
@@ -161,6 +180,9 @@ export const BlackJackGame = () => {
                 onChange={formik.handleChange}
               />
               <Button type="submit">Place Bet</Button>
+              <Button onClick={() => handleCashOut()} variant={"outlined"}>
+                Cash Out
+              </Button>
             </form>
           </Paper>
         )}

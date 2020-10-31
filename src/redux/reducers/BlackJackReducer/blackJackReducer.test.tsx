@@ -69,6 +69,7 @@ describe("BlackJack Reducer", () => {
       payload: {
         players: players,
         deck: deck,
+        numberOfDecks: 3,
       },
     });
     expect(result).toEqual({
@@ -78,7 +79,7 @@ describe("BlackJack Reducer", () => {
       deck: deck,
       state: BlackJackState.BETTING,
       name: "BlackJack",
-      numberOfDecks: 0,
+      numberOfDecks: 3,
     });
   });
 
