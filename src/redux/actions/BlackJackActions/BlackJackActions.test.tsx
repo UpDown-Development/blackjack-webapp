@@ -16,10 +16,17 @@ describe("Blackjack Actions Tests", () => {
   it("should create and setup a game", function () {
     jest.mock("firebase");
     const testObj = setup(genericState);
-    // @ts-ignore
-    return testObj.store.dispatch(initBlackJack("1", 1, 200)).then(() => {
-      expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
-    });
+    return (
+      testObj.store
+        // @ts-ignore
+        .dispatch(initBlackJack("1", 1, 200))
+        .then(() => {
+          expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
+        })
+        .catch(() => {
+          expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
+        })
+    );
     jest.resetAllMocks();
   });
   it("should place a bet", function () {

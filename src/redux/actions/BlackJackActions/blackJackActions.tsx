@@ -35,11 +35,16 @@ export const initBlackJack = (
     .collection(CurrentGame.BLACKJACK)
     .doc("BLACKJACKInfo");
 
-  userData.get().then((res) => {
-    // @ts-ignore
-    const newBank = res.data().bank - wallet;
-    userData.update({ bank: newBank });
-  });
+  userData
+    .get()
+    .then((res) => {
+      // @ts-ignore
+      const newBank = res.data().bank - wallet;
+      userData.update({ bank: newBank });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   const players: Player[] = [player, dealer];
 
