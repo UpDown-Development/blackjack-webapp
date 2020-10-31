@@ -36,9 +36,6 @@ describe("Blackjack Actions Tests", () => {
           wait(spy);
           expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
         })
-        .catch(() => {
-          expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
-        })
     );
     jest.resetAllMocks();
   });
