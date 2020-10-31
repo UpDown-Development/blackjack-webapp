@@ -10,17 +10,30 @@ import {
 } from "./blackJackActions";
 import { deck } from "../../../utils/blackJackDeck";
 import { BlackJackState } from "../../../models/generic";
-import { setup } from "../../../setupTests";
+import { setup, wait } from "../../../setupTests";
+import { db } from "../../../utils/firebaseConfig";
 
 describe("Blackjack Actions Tests", () => {
   it("should create and setup a game", function () {
     jest.mock("firebase");
     const testObj = setup(genericState);
+    const spy = spyOn(
+      db
+        .collection("users")
+        .doc("1")
+        .collection("BLACKJACK")
+        .doc("BLACKJACKInfo"),
+      "get"
+    ).and.returnValue(() => {
+      user: {
+      }
+    });
     return (
       testObj.store
         // @ts-ignore
         .dispatch(initBlackJack("1", 1, 200))
         .then(() => {
+          wait(spy);
           expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
         })
         .catch(() => {
