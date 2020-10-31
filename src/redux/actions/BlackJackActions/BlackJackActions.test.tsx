@@ -1,5 +1,3 @@
-import thunk from "redux-thunk";
-import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import { genericState, hand, players } from "../../../utils/testData";
 import {
   cleanUp,
@@ -16,12 +14,14 @@ import { setup, wait } from "../../../setupTests";
 
 describe("Blackjack Actions Tests", () => {
   it("should create and setup a game", function () {
+    jest.mock("firebase");
     const testObj = setup(genericState);
     // @ts-ignore
-    return testObj.store.dispatch(initBlackJack(1)).then(() => {
+    return testObj.store.dispatch(initBlackJack("1", 1, 200)).then(() => {
       expect(testObj.store.getActions()[0].payload.deck.length).toEqual(52);
       expect(testObj.store.getActions()[0].payload.deck).not.toEqual(deck);
     });
+    jest.resetAllMocks();
   });
   it("should place a bet", function () {
     const testObj = setup(genericState);
