@@ -1,5 +1,5 @@
 import { db, myFirebase } from "../../../utils/firebaseConfig";
-import { CurrentGame } from "../../../models/generic";
+import { CurrentGame, Data } from "../../../models/generic";
 
 export interface UserAction {
   type: string;
@@ -73,12 +73,13 @@ export const signUpUserEmailAndPassword = (
         .collection("BLACKJACK")
         .doc("BLACKJACKInfo")
         .set({
-          bank: 1000,
+          netWorth: 10000,
+          totalCurrencyWon: 0,
           blackjacks: 0,
           gamesPlayed: 0,
-          losses: 0,
-          wins: 0,
-        })
+          handsLost: 0,
+          handsWon: 0,
+        } as Data)
         .then((res) => {
           console.log(res);
         })

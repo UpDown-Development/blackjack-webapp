@@ -5,8 +5,9 @@ export interface Data {
   netWorth: number;
   totalCurrencyWon: number;
   handsWon: number;
-  handsPlayer: number;
+  handsLost: number;
   gamesPlayed: number;
+  blackjacks?: number;
 }
 
 export enum CurrentGame {
