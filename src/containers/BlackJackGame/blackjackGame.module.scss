@@ -1,0 +1,50 @@
+.handsContainer {
+}
+
+.dealerHand {
+  display: flex;
+  flex-basis: available;
+  justify-content: center;
+}
+
+.playerHand {
+  display: flex;
+  flex-basis: available;
+  justify-content: center;
+}
+
+$button-color: #569352;
+$button-bg: $button-color;
+$button-text-color: #fff;
+$baby-blue: #569352;
+
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: space-evenly;
+  justify-content: space-evenly;
+}
+
+.button {
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  font-size: 2em;
+  margin-bottom: 60px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  color: $button-text-color;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 2px $button-bg solid;
+  cursor: pointer;
+  position: relative;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+
+  &:focus {
+    outline: 0;
+  }
+}

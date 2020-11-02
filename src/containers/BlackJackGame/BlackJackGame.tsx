@@ -134,38 +134,55 @@ export const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
+      <img
+        style={{ height: 120 }}
+        src={"http://localhost:3000/imgs/cards/backs/back1.png"}
+        alt={"deck"}
+      />
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
       <div className={styles.parent}>
         {bjState.state === BJS.DEALING &&
           dispatch(dealOpeningCards(bjState.deck, bjState.players))}
         {bjState.state !== BJS.BETTING && (
-          <Paper style={{ minWidth: 800, textAlign: "center" }}>
+          <div className={styles.handsContainer}>
             <div className={styles.dealerHand}>
               <Hand player={bjState.players[1]} />
-              <Typography>{bjState.players[1].score}</Typography>
             </div>
             <div className={styles.playerHand}>
               <Hand player={bjState.players[0]} />
-              <Typography>{bjState.players[0].score}</Typography>
             </div>
-            {bjState.state === BJS.PLAYER_PLAYING && (
-              <div>
-                <Button data-test-id="hit" onClick={() => handleHit()}>
-                  Hit
-                </Button>
-                <Button onClick={() => handleStay()}>Stay</Button>
-              </div>
-            )}
-            <br />
-            <Typography>Wallet: ${bjState.players[0].wallet}</Typography>
-            <Typography>Bet: ${bjState.players[0].currentBet}</Typography>
-            {bjState.state === BJS.COMPLETE && (
-              <>
-                <Typography>{displayWinMessage().winMessage}</Typography>
-                <Button onClick={() => handleNextGame()}>Next game</Button>
-              </>
-            )}
-          </Paper>
+            <div className={styles.buttonContainer}>
+              {bjState.state === BJS.PLAYER_PLAYING && (
+                <div>
+                  <button
+                    className={styles.button}
+                    data-test-id="hit"
+                    onClick={() => handleHit()}
+                  >
+                    Hit
+                  </button>
+                  <button
+                    className={styles.button}
+                    onClick={() => handleStay()}
+                  >
+                    Stay
+                  </button>
+                </div>
+              )}
+              <br />
+              {bjState.state === BJS.COMPLETE && (
+                <>
+                  <Typography>{displayWinMessage().winMessage}</Typography>
+                  <button
+                    className={styles.button}
+                    onClick={() => handleNextGame()}
+                  >
+                    Next game
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         )}
         {bjState.state === BJS.BETTING && (
           <Paper>

@@ -60,4 +60,5 @@ export interface Card {
   value: number;
   secondaryValue?: number;
   isFaceUp: boolean;
+  delay?: number;
 }

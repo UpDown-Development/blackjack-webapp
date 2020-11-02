@@ -144,16 +144,18 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
 
   let hands = [hand1, hand2];
 
+  let delay = 0.2;
   for (let i = 4; i > 0; i--) {
     // take new card off top of deck
     let card: Card = newDeck.slice(-1)[0];
     newDeck = newDeck.slice(0, -1);
 
-    //lopp through 4 cards and deal them
+    delay += 0.4;
+    //loop through 4 cards and deal them
     if (i === 1) {
-      card = { ...card, isFaceUp: false };
+      card = { ...card, isFaceUp: false, delay };
     } else {
-      card = card;
+      card = { ...card, delay };
     }
     hands[i % 2].push(card);
   }
