@@ -1,5 +1,11 @@
 import { deck } from "../../../utils/blackJackDeck";
-import { BlackJack, Card, CurrentGame, Player } from "../../../models/generic";
+import {
+  BlackJack,
+  Card,
+  CurrentGame,
+  Player,
+  PlayerInfo,
+} from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
 
@@ -20,7 +26,6 @@ export const initBlackJack = (
     name: "Dealer",
     score: 0,
   };
-
   const player: Player = {
     currentBet: 0,
     hand: [],
@@ -61,6 +66,7 @@ export const initBlackJack = (
       deck: blackJackDeck,
       players,
       numberOfDecks,
+      wallet,
     },
   });
 };

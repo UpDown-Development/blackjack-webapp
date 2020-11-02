@@ -32,11 +32,28 @@ export interface GameUser {
   data: Data | undefined;
 }
 
+export interface HandHistory {
+  result: number;
+  playerHand: Card[];
+  dealerHand: Card[];
+}
+
+export interface PlayerInfo {
+  currencyDifference: number;
+  currentHandsWon: number;
+  currentHandsLost: number;
+  currentGamesPlayed: number;
+  currentBlackjacks?: number;
+  currentBet: number;
+  wallet: number;
+  history: HandHistory[];
+}
+
 export interface Game {
   numberOfDecks: number;
   name: string;
   players: Player[];
-  playerInfo: any;
+  playerInfo: PlayerInfo;
   userId: string;
 }
 

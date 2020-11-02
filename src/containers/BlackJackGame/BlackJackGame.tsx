@@ -21,6 +21,7 @@ import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import Hand from "../../components/blackJackGame/Hand";
 import { Redirect } from "react-router";
+import StatsSidebar from "../../components/blackjackStatsSideBar/statsSidebar";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
@@ -139,6 +140,7 @@ export const BlackJackGame = () => {
         src={"http://localhost:3000/imgs/cards/backs/back1.png"}
         alt={"deck"}
       />
+      <StatsSidebar />
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
       <div className={styles.parent}>
         {bjState.state === BJS.DEALING &&

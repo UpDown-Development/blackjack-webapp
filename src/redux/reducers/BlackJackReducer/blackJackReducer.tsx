@@ -4,7 +4,16 @@ import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions
 
 export const defaultState: BlackJack = {
   userId: "",
-  playerInfo: {},
+  playerInfo: {
+    currencyDifference: 0,
+    currentBet: 0,
+    currentGamesPlayed: 0,
+    currentHandsLost: 0,
+    currentHandsWon: 0,
+    history: [],
+    wallet: 0,
+    currentBlackjacks: 0,
+  },
   state: BlackJackState.BETTING,
   name: "BlackJack",
   numberOfDecks: 0,
@@ -18,6 +27,7 @@ const BlackJackReducer = produce(
       case "INIT_BLACKJACK":
         state.deck = action.payload.deck;
         state.players = action.payload.players;
+        state.playerInfo.wallet = action.payload.wallet;
         state.numberOfDecks = action.payload.numberOfDecks;
         state.state = BlackJackState.BETTING;
         break;
