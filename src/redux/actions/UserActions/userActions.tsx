@@ -1,5 +1,6 @@
 import { db, myFirebase } from "../../../utils/firebaseConfig";
 import { CurrentGame, Data } from "../../../models/generic";
+import firebase from "firebase";
 
 export interface UserAction {
   type: string;
@@ -48,6 +49,80 @@ export const loadGameData = (userid: string, currentGame: CurrentGame) => (
         },
       });
     });
+};
+
+export const signupOAuth = (provider: string) => async (dispatch: any) => {
+  if (provider === "GOOGLE") {
+    var googleProvider = new firebase.auth.GoogleAuthProvider();
+    googleProvider.addScope(
+      "https://www.googleapis.com/auth/contacts.readonly"
+    );
+    firebase
+      .auth()
+      .signInWithPopup(googleProvider)
+      .then((user) => {
+        dispatch({
+          type: "USER_SIGNUP_SUCCESS",
+          payload: user,
+        });
+
+        db.collection("users")
+          // @ts-ignore
+          .doc(`/${user.user.uid}`)
+          .set({
+            netWorth: 10000,
+          })
+          .then((res) => {
+            dispatch({
+              type: "UPDATE_NET_WORTH",
+              payload: 10000,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        dispatch({
+          type: "USER_SIGNUP_ERROR",
+          payload: err,
+        });
+      });
+  }
+  if (provider === "FACEBOOK") {
+    var facebookProvider = new firebase.auth.FacebookAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(facebookProvider)
+      .then((user) => {
+        dispatch({
+          type: "USER_SIGNUP_SUCCESS",
+          payload: user,
+        });
+
+        db.collection("users")
+          // @ts-ignore
+          .doc(`/${user.user.uid}`)
+          .set({
+            netWorth: 10000,
+          })
+          .then((res) => {
+            dispatch({
+              type: "UPDATE_NET_WORTH",
+              payload: 10000,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        dispatch({
+          type: "USER_SIGNUP_ERROR",
+          payload: err,
+        });
+      });
+  }
 };
 
 export const signUpUserEmailAndPassword = (

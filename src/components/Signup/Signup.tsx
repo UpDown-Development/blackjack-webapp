@@ -3,12 +3,14 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpUserEmailAndPassword } from "../../redux/actions/UserActions/userActions";
+import {
+  signupOAuth,
+  signUpUserEmailAndPassword,
+} from "../../redux/actions/UserActions/userActions";
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import styles from "../Login/login.module.scss";
-import { checkShouldInheritVariant } from "framer-motion/types/motion/utils/should-inherit-variant";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,10 @@ const Signup = () => {
       dispatch(signUpUserEmailAndPassword(values.email, values.password));
     },
   });
+
+  const handleOAuth = (provider: string) => {
+    dispatch(signupOAuth(provider));
+  };
 
   const animationVariants = {
     exit: {
@@ -75,6 +81,22 @@ const Signup = () => {
               </Button>
             </div>
           </form>
+          <div>
+            <Button
+              onClick={() => handleOAuth("GOOGLE")}
+              variant={"contained"}
+              type="submit"
+            >
+              Google
+            </Button>
+            <Button
+              onClick={() => handleOAuth("FACEBOOK")}
+              variant={"contained"}
+              type="submit"
+            >
+              Facebook
+            </Button>
+          </div>
         </Paper>
       </div>
     </motion.div>
