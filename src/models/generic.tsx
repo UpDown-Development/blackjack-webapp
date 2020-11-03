@@ -51,6 +51,7 @@ export interface PlayerInfo {
 }
 
 export interface Game {
+  currentGame: number;
   numberOfDecks: number;
   name: string;
   players: Player[];

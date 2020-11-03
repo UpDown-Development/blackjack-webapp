@@ -55,8 +55,8 @@ export const initBlackJack = (
     .get()
     .then((res) => {
       // @ts-ignore
-      const newBank = res.data().bank - wallet;
-      userData.update({ bank: newBank }).then(() => {
+      const newBank = res.data().netWorth - wallet;
+      userData.update({ netWorth: newBank }).then(() => {
         dispatch({
           type: "UPDATE_NET_WORTH",
           payload: newBank,
@@ -92,6 +92,10 @@ export const initBlackJack = (
           startingWallet: wallet,
           currentBlackjacks: 0,
         });
+      dispatch({
+        type: "CURRENT_GAME_NUMBER",
+        payload: gamesPlayed,
+      });
     });
 };
 
@@ -193,6 +197,13 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
       wallet: wallet,
     },
   });
+
+  await db
+    .collection("users")
+    .doc(gameState.userId)
+    .collection(CurrentGame.BLACKJACK)
+    .doc(gameState.currentGame.toString())
+    .set(info);
 };
 
 export const moveToComplete = () => async (dispatch: any) => {
@@ -251,14 +262,14 @@ export const cashOut = (userId: string, wallet: number) => async (
     type: "CASH_OUT",
   });
 
-  const userData = db.collection("users").doc("BLACKJACKInfo");
+  const userData = db.collection("users").doc(userId);
 
   userData
     .get()
     .then((res) => {
       // @ts-ignore
       const newBank = res.data().netWorth + wallet;
-      userData.update({ bank: newBank }).then(() => {
+      userData.update({ netWorth: newBank }).then(() => {
         dispatch({
           type: "UPDATE_NET_WORTH",
           payload: newBank,

@@ -4,19 +4,14 @@ import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions
 
 export const defaultState: BlackJack = {
   userId: "",
+  currentGame: 0,
   playerInfo: {
     currencyDifference: 0,
     currentBet: 0,
     currentGamesPlayed: 0,
     currentHandsLost: 0,
     currentHandsWon: 0,
-    history: [
-      {
-        result: 0,
-        playerHand: [],
-        dealerHand: [],
-      },
-    ],
+    history: [],
     wallet: 0,
     startingWallet: 0,
     currentBlackjacks: 0,
@@ -38,6 +33,9 @@ const BlackJackReducer = produce(
         state.playerInfo.startingWallet = action.payload.wallet;
         state.numberOfDecks = action.payload.numberOfDecks;
         state.state = BlackJackState.BETTING;
+        break;
+      case "CURRENT_GAME_NUMBER":
+        state.currentGame = action.payload;
         break;
       case "LOAD_BLACKJACK_DATA":
         state.userId = action.payload.userId;
