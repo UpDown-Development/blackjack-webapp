@@ -70,18 +70,14 @@ export const signUpUserEmailAndPassword = (
       db.collection("users")
         // @ts-ignore
         .doc(`/${user.user.uid}`)
-        .collection("BLACKJACK")
-        .doc("BLACKJACKInfo")
         .set({
           netWorth: 10000,
-          totalCurrencyWon: 0,
-          blackjacks: 0,
-          gamesPlayed: 0,
-          handsLost: 0,
-          handsWon: 0,
-        } as Data)
+        })
         .then((res) => {
-          console.log(res);
+          dispatch({
+            type: "UPDATE_NET_WORTH",
+            payload: 10000,
+          });
         })
         .catch((err) => {
           console.log(err);

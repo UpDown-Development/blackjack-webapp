@@ -17,7 +17,7 @@ export interface BlackJackAction {
 
 export const initBlackJack = (
   userId: string,
-  numberOfDecks: number = 1,
+  numberOfDecks: number = 2,
   wallet: number
 ) => async (dispatch: any) => {
   const dealer: Player = {
@@ -35,28 +35,6 @@ export const initBlackJack = (
     score: 0,
   };
 
-  const userData = db
-    .collection("users")
-    .doc(userId)
-    .collection(CurrentGame.BLACKJACK)
-    .doc("BLACKJACKInfo");
-
-  userData
-    .get()
-    .then((res) => {
-      // @ts-ignore
-      const newBank = res.data().bank - wallet;
-      userData.update({ bank: newBank }).then(() => {
-        dispatch({
-          type: "UPDATE_BANK",
-          payload: newBank,
-        });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
   const players: Player[] = [player, dealer];
 
   const blackJackDeck = shuffle(numberOfDecks);
@@ -70,6 +48,51 @@ export const initBlackJack = (
       wallet,
     },
   });
+
+  const userData = db.collection("users").doc(userId);
+
+  await userData
+    .get()
+    .then((res) => {
+      // @ts-ignore
+      const newBank = res.data().bank - wallet;
+      userData.update({ bank: newBank }).then(() => {
+        dispatch({
+          type: "UPDATE_NET_WORTH",
+          payload: newBank,
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  let gamesPlayed = 1;
+  await db
+    .collection("users")
+    .doc(userId)
+    .collection(CurrentGame.BLACKJACK)
+    .get()
+    .then((res) => {
+      res.docs.forEach(() => {
+        gamesPlayed++;
+      });
+      db.collection("users")
+        .doc(userId)
+        .collection(CurrentGame.BLACKJACK)
+        .doc(gamesPlayed.toString())
+        .set({
+          currencyDifference: 0,
+          currentBet: 0,
+          currentGamesPlayed: 0,
+          currentHandsLost: 0,
+          currentHandsWon: 0,
+          history: [],
+          wallet: wallet,
+          startingWallet: wallet,
+          currentBlackjacks: 0,
+        });
+    });
 };
 
 export const placeBet = (bet: number, wallet: number) => async (
@@ -109,13 +132,10 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
 
   const gotBlackjack = () => {
     let gotIt = false;
-    if (
-      gameState.players[0].score === 21 &&
-      gameState.players[0].hand.length === 2
-    ) {
+    if (player.score === 21 && player.hand.length === 2) {
       gotIt = true;
     }
-    return gotIt ? 0 : 1;
+    return gotIt ? 1 : 0;
   };
 
   const newHistory: HandHistory = {
@@ -124,7 +144,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     dealerHand: gameState.players[1].hand,
   };
 
-  const allHistory: HandHistory[] = gameState.playerInfo.history;
+  const allHistory: HandHistory[] = [...gameState.playerInfo.history];
 
   console.log("state ", gameState.playerInfo.history);
   console.log("local ", allHistory);
@@ -132,9 +152,9 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   allHistory.push(newHistory);
 
   const info: PlayerInfo = {
-    currencyDifference: 0,
-    currentHandsWon: 0,
-    currentHandsLost: 0,
+    currencyDifference: gameState.playerInfo.currencyDifference,
+    currentHandsWon: gameState.playerInfo.currentHandsWon,
+    currentHandsLost: gameState.playerInfo.currentHandsLost,
     currentGamesPlayed: gameState.playerInfo.currentGamesPlayed + 1,
     // @ts-ignore
     currentBlackjacks: gameState.playerInfo.currentBlackjacks + gotBlackjack(),
@@ -144,11 +164,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     history: allHistory,
   };
 
-  const doShuffle = _.random(15, 30, false);
-
-  let newDeck: Card[];
   let wallet;
-
   if (state === -1) {
     wallet = player.wallet;
     info.currentHandsLost = gameState.playerInfo.currentHandsLost + 1;
@@ -158,12 +174,13 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     wallet = player.wallet + player.currentBet * 2;
     info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
-
   info.wallet = wallet;
   info.currencyDifference = info.wallet - gameState.playerInfo.startingWallet;
 
+  const doShuffle = _.random(15, 30, false);
+  let newDeck: Card[];
   if (deck.length < doShuffle) {
-    newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
+    newDeck = shuffle(deckNum);
   } else {
     newDeck = deck;
   }
@@ -234,20 +251,16 @@ export const cashOut = (userId: string, wallet: number) => async (
     type: "CASH_OUT",
   });
 
-  const userData = db
-    .collection("users")
-    .doc(userId)
-    .collection(CurrentGame.BLACKJACK)
-    .doc("BLACKJACKInfo");
+  const userData = db.collection("users").doc("BLACKJACKInfo");
 
   userData
     .get()
     .then((res) => {
       // @ts-ignore
-      const newBank = res.data().bank + wallet;
+      const newBank = res.data().netWorth + wallet;
       userData.update({ bank: newBank }).then(() => {
         dispatch({
-          type: "UPDATE_BANK",
+          type: "UPDATE_NET_WORTH",
           payload: newBank,
         });
       });

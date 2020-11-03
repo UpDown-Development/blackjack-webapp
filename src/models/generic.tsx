@@ -29,7 +29,7 @@ export interface GameUser {
   username: string;
   nickname: string;
   currentCardBackground: string;
-  data: Data | undefined;
+  netWorth: number;
 }
 
 export interface HandHistory {

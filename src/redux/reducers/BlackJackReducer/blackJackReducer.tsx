@@ -40,15 +40,14 @@ const BlackJackReducer = produce(
         state.state = BlackJackState.BETTING;
         break;
       case "LOAD_BLACKJACK_DATA":
-        state.playerInfo = action.payload.data;
         state.userId = action.payload.userId;
         break;
       case "PLACE_BET_BLACKJACK":
+        state.state = BlackJackState.DEALING;
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
         state.playerInfo.currentBet = action.payload.currentBet;
-        state.playerInfo.currentBet = action.payload.wallet;
-        state.state = BlackJackState.DEALING;
+        state.playerInfo.wallet = action.payload.wallet;
         break;
       case "DEAL_OPENING_CARDS_BLACKJACK":
         state.deck = action.payload.deck;
@@ -71,6 +70,8 @@ const BlackJackReducer = produce(
         state.state = BlackJackState.COMPLETE;
         break;
       case "CLEANUP_BLACKJACK":
+        state.players[0].hand = [];
+        state.players[1].hand = [];
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;

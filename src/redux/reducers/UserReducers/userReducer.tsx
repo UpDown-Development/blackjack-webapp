@@ -5,7 +5,7 @@ import { UserAction } from "../../actions/UserActions/userActions";
 export const defaultState: GameUser = {
   errorMessage: "",
   currentCardBackground: "",
-  data: undefined,
+  netWorth: 0,
   loading: false,
   nickname: "",
   user: undefined,
@@ -34,8 +34,8 @@ const UserReducer = produce((state = defaultState, action: UserAction) => {
       state.loading = false;
       state.errorMessage = action.payload;
       break;
-    case "UPDATE_BANK":
-      state.data = { ...state.data, netWorth: action.payload };
+    case "UPDATE_NET_WORTH":
+      state.netWorth = action.payload;
       break;
     default:
       return state;

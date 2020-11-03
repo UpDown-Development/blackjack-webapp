@@ -15,9 +15,9 @@ const StatsSidebar = () => {
       <div>Total Gained/Lost: {stats.currencyDifference}</div>
       <div>Current Bet: {stats.currentBet}</div>
       <div>Games Played: {stats.currentGamesPlayed}</div>
-      <div>{stats.currentHandsWon}</div>
-      <div>{stats.currentHandsLost}</div>
-      <div>{stats.currentBlackjacks}</div>
+      <div>Hands Won: {stats.currentHandsWon}</div>
+      <div>Hands Lost: {stats.currentHandsLost}</div>
+      <div>Blackjacks: {stats.currentBlackjacks}</div>
     </Paper>
   );
 };
