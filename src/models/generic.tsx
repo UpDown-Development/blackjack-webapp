@@ -45,6 +45,7 @@ export interface PlayerInfo {
   currentGamesPlayed: number;
   currentBlackjacks?: number;
   currentBet: number;
+  startingWallet: number;
   wallet: number;
   history: HandHistory[];
 }

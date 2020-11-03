@@ -10,8 +10,15 @@ export const defaultState: BlackJack = {
     currentGamesPlayed: 0,
     currentHandsLost: 0,
     currentHandsWon: 0,
-    history: [],
+    history: [
+      {
+        result: 0,
+        playerHand: [],
+        dealerHand: [],
+      },
+    ],
     wallet: 0,
+    startingWallet: 0,
     currentBlackjacks: 0,
   },
   state: BlackJackState.BETTING,
@@ -28,6 +35,7 @@ const BlackJackReducer = produce(
         state.deck = action.payload.deck;
         state.players = action.payload.players;
         state.playerInfo.wallet = action.payload.wallet;
+        state.playerInfo.startingWallet = action.payload.wallet;
         state.numberOfDecks = action.payload.numberOfDecks;
         state.state = BlackJackState.BETTING;
         break;
@@ -38,6 +46,8 @@ const BlackJackReducer = produce(
       case "PLACE_BET_BLACKJACK":
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
+        state.playerInfo.currentBet = action.payload.currentBet;
+        state.playerInfo.currentBet = action.payload.wallet;
         state.state = BlackJackState.DEALING;
         break;
       case "DEAL_OPENING_CARDS_BLACKJACK":
@@ -65,6 +75,7 @@ const BlackJackReducer = produce(
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;
         state.state = BlackJackState.BETTING;
+        state.playerInfo = action.payload.info;
         break;
       case "CASH_OUT":
         state.state = BlackJackState.CASHOUT;

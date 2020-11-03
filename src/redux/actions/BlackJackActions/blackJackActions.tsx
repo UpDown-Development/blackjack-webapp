@@ -3,6 +3,7 @@ import {
   BlackJack,
   Card,
   CurrentGame,
+  HandHistory,
   Player,
   PlayerInfo,
 } from "../../../models/generic";
@@ -106,6 +107,43 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   const deck = gameState.deck;
   const deckNum = gameState.numberOfDecks;
 
+  const gotBlackjack = () => {
+    let gotIt = false;
+    if (
+      gameState.players[0].score === 21 &&
+      gameState.players[0].hand.length === 2
+    ) {
+      gotIt = true;
+    }
+    return gotIt ? 0 : 1;
+  };
+
+  const newHistory: HandHistory = {
+    result: state,
+    playerHand: gameState.players[0].hand,
+    dealerHand: gameState.players[1].hand,
+  };
+
+  const allHistory: HandHistory[] = gameState.playerInfo.history;
+
+  console.log("state ", gameState.playerInfo.history);
+  console.log("local ", allHistory);
+  console.log("new ", newHistory);
+  allHistory.push(newHistory);
+
+  const info: PlayerInfo = {
+    currencyDifference: 0,
+    currentHandsWon: 0,
+    currentHandsLost: 0,
+    currentGamesPlayed: gameState.playerInfo.currentGamesPlayed + 1,
+    // @ts-ignore
+    currentBlackjacks: gameState.playerInfo.currentBlackjacks + gotBlackjack(),
+    currentBet: 0,
+    wallet: 0,
+    startingWallet: gameState.playerInfo.startingWallet,
+    history: allHistory,
+  };
+
   const doShuffle = _.random(15, 30, false);
 
   let newDeck: Card[];
@@ -113,11 +151,16 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
 
   if (state === -1) {
     wallet = player.wallet;
+    info.currentHandsLost = gameState.playerInfo.currentHandsLost + 1;
   } else if (state === 0) {
     wallet = player.wallet + player.currentBet;
-  } else if (state === 1) {
+  } else {
     wallet = player.wallet + player.currentBet * 2;
+    info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
+
+  info.wallet = wallet;
+  info.currencyDifference = info.wallet - gameState.playerInfo.startingWallet;
 
   if (deck.length < doShuffle) {
     newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
@@ -128,6 +171,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   dispatch({
     type: "CLEANUP_BLACKJACK",
     payload: {
+      info: info,
       deck: newDeck,
       wallet: wallet,
     },

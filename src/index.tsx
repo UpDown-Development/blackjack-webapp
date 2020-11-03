@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import thunk from "redux-thunk";
 import "./index.scss";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "./theme";
 
 const store = createStore(
   rootReducer,
@@ -18,9 +20,11 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <App />
+        </Router>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
