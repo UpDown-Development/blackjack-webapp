@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 import { setup, wait } from "../../setupTests";
 import { BlackJackGame } from "./BlackJackGame";
 
-describe("BlackJackGame Container", () => {
+describe("Hand Container", () => {
   it("should render", () => {
     const testObj = setup(genericState, <BlackJackGame />);
     expect(testObj.wrapper).toBeTruthy();

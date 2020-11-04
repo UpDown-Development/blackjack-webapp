@@ -19,10 +19,11 @@ import {
 import styles from "./blackjackGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
-import Hand from "../../components/BlackJackGame/Hand";
+import Hand from "../../components/Hand/Hand";
 import { Redirect } from "react-router";
 import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
+import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
@@ -103,14 +104,6 @@ export const BlackJackGame = () => {
     }
   };
 
-  const handleHit = () => {
-    dispatch(dealCard(bjState.deck, bjState.players[0]));
-  };
-
-  const handleStay = () => {
-    dispatch(endPlaying(bjState.players[1].hand, bjState.players[1]));
-  };
-
   const handleNextGame = () => {
     dispatch(cleanUp(displayWinMessage().state, bjState));
   };
@@ -124,50 +117,26 @@ export const BlackJackGame = () => {
       exit="exit"
     >
       <div className={styles.playedCards}>
-        {bjState.state !== BJS.BETTING && (
-          <div className={styles.handsContainer}>
-            <div className={styles.dealerHand}>
-              <Hand player={bjState.players[1]} />
-            </div>
-            <div className={styles.playerHand}>
-              <Hand player={bjState.players[0]} />
-            </div>
-            <div className={styles.buttonContainer}>
-              {bjState.state === BJS.PLAYER_PLAYING && (
-                <div>
-                  <button
-                    className={styles.button}
-                    data-test-id="hit"
-                    onClick={() => handleHit()}
-                  >
-                    Hit
-                  </button>
-                  <button
-                    className={styles.button}
-                    onClick={() => handleStay()}
-                  >
-                    Stay
-                  </button>
-                </div>
-              )}
-              <br />
-              {bjState.state === BJS.COMPLETE && (
-                <>
-                  <Typography>{displayWinMessage().winMessage}</Typography>
-                  <button
-                    className={styles.button}
-                    onClick={() => handleNextGame()}
-                  >
-                    Next game
-                  </button>
-                </>
-              )}
-            </div>
+        <div className={styles.handsContainer}>
+          <div className={styles.dealerHand}>
+            <Hand player={bjState.players[1]} />
           </div>
+          <div className={styles.playerHand}>
+            <Hand player={bjState.players[0]} />
+          </div>
+        </div>
+        {bjState.state === BJS.COMPLETE && (
+          <>
+            <Typography>{displayWinMessage().winMessage}</Typography>
+            <Button variant={"outlined"} onClick={() => handleNextGame()}>
+              Next game
+            </Button>
+          </>
         )}
       </div>
       <div className={styles.sideBar}>
         <StatsSidebar />
+        <BlackJackButtons />
         <BetBar />
       </div>
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
