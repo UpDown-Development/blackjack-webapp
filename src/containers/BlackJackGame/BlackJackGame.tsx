@@ -19,7 +19,7 @@ import {
 import styles from "./blackjackGame.module.scss";
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
-import Hand from "../../components/blackJackGame/Hand";
+import Hand from "../../components/BlackJackGame/Hand";
 import { Redirect } from "react-router";
 import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
@@ -168,7 +168,6 @@ export const BlackJackGame = () => {
       </div>
       <div className={styles.sideBar}>
         <StatsSidebar />
-        <div className={styles.filler}></div>
         <BetBar />
       </div>
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
