@@ -1,15 +1,24 @@
 import React from "react";
-import styles from "../../containers/BlackJackGame/blackjackGame.module.scss";
 import {
   dealCard,
   endPlaying,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BlackJack } from "../../models/generic";
+import { BlackJack, BlackJackState } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Button } from "@material-ui/core";
+import styles from "./BlackJackButtons.module.scss";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: "15px 15px",
+    textDecoration: "none",
+  },
+}));
 
 const BlackJackButtons = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const bjState: BlackJack = useSelector(
     (state: RootState) => state.BlackJackReducer,
@@ -25,18 +34,20 @@ const BlackJackButtons = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Button
+        disabled={bjState.state !== BlackJackState.PLAYER_PLAYING}
         variant={"outlined"}
-        className={styles.button}
+        className={classes.button}
         data-test-id="hit"
         onClick={() => handleHit()}
       >
         Hit
       </Button>
       <Button
+        disabled={bjState.state !== BlackJackState.PLAYER_PLAYING}
         variant={"outlined"}
-        className={styles.button}
+        className={classes.button}
         onClick={() => handleStay()}
       >
         Stay

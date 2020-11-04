@@ -8,17 +8,14 @@ import {
 } from "../../models/generic";
 import { motion } from "framer-motion";
 import {
-  cashOut,
   cleanUp,
   dealCard,
   dealOpeningCards,
   endPlaying,
   moveToComplete,
-  placeBet,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import styles from "./blackjackGame.module.scss";
-import { Button, Paper, TextField, Typography } from "@material-ui/core";
-import { useFormik } from "formik";
+import { Button, Typography } from "@material-ui/core";
 import Hand from "../../components/Hand/Hand";
 import { Redirect } from "react-router";
 import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";

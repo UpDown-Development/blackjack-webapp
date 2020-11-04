@@ -6,7 +6,7 @@ import {
   placeBet,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BlackJack } from "../../models/generic";
+import { BlackJack, BlackJackState } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import styles from "./betBar.module.scss";
 
@@ -43,8 +43,17 @@ const BetBar = () => {
             onChange={formik.handleChange}
           />
           <div className={styles.buttonContainer}>
-            <Button type="submit">Place Bet</Button>
-            <Button onClick={() => handleCashOut()} variant={"outlined"}>
+            <Button
+              disabled={bjState.state !== BlackJackState.BETTING}
+              type="submit"
+            >
+              Place Bet
+            </Button>
+            <Button
+              disabled={bjState.state !== BlackJackState.BETTING}
+              onClick={() => handleCashOut()}
+              variant={"outlined"}
+            >
               Cash Out
             </Button>
           </div>
