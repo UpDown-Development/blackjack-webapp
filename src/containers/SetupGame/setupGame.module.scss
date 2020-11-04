@@ -1,0 +1,15 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-basis: fit-content;
+}
+
+.buttonContainer {
+  margin: 15px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

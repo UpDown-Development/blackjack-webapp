@@ -1,0 +1,29 @@
+.logoContainer {
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-basis: fit-content;
+}
+
+.titleContainer {
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  height: fit-content;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.button {
+  padding: 20px 20px;
+  margin: 20px 20px;
+  text-decoration: none;
+}

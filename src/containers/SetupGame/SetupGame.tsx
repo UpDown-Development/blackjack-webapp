@@ -28,7 +28,7 @@ const SetupGame = (props: any) => {
 
   const formik = useFormik({
     initialValues: {
-      decks: 2,
+      decks: 3,
       wallet: 50,
     },
     onSubmit: (values) => {
@@ -49,7 +49,9 @@ const SetupGame = (props: any) => {
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
+            InputProps={{ inputProps: { min: 1 } }}
             variant={"filled"}
+            required
             id="wallet"
             label="Wallet"
             type="number"
@@ -58,14 +60,20 @@ const SetupGame = (props: any) => {
           />
           <TextField
             fullWidth
+            InputProps={{ inputProps: { min: 2, max: 10 } }}
             variant={"filled"}
+            required
             id="decks"
             label="Number Of decks"
             type="number"
             value={formik.values.decks}
             onChange={formik.handleChange}
           />
-          <Button type="submit">Play</Button>
+          <div className={styles.buttonContainer}>
+            <Button variant={"outlined"} type="submit">
+              Play
+            </Button>
+          </div>
         </form>
       </Paper>
       {redirect && <Redirect to={"/play"} />}

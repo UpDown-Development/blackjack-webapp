@@ -22,6 +22,7 @@ import { useFormik } from "formik";
 import Hand from "../../components/blackJackGame/Hand";
 import { Redirect } from "react-router";
 import StatsSidebar from "../../components/blackjackStatsSideBar/statsSidebar";
+import BetBar from "../../components/BetBar/BetBar";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
 // TODO: Run out of money support, leave table support
@@ -53,15 +54,6 @@ export const BlackJackGame = () => {
       },
     },
   };
-
-  const formik = useFormik({
-    initialValues: {
-      bet: 5,
-    },
-    onSubmit: (values) => {
-      dispatch(placeBet(values.bet, bjState.players[0].wallet));
-    },
-  });
 
   const dealerAI = () => {
     // @ts-ignore
@@ -123,10 +115,6 @@ export const BlackJackGame = () => {
     dispatch(cleanUp(displayWinMessage().state, bjState));
   };
 
-  const handleCashOut = () => {
-    dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
-  };
-
   return (
     <motion.div
       className={styles.container}
@@ -135,11 +123,6 @@ export const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
-      <img
-        style={{ height: 120 }}
-        src={"http://localhost:3000/imgs/cards/backs/back1.png"}
-        alt={"deck"}
-      />
       <StatsSidebar />
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
       <div className={styles.parent}>
@@ -186,25 +169,7 @@ export const BlackJackGame = () => {
             </div>
           </div>
         )}
-        {bjState.state === BJS.BETTING && (
-          <Paper>
-            <form onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                variant={"filled"}
-                id="bet"
-                label="Bet"
-                type="number"
-                value={formik.values.bet}
-                onChange={formik.handleChange}
-              />
-              <Button type="submit">Place Bet</Button>
-              <Button onClick={() => handleCashOut()} variant={"outlined"}>
-                Cash Out
-              </Button>
-            </form>
-          </Paper>
-        )}
+        <BetBar />
       </div>
     </motion.div>
   );
