@@ -101,10 +101,6 @@ export const BlackJackGame = () => {
     }
   };
 
-  const handleNextGame = () => {
-    dispatch(cleanUp(displayWinMessage().state, bjState));
-  };
-
   return (
     <motion.div
       className={styles.container}
@@ -123,12 +119,7 @@ export const BlackJackGame = () => {
           </div>
         </div>
         {bjState.state === BJS.COMPLETE && (
-          <>
-            <Typography>{displayWinMessage().winMessage}</Typography>
-            <Button variant={"outlined"} onClick={() => handleNextGame()}>
-              Next game
-            </Button>
-          </>
+          <Typography>{displayWinMessage().winMessage}</Typography>
         )}
       </div>
       <div className={styles.sideBar}>
