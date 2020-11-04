@@ -21,7 +21,7 @@ import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import Hand from "../../components/blackJackGame/Hand";
 import { Redirect } from "react-router";
-import StatsSidebar from "../../components/blackjackStatsSideBar/statsSidebar";
+import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
 
 // TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
@@ -123,11 +123,7 @@ export const BlackJackGame = () => {
       animate={{ x: 0 }}
       exit="exit"
     >
-      <StatsSidebar />
-      {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
-      <div className={styles.parent}>
-        {bjState.state === BJS.DEALING &&
-          dispatch(dealOpeningCards(bjState.deck, bjState.players))}
+      <div className={styles.playedCards}>
         {bjState.state !== BJS.BETTING && (
           <div className={styles.handsContainer}>
             <div className={styles.dealerHand}>
@@ -169,8 +165,15 @@ export const BlackJackGame = () => {
             </div>
           </div>
         )}
+      </div>
+      <div className={styles.sideBar}>
+        <StatsSidebar />
+        <div className={styles.filler}></div>
         <BetBar />
       </div>
+      {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
+      {bjState.state === BJS.DEALING &&
+        dispatch(dealOpeningCards(bjState.deck, bjState.players))}
     </motion.div>
   );
 };
