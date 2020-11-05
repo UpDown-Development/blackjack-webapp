@@ -65,9 +65,14 @@ const BetBar = () => {
 
   const handleCashOut = () => {
     if (bjState.state === BlackJackState.COMPLETE) {
-      dispatch(cleanUp(displayWinMessage().state, bjState));
+      Promise.all([dispatch(cleanUp(displayWinMessage().state, bjState))]).then(
+        () => {
+          dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
+        }
+      );
+    } else {
+      dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
     }
-    dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
   };
 
   return (

@@ -90,7 +90,7 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
       });
   }
   if (provider === "FACEBOOK") {
-    var facebookProvider = new firebase.auth.FacebookAuthProvider();
+    const facebookProvider = new firebase.auth.FacebookAuthProvider();
     firebase
       .auth()
       .signInWithPopup(facebookProvider)
