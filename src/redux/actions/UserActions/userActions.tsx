@@ -53,7 +53,7 @@ export const loadGameData = (userid: string, currentGame: CurrentGame) => (
 
 export const signupOAuth = (provider: string) => async (dispatch: any) => {
   if (provider === "GOOGLE") {
-    var googleProvider = new firebase.auth.GoogleAuthProvider();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
     googleProvider.addScope(
       "https://www.googleapis.com/auth/contacts.readonly"
     );
