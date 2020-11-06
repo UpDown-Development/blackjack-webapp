@@ -38,7 +38,7 @@ const Home = () => {
               animate={{ x: -240, y: 60, rotateZ: 750 }}
               transition={{ type: "tween", duration: 0.7, delay: 0 }}
               src={
-                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/diamond.png"
+                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/diamond.png"
               }
             />
             <motion.img
@@ -47,7 +47,7 @@ const Home = () => {
               animate={{ x: -80, y: 0, rotateZ: 730 }}
               transition={{ type: "tween", duration: 0.7, delay: 0.5 }}
               src={
-                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/club.png"
+                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/club.png"
               }
             />
             <motion.img
@@ -56,7 +56,7 @@ const Home = () => {
               animate={{ x: 80, y: 0, rotateZ: 700 }}
               transition={{ type: "tween", duration: 0.7, delay: 1 }}
               src={
-                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/heart.png"
+                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/heart.png"
               }
             />
             <motion.img
@@ -65,7 +65,7 @@ const Home = () => {
               animate={{ x: 240, y: 60, rotateZ: 680 }}
               transition={{ type: "tween", duration: 0.7, delay: 1.5 }}
               src={
-                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/spade.png"
+                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/spade.png"
               }
             />
           </div>
