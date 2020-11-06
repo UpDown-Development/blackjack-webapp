@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 
 // local imports
 import SetupGame from "../SetupGame/SetupGame";
-import BlackjackHome from "../BlackjackHome/BlackjackHome";
+import BlackjackHome from "../BlackJackHome/BlackjackHome";
 import { BlackJackGame } from "../BlackJackGame/BlackJackGame";
 import Login from "../../components/Login/Login";
 import Signup from "../../components/Signup/Signup";

@@ -1,38 +1,32 @@
-$button-color: #569352;
-$button-bg: $button-color;
-$button-text-color: #fff;
-$baby-blue: #569352;
-
 .container {
+  height: 30vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-wrap: wrap;
+  flex-basis: fit-content;
 }
 
-.buttonContainer {
+.logoContainer {
+  height: 50vh;
   display: flex;
-  flex-direction: row;
-  align-content: space-evenly;
-  justify-content: space-evenly;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-basis: fit-content;
 }
 
 .button {
-  width: 100px;
-  height: 100px;
-  display: inline-block;
-  font-size: 2em;
-  margin-bottom: 60px;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  color: $button-text-color;
-  text-align: center;
-  border-radius: 50%;
-  border: 2px $button-bg solid;
-  cursor: pointer;
+  margin: 0 20px;
+  text-decoration: none;
+}
 
-  &:focus {
-    outline: 0;
-  }
+.titleContainer {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-basis: fit-content;
+  font-size: 110px;
+  font-weight: inherit;
 }

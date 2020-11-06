@@ -29,14 +29,33 @@ export interface GameUser {
   username: string;
   nickname: string;
   currentCardBackground: string;
-  data: Data | undefined;
+  netWorth: number;
+}
+
+export interface HandHistory {
+  result: number;
+  playerHand: Card[];
+  dealerHand: Card[];
+}
+
+export interface PlayerInfo {
+  currencyDifference: number;
+  currentHandsWon: number;
+  currentHandsLost: number;
+  currentGamesPlayed: number;
+  currentBlackjacks?: number;
+  currentBet: number;
+  startingWallet: number;
+  wallet: number;
+  history: HandHistory[];
 }
 
 export interface Game {
+  currentGame: number;
   numberOfDecks: number;
   name: string;
   players: Player[];
-  playerInfo: any;
+  playerInfo: PlayerInfo;
   userId: string;
 }
 
@@ -52,6 +71,7 @@ export enum BlackJackState {
 export interface BlackJack extends Game {
   deck: Card[];
   state: BlackJackState;
+  insurance: boolean;
 }
 
 export interface Card {
@@ -60,4 +80,12 @@ export interface Card {
   value: number;
   secondaryValue?: number;
   isFaceUp: boolean;
+  delay?: number;
+}
+
+export enum ColorEnum {
+  WIN = "success",
+  PUSH = "info",
+  YELLOW = "warning",
+  LOSS = "error",
 }

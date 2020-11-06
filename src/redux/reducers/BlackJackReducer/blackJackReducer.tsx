@@ -4,8 +4,20 @@ import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions
 
 export const defaultState: BlackJack = {
   userId: "",
-  playerInfo: {},
+  currentGame: 0,
+  playerInfo: {
+    currencyDifference: 0,
+    currentBet: 0,
+    currentGamesPlayed: 0,
+    currentHandsLost: 0,
+    currentHandsWon: 0,
+    history: [],
+    wallet: 0,
+    startingWallet: 0,
+    currentBlackjacks: 0,
+  },
   state: BlackJackState.BETTING,
+  insurance: false,
   name: "BlackJack",
   numberOfDecks: 0,
   players: [],
@@ -18,17 +30,28 @@ const BlackJackReducer = produce(
       case "INIT_BLACKJACK":
         state.deck = action.payload.deck;
         state.players = action.payload.players;
+        state.playerInfo.wallet = action.payload.wallet;
+        state.playerInfo.startingWallet = action.payload.wallet;
         state.numberOfDecks = action.payload.numberOfDecks;
         state.state = BlackJackState.BETTING;
         break;
+      case "CURRENT_GAME_NUMBER":
+        state.currentGame = action.payload;
+        break;
       case "LOAD_BLACKJACK_DATA":
-        state.playerInfo = action.payload.data;
         state.userId = action.payload.userId;
         break;
       case "PLACE_BET_BLACKJACK":
+        state.state = BlackJackState.DEALING;
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
-        state.state = BlackJackState.DEALING;
+        state.playerInfo.currentBet = action.payload.currentBet;
+        state.playerInfo.wallet = action.payload.wallet;
+        break;
+      case "INSURE":
+        state.insurance = true;
+        state.players[0].wallet = action.payload.wallet;
+        state.playerInfo.wallet = action.payload.wallet;
         break;
       case "DEAL_OPENING_CARDS_BLACKJACK":
         state.deck = action.payload.deck;
@@ -51,10 +74,16 @@ const BlackJackReducer = produce(
         state.state = BlackJackState.COMPLETE;
         break;
       case "CLEANUP_BLACKJACK":
+        state.players[0].hand = [];
+        state.players[1].hand = [];
+        state.players[0].score = 0;
+        state.players[1].score = 0;
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;
         state.state = BlackJackState.BETTING;
+        state.insurance = false;
+        state.playerInfo = action.payload.info;
         break;
       case "CASH_OUT":
         state.state = BlackJackState.CASHOUT;

@@ -6,6 +6,8 @@ import { CurrentGame, GameUser } from "../../models/generic";
 import { Link, Redirect } from "react-router-dom";
 import styles from "./home.module.scss";
 import { loadGameData } from "../../redux/actions/UserActions/userActions";
+import { Button } from "@material-ui/core";
+import Game from "../../components/Games/Games";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -13,10 +15,6 @@ const Home = () => {
     (state: RootState) => state.UserReducer,
     shallowEqual
   );
-
-  const loadGame = () => {
-    dispatch(loadGameData(user.user.user.uid, CurrentGame.BLACKJACK));
-  };
 
   const animationVariants = {
     exit: {
@@ -29,22 +27,54 @@ const Home = () => {
 
   const showHome = () => {
     if (user.user) {
-      return (
-        <Link to={"/blackjack"}>
-          <button onClick={() => loadGame()} className={styles.button}>
-            Blackjack
-          </button>
-        </Link>
-      );
+      return <Game />;
     } else {
       return (
-        <motion.div className={styles.container}>
-          <div className={styles.buttonContainer}>
-            <Link to={"/login"}>
-              <button className={styles.button}>Login</button>
+        <motion.div>
+          <div className={styles.logoContainer}>
+            <motion.img
+              style={{ height: "300px" }}
+              initial={{ x: -3000, y: -500 }}
+              animate={{ x: -240, y: 60, rotateZ: 750 }}
+              transition={{ type: "tween", duration: 0.7, delay: 0 }}
+              src={"http://localhost:3000/imgs/cards/cards/diamond.png"}
+            />
+            <motion.img
+              style={{ height: "300px" }}
+              initial={{ x: -3000, y: -500 }}
+              animate={{ x: -80, y: 0, rotateZ: 730 }}
+              transition={{ type: "tween", duration: 0.7, delay: 0.5 }}
+              src={"http://localhost:3000/imgs/cards/cards/club.png"}
+            />
+            <motion.img
+              style={{ height: "300px" }}
+              initial={{ x: -3000, y: -500 }}
+              animate={{ x: 80, y: 0, rotateZ: 700 }}
+              transition={{ type: "tween", duration: 0.7, delay: 1 }}
+              src={"http://localhost:3000/imgs/cards/cards/heart.png"}
+            />
+            <motion.img
+              style={{ height: "300px" }}
+              initial={{ x: -3000, y: -500 }}
+              animate={{ x: 240, y: 60, rotateZ: 680 }}
+              transition={{ type: "tween", duration: 0.7, delay: 1.5 }}
+              src={"http://localhost:3000/imgs/cards/cards/spade.png"}
+            />
+          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1.5 }}
+            className={styles.titleContainer}
+          >
+            Card.io
+          </motion.div>
+          <div className={styles.container}>
+            <Link className={styles.button} to={"/login"}>
+              <Button variant={"outlined"}>Login</Button>
             </Link>
-            <Link to={"/signup"}>
-              <button className={styles.button}>Signup</button>
+            <Link className={styles.button} to={"/signup"}>
+              <Button variant={"outlined"}>Signup</Button>
             </Link>
           </div>
         </motion.div>

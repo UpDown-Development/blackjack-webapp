@@ -1,7 +1,16 @@
 import { deck } from "../../../utils/blackJackDeck";
-import { BlackJack, Card, CurrentGame, Player } from "../../../models/generic";
+import {
+  BlackJack,
+  BlackJackState,
+  Card,
+  CurrentGame,
+  HandHistory,
+  Player,
+  PlayerInfo,
+} from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
+import { insuranceDeck, loadedDeck } from "../../../utils/testData";
 
 export interface BlackJackAction {
   type: string;
@@ -10,7 +19,7 @@ export interface BlackJackAction {
 
 export const initBlackJack = (
   userId: string,
-  numberOfDecks: number = 1,
+  numberOfDecks: number = 2,
   wallet: number
 ) => async (dispatch: any) => {
   const dealer: Player = {
@@ -20,7 +29,6 @@ export const initBlackJack = (
     name: "Dealer",
     score: 0,
   };
-
   const player: Player = {
     currentBet: 0,
     hand: [],
@@ -29,20 +37,32 @@ export const initBlackJack = (
     score: 0,
   };
 
-  const userData = db
-    .collection("users")
-    .doc(userId)
-    .collection(CurrentGame.BLACKJACK)
-    .doc("BLACKJACKInfo");
+  const players: Player[] = [player, dealer];
 
-  userData
+  const blackJackDeck = shuffle(numberOfDecks);
+  // const blackJackDeck = loadedDeck;
+  //const blackJackDeck = insuranceDeck;
+
+  dispatch({
+    type: "INIT_BLACKJACK",
+    payload: {
+      deck: blackJackDeck,
+      players,
+      numberOfDecks,
+      wallet,
+    },
+  });
+
+  const userData = db.collection("users").doc(userId);
+
+  await userData
     .get()
     .then((res) => {
       // @ts-ignore
-      const newBank = res.data().bank - wallet;
-      userData.update({ bank: newBank }).then(() => {
+      const newBank = res.data().netWorth - wallet;
+      userData.update({ netWorth: newBank }).then(() => {
         dispatch({
-          type: "UPDATE_BANK",
+          type: "UPDATE_NET_WORTH",
           payload: newBank,
         });
       });
@@ -51,18 +71,36 @@ export const initBlackJack = (
       console.log(err);
     });
 
-  const players: Player[] = [player, dealer];
-
-  const blackJackDeck = shuffle(numberOfDecks);
-
-  dispatch({
-    type: "INIT_BLACKJACK",
-    payload: {
-      deck: blackJackDeck,
-      players,
-      numberOfDecks,
-    },
-  });
+  let gamesPlayed = 1;
+  await db
+    .collection("users")
+    .doc(userId)
+    .collection(CurrentGame.BLACKJACK)
+    .get()
+    .then((res) => {
+      res.docs.forEach(() => {
+        gamesPlayed++;
+      });
+      db.collection("users")
+        .doc(userId)
+        .collection(CurrentGame.BLACKJACK)
+        .doc(gamesPlayed.toString())
+        .set({
+          currencyDifference: 0,
+          currentBet: 0,
+          currentGamesPlayed: 0,
+          currentHandsLost: 0,
+          currentHandsWon: 0,
+          history: [],
+          wallet: wallet,
+          startingWallet: wallet,
+          currentBlackjacks: 0,
+        });
+      dispatch({
+        type: "CURRENT_GAME_NUMBER",
+        payload: gamesPlayed,
+      });
+    });
 };
 
 export const placeBet = (bet: number, wallet: number) => async (
@@ -100,21 +138,71 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   const deck = gameState.deck;
   const deckNum = gameState.numberOfDecks;
 
-  const doShuffle = _.random(15, 30, false);
+  const gotBlackjack = () => {
+    let gotIt = false;
+    if (player.score === 21 && player.hand.length === 2) {
+      gotIt = true;
+    }
+    return gotIt ? 1 : 0;
+  };
 
-  let newDeck: Card[];
+  const newHistory: HandHistory = {
+    result: state,
+    playerHand: gameState.players[0].hand,
+    dealerHand: gameState.players[1].hand,
+  };
+
+  const allHistory: HandHistory[] = [...gameState.playerInfo.history];
+
+  allHistory.push(newHistory);
+
+  const info: PlayerInfo = {
+    currencyDifference: gameState.playerInfo.currencyDifference,
+    currentHandsWon: gameState.playerInfo.currentHandsWon,
+    currentHandsLost: gameState.playerInfo.currentHandsLost,
+    currentGamesPlayed: gameState.playerInfo.currentGamesPlayed + 1,
+    // @ts-ignore
+    currentBlackjacks: gameState.playerInfo.currentBlackjacks + gotBlackjack(),
+    currentBet: 0,
+    wallet: 0,
+    startingWallet: gameState.playerInfo.startingWallet,
+    history: allHistory,
+  };
+
+  console.log("state: ", state);
+
   let wallet;
-
   if (state === -1) {
     wallet = player.wallet;
+    info.currentHandsLost = gameState.playerInfo.currentHandsLost + 1;
   } else if (state === 0) {
     wallet = player.wallet + player.currentBet;
   } else if (state === 1) {
     wallet = player.wallet + player.currentBet * 2;
+    info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
+  } else {
+    console.log("wallet pre-award: ", player.wallet);
+    wallet = player.wallet + player.currentBet * 2.5;
+    console.log("wallet post-award: ", wallet);
+    info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
 
+  if (gameState.insurance) {
+    if (
+      gameState.players[1].score === 21 &&
+      gameState.players[1].hand.length === 2
+    ) {
+      wallet = wallet + player.currentBet;
+    }
+  }
+
+  info.wallet = wallet;
+  info.currencyDifference = info.wallet - gameState.playerInfo.startingWallet;
+
+  const doShuffle = _.random(15, 30, false);
+  let newDeck: Card[];
   if (deck.length < doShuffle) {
-    newDeck = shuffle(deckNum); // TODO: we are failing to call the deck in this function I think
+    newDeck = shuffle(deckNum);
   } else {
     newDeck = deck;
   }
@@ -122,10 +210,18 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
   dispatch({
     type: "CLEANUP_BLACKJACK",
     payload: {
+      info: info,
       deck: newDeck,
       wallet: wallet,
     },
   });
+
+  await db
+    .collection("users")
+    .doc(gameState.userId)
+    .collection(CurrentGame.BLACKJACK)
+    .doc(gameState.currentGame.toString())
+    .set(info);
 };
 
 export const moveToComplete = () => async (dispatch: any) => {
@@ -144,16 +240,18 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
 
   let hands = [hand1, hand2];
 
+  let delay = 0.2;
   for (let i = 4; i > 0; i--) {
     // take new card off top of deck
     let card: Card = newDeck.slice(-1)[0];
     newDeck = newDeck.slice(0, -1);
 
-    //lopp through 4 cards and deal them
+    delay += 0.4;
+    //loop through 4 cards and deal them
     if (i === 1) {
-      card = { ...card, isFaceUp: false };
+      card = { ...card, isFaceUp: false, delay };
     } else {
-      card = card;
+      card = { ...card, delay };
     }
     hands[i % 2].push(card);
   }
@@ -175,6 +273,20 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     });
 };
 
+export const insure = (currentBet: number, wallet: number) => async (
+  dispatch: any
+) => {
+  let newWallet = wallet;
+  newWallet = wallet - currentBet / 2.0;
+
+  dispatch({
+    type: "INSURE",
+    payload: {
+      wallet: newWallet,
+    },
+  });
+};
+
 export const cashOut = (userId: string, wallet: number) => async (
   dispatch: any
 ) => {
@@ -182,20 +294,16 @@ export const cashOut = (userId: string, wallet: number) => async (
     type: "CASH_OUT",
   });
 
-  const userData = db
-    .collection("users")
-    .doc(userId)
-    .collection(CurrentGame.BLACKJACK)
-    .doc("BLACKJACKInfo");
+  const userData = db.collection("users").doc(userId);
 
   userData
     .get()
     .then((res) => {
       // @ts-ignore
-      const newBank = res.data().bank + wallet;
-      userData.update({ bank: newBank }).then(() => {
+      const newBank = res.data().netWorth + wallet;
+      userData.update({ netWorth: newBank }).then(() => {
         dispatch({
-          type: "UPDATE_BANK",
+          type: "UPDATE_NET_WORTH",
           payload: newBank,
         });
       });

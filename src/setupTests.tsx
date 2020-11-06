@@ -15,7 +15,6 @@ interface SetupResponse {
     React.Component<{}, {}, any>
   > | null;
   store: MockStoreEnhanced<unknown>;
-  callback?: any;
 }
 
 configure({ adapter: new Adapter() });

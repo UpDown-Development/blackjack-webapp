@@ -58,3 +58,110 @@ export const genericState: RootState = {
     numberOfDecks: 2,
   },
 };
+
+const loadedHand: Card[] = [
+  {
+    name: "Nine of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/9S.png",
+    value: 9,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+  },
+];
+
+export const loadedDeck: Card[] = [
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+];
+
+const insuranceHand: Card[] = [
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Nine of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/9S.png",
+    value: 9,
+    isFaceUp: true,
+  },
+];
+
+export const insuranceDeck: Card[] = [
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+  ...insuranceHand,
+];
