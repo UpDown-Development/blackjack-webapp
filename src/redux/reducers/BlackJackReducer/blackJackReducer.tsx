@@ -70,6 +70,8 @@ const BlackJackReducer = produce(
       case "CLEANUP_BLACKJACK":
         state.players[0].hand = [];
         state.players[1].hand = [];
+        state.players[0].score = 0;
+        state.players[1].score = 0;
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;

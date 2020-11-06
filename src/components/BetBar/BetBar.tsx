@@ -15,7 +15,11 @@ import {
 import { RootState } from "../../redux/rootReducer";
 import styles from "./betBar.module.scss";
 
-const BetBar = () => {
+interface propTypes {
+  state: number;
+}
+
+const BetBar = (props: propTypes) => {
   const dispatch = useDispatch();
   const bjState: BlackJack = useSelector(
     (state: RootState) => state.BlackJackReducer,
@@ -30,46 +34,15 @@ const BetBar = () => {
     },
   });
 
-  const displayWinMessage = () => {
-    let winMessage: string = "It's a push";
-    let state = 0;
-
-    const player = bjState.players[0];
-    const dealer = bjState.players[1];
-
-    if (
-      // @ts-ignore
-      (player.score > dealer.score && player.score <= 21) ||
-      // @ts-ignore
-      (player.score <= 21 && dealer.score > 21)
-    ) {
-      winMessage = "You won!!!";
-      state = 1;
-    } else {
-      if (
-        // @ts-ignore
-        (dealer.score > player.score && dealer.score <= 21) ||
-        // @ts-ignore
-        (dealer.score <= 21 && player.score > 21)
-      ) {
-        winMessage = "You lost. Better luck next time...";
-        state = -1;
-      }
-    }
-    return { winMessage, state };
-  };
-
   const handleNextGame = () => {
-    dispatch(cleanUp(displayWinMessage().state, bjState));
+    dispatch(cleanUp(props.state, bjState));
   };
 
   const handleCashOut = () => {
     if (bjState.state === BlackJackState.COMPLETE) {
-      Promise.all([dispatch(cleanUp(displayWinMessage().state, bjState))]).then(
-        () => {
-          dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
-        }
-      );
+      Promise.all([dispatch(cleanUp(props.state, bjState))]).then(() => {
+        dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
+      });
     } else {
       dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
     }

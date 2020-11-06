@@ -58,3 +58,61 @@ export const genericState: RootState = {
     numberOfDecks: 2,
   },
 };
+
+export const loadedHand: Card[] = [
+  {
+    name: "Nine of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/9S.png",
+    value: 9,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+  },
+];
+
+export const loadedDeck: Card[] = [
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+  ...loadedHand,
+];

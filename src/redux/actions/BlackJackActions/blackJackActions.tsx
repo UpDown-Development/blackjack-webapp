@@ -9,6 +9,7 @@ import {
 } from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
+import { loadedDeck } from "../../../utils/testData";
 
 export interface BlackJackAction {
   type: string;
@@ -37,7 +38,8 @@ export const initBlackJack = (
 
   const players: Player[] = [player, dealer];
 
-  const blackJackDeck = shuffle(numberOfDecks);
+  // const blackJackDeck = shuffle(numberOfDecks);
+  const blackJackDeck = loadedDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",
@@ -150,9 +152,6 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
 
   const allHistory: HandHistory[] = [...gameState.playerInfo.history];
 
-  console.log("state ", gameState.playerInfo.history);
-  console.log("local ", allHistory);
-  console.log("new ", newHistory);
   allHistory.push(newHistory);
 
   const info: PlayerInfo = {
@@ -168,14 +167,21 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     history: allHistory,
   };
 
+  console.log("state: ", state);
+
   let wallet;
   if (state === -1) {
     wallet = player.wallet;
     info.currentHandsLost = gameState.playerInfo.currentHandsLost + 1;
   } else if (state === 0) {
     wallet = player.wallet + player.currentBet;
-  } else {
+  } else if (state === 1) {
     wallet = player.wallet + player.currentBet * 2;
+    info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
+  } else {
+    console.log("wallet pre-award: ", player.wallet);
+    wallet = player.wallet + player.currentBet * 2.5;
+    console.log("wallet post-award: ", wallet);
     info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
   info.wallet = wallet;

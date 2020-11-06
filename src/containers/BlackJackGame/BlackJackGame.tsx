@@ -22,8 +22,9 @@ import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
 import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons";
 
-// TODO: Make the "table" visible while betting, and place the bet form in that layout, disabled when appropriate
-// TODO: Run out of money support, leave table support
+// TODO: Split
+// TODO: Blackjack
+// TODO: Insurance
 
 export const BlackJackGame = () => {
   const dispatch = useDispatch();
@@ -72,6 +73,13 @@ export const BlackJackGame = () => {
     const dealer = bjState.players[1];
 
     if (
+      player.score === 21 &&
+      player.hand.length === 2 &&
+      dealer.score !== 21
+    ) {
+      winMessage = "Holy FUCK you got a Blackjack!";
+      state = 1.5;
+    } else if (
       // @ts-ignore
       (player.score > dealer.score && player.score <= 21) ||
       // @ts-ignore
@@ -125,7 +133,7 @@ export const BlackJackGame = () => {
       <div className={styles.sideBar}>
         <StatsSidebar />
         <BlackJackButtons />
-        <BetBar />
+        <BetBar state={displayWinMessage().state} />
       </div>
       {bjState.state === BlackJackState.CASHOUT && <Redirect to={"/"} />}
       {bjState.state === BJS.DEALING &&
