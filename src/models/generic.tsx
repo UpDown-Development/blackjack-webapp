@@ -71,6 +71,7 @@ export enum BlackJackState {
 export interface BlackJack extends Game {
   deck: Card[];
   state: BlackJackState;
+  insurance: boolean;
 }
 
 export interface Card {

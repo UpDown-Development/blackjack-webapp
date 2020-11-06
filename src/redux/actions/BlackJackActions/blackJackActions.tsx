@@ -1,6 +1,7 @@
 import { deck } from "../../../utils/blackJackDeck";
 import {
   BlackJack,
+  BlackJackState,
   Card,
   CurrentGame,
   HandHistory,
@@ -9,7 +10,7 @@ import {
 } from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
-import { loadedDeck } from "../../../utils/testData";
+import { insuranceDeck, loadedDeck } from "../../../utils/testData";
 
 export interface BlackJackAction {
   type: string;
@@ -39,7 +40,8 @@ export const initBlackJack = (
   const players: Player[] = [player, dealer];
 
   // const blackJackDeck = shuffle(numberOfDecks);
-  const blackJackDeck = loadedDeck;
+  // const blackJackDeck = loadedDeck;
+  const blackJackDeck = insuranceDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",
@@ -184,6 +186,16 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     console.log("wallet post-award: ", wallet);
     info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
+
+  if (gameState.insurance) {
+    if (
+      gameState.players[1].score === 21 &&
+      gameState.players[1].hand.length === 2
+    ) {
+      wallet = wallet + player.currentBet;
+    }
+  }
+
   info.wallet = wallet;
   info.currencyDifference = info.wallet - gameState.playerInfo.startingWallet;
 
@@ -259,6 +271,20 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     .then(() => {
       dispatch(calculateScore(hands[1], players[1]));
     });
+};
+
+export const insure = (currentBet: number, wallet: number) => async (
+  dispatch: any
+) => {
+  let newWallet = wallet;
+  newWallet = wallet - currentBet / 2.0;
+
+  dispatch({
+    type: "INSURE",
+    payload: {
+      wallet: newWallet,
+    },
+  });
 };
 
 export const cashOut = (userId: string, wallet: number) => async (

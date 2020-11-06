@@ -2,6 +2,7 @@ import React from "react";
 import {
   dealCard,
   endPlaying,
+  insure,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { BlackJack, BlackJackState } from "../../models/generic";
@@ -33,6 +34,21 @@ const BlackJackButtons = () => {
     dispatch(endPlaying(bjState.players[1].hand, bjState.players[1]));
   };
 
+  const handleInsurance = () => {
+    dispatch(insure(bjState.players[0].currentBet, bjState.players[0].wallet));
+  };
+
+  const checkForAce = () => {
+    let hasAce = false;
+    if (bjState.insurance) {
+      return false;
+    }
+    try {
+      hasAce = bjState.players[1].hand[0].value === 11;
+    } catch (e) {}
+    return hasAce;
+  };
+
   return (
     <div className={styles.container}>
       <Button
@@ -51,6 +67,14 @@ const BlackJackButtons = () => {
         onClick={() => handleStay()}
       >
         Stay
+      </Button>
+      <Button
+        disabled={!checkForAce()}
+        variant={"outlined"}
+        className={classes.button}
+        onClick={() => handleInsurance()}
+      >
+        Insurance
       </Button>
     </div>
   );
