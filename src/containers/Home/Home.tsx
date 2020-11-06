@@ -37,28 +37,36 @@ const Home = () => {
               initial={{ x: -3000, y: -500 }}
               animate={{ x: -240, y: 60, rotateZ: 750 }}
               transition={{ type: "tween", duration: 0.7, delay: 0 }}
-              src={"http://localhost:3000/imgs/cards/cards/diamond.png"}
+              src={
+                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/diamond.png"
+              }
             />
             <motion.img
               style={{ height: "300px" }}
               initial={{ x: -3000, y: -500 }}
               animate={{ x: -80, y: 0, rotateZ: 730 }}
               transition={{ type: "tween", duration: 0.7, delay: 0.5 }}
-              src={"http://localhost:3000/imgs/cards/cards/club.png"}
+              src={
+                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/club.png"
+              }
             />
             <motion.img
               style={{ height: "300px" }}
               initial={{ x: -3000, y: -500 }}
               animate={{ x: 80, y: 0, rotateZ: 700 }}
               transition={{ type: "tween", duration: 0.7, delay: 1 }}
-              src={"http://localhost:3000/imgs/cards/cards/heart.png"}
+              src={
+                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/heart.png"
+              }
             />
             <motion.img
               style={{ height: "300px" }}
               initial={{ x: -3000, y: -500 }}
               animate={{ x: 240, y: 60, rotateZ: 680 }}
               transition={{ type: "tween", duration: 0.7, delay: 1.5 }}
-              src={"http://localhost:3000/imgs/cards/cards/spade.png"}
+              src={
+                "http://https://updowncardgames-3c85a.web.app/imgs/cards/cards/spade.png"
+              }
             />
           </div>
           <motion.div
