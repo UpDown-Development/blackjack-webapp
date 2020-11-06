@@ -29,7 +29,9 @@ const Hand = (props: any) => {
                 initial={{ x: -1000, y: -1000 }}
                 animate={{ x: 0, y: 0 }}
                 transition={{ type: "circIn", delay: index * 2 }}
-                src={"http://localhost:3000/imgs/cards/backs/back1.png"}
+                src={
+                  "https://updowncardgames-3c85a.web.app/imgs/cards/backs/back1.png"
+                }
                 alt={"?"}
                 className={
                   props.player.name === "Dealer"
