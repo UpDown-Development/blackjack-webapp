@@ -47,7 +47,7 @@ const Game = () => {
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
-          image="http://localhost:3000/imgs/cards/cards/aces.png"
+          image="https://updowncardgames-3c85a.web.app/imgs/cards/cards/aces.png"
           title="Contemplative Reptile"
         />
         <CardContent>

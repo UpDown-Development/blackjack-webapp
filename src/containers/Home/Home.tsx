@@ -2,10 +2,9 @@ import { motion } from "framer-motion";
 import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { CurrentGame, GameUser } from "../../models/generic";
-import { Link, Redirect } from "react-router-dom";
+import { GameUser } from "../../models/generic";
+import { Link } from "react-router-dom";
 import styles from "./home.module.scss";
-import { loadGameData } from "../../redux/actions/UserActions/userActions";
 import { Button } from "@material-ui/core";
 import Game from "../../components/Games/Games";
 
@@ -38,7 +37,7 @@ const Home = () => {
               animate={{ x: -240, y: 60, rotateZ: 750 }}
               transition={{ type: "tween", duration: 0.7, delay: 0 }}
               src={
-                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/diamond.png"
+                "https://updowncardgames-3c85a.web.app/imgs/cards/cards/diamond.png"
               }
             />
             <motion.img
@@ -47,7 +46,7 @@ const Home = () => {
               animate={{ x: -80, y: 0, rotateZ: 730 }}
               transition={{ type: "tween", duration: 0.7, delay: 0.5 }}
               src={
-                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/club.png"
+                "https://updowncardgames-3c85a.web.app/imgs/cards/cards/club.png"
               }
             />
             <motion.img
@@ -56,7 +55,7 @@ const Home = () => {
               animate={{ x: 80, y: 0, rotateZ: 700 }}
               transition={{ type: "tween", duration: 0.7, delay: 1 }}
               src={
-                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/heart.png"
+                "https://updowncardgames-3c85a.web.app/imgs/cards/cards/heart.png"
               }
             />
             <motion.img
@@ -65,7 +64,7 @@ const Home = () => {
               animate={{ x: 240, y: 60, rotateZ: 680 }}
               transition={{ type: "tween", duration: 0.7, delay: 1.5 }}
               src={
-                "http://updowncardgames-3c85a.firebaseapp.com/imgs/cards/cards/spade.png"
+                "https://updowncardgames-3c85a.web.app/imgs/cards/cards/spade.png"
               }
             />
           </div>
