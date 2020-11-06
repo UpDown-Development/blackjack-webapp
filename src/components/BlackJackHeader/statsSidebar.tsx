@@ -14,9 +14,9 @@ const StatsSidebar = () => {
     <div className={styles.container}>
       <Paper>
         <div className={styles.textContainer}>
-          <div>Total Money: {stats.wallet}</div>
-          <div>Total Gained/Lost: {stats.currencyDifference}</div>
-          <div>Current Bet: {stats.currentBet}</div>
+          <div>Total Money: ${stats.wallet}</div>
+          <div>Total Gained/Lost: ${stats.currencyDifference}</div>
+          <div>Current Bet: ${stats.currentBet}</div>
           <div>Games Played: {stats.currentGamesPlayed}</div>
           <div>Hands Won: {stats.currentHandsWon}</div>
           <div>Hands Lost: {stats.currentHandsLost}</div>

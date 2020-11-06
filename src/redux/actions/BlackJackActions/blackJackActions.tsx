@@ -39,9 +39,9 @@ export const initBlackJack = (
 
   const players: Player[] = [player, dealer];
 
-  // const blackJackDeck = shuffle(numberOfDecks);
+  const blackJackDeck = shuffle(numberOfDecks);
   // const blackJackDeck = loadedDeck;
-  const blackJackDeck = insuranceDeck;
+  //const blackJackDeck = insuranceDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",

@@ -54,6 +54,9 @@ const BetBar = (props: propTypes) => {
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
+            InputProps={{
+              inputProps: { min: 1, max: bjState.players[0].wallet },
+            }}
             variant={"filled"}
             id="bet"
             label="Bet"

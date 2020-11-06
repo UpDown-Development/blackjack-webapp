@@ -22,6 +22,18 @@ export const loginUser = (email: string, password: string) => async (
         type: "USER_LOGIN_SUCCESS",
         payload: user,
       });
+      db.collection("users")
+        .doc(user.user?.uid)
+        .get()
+        .then((res) => {
+          dispatch({
+            type: "LOAD_NET_WORTH",
+            payload: {
+              // @ts-ignore
+              netWorth: res.data().netWorth,
+            },
+          });
+        });
     })
     .catch((err) => {
       dispatch({

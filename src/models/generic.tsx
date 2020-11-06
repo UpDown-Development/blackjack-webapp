@@ -82,3 +82,10 @@ export interface Card {
   isFaceUp: boolean;
   delay?: number;
 }
+
+export enum ColorEnum {
+  WIN = "success",
+  PUSH = "info",
+  YELLOW = "warning",
+  LOSS = "error",
+}

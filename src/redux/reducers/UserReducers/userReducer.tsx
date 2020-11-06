@@ -18,6 +18,9 @@ const UserReducer = produce((state = defaultState, action: UserAction) => {
       state.errorMessage = "";
       state.loading = true;
       break;
+    case "LOAD_NET_WORTH":
+      state.netWorth = action.payload.netWorth;
+      break;
     case "USER_SIGNUP_SUCCESS":
       state.loading = false;
       state.user = action.payload;

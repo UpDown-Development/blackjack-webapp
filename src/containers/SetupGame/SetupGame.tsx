@@ -7,13 +7,17 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { Redirect } from "react-router";
 import { RootState } from "../../redux/rootReducer";
-import { BlackJack } from "../../models/generic";
+import { BlackJack, GameUser } from "../../models/generic";
 
 const SetupGame = (props: any) => {
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
   const game: BlackJack = useSelector(
     (state: RootState) => state.BlackJackReducer,
+    shallowEqual
+  );
+  const user: GameUser = useSelector(
+    (state: RootState) => state.UserReducer,
     shallowEqual
   );
 
@@ -32,6 +36,7 @@ const SetupGame = (props: any) => {
       wallet: 50,
     },
     onSubmit: (values) => {
+      console.log(user.netWorth);
       dispatch(initBlackJack(game.userId, values.decks, values.wallet));
       setRedirect(true);
     },
@@ -49,7 +54,7 @@ const SetupGame = (props: any) => {
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
-            InputProps={{ inputProps: { min: 1 } }}
+            InputProps={{ inputProps: { min: 1, max: user.netWorth } }}
             variant={"filled"}
             required
             id="wallet"

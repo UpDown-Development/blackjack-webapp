@@ -5,22 +5,22 @@ import {
   BlackJack,
   BlackJackState,
   BlackJackState as BJS,
+  ColorEnum,
 } from "../../models/generic";
 import { motion } from "framer-motion";
 import {
-  cleanUp,
   dealCard,
   dealOpeningCards,
   endPlaying,
   moveToComplete,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import styles from "./blackjackGame.module.scss";
-import { Button, Typography } from "@material-ui/core";
 import Hand from "../../components/Hand/Hand";
 import { Redirect } from "react-router";
 import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
 import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons";
+import Toast from "../../components/Toast/Toast";
 
 // TODO: Split
 // TODO: Blackjack
@@ -68,6 +68,7 @@ export const BlackJackGame = () => {
   const displayWinMessage = () => {
     let winMessage: string = "It's a push";
     let state = 0;
+    let color = ColorEnum.PUSH;
 
     const player = bjState.players[0];
     const dealer = bjState.players[1];
@@ -79,6 +80,7 @@ export const BlackJackGame = () => {
     ) {
       winMessage = "Holy FUCK you got a Blackjack!";
       state = 1.5;
+      color = ColorEnum.WIN;
     } else if (
       // @ts-ignore
       (player.score > dealer.score && player.score <= 21) ||
@@ -87,6 +89,7 @@ export const BlackJackGame = () => {
     ) {
       winMessage = "You won!!!";
       state = 1;
+      color = ColorEnum.WIN;
     } else {
       if (
         // @ts-ignore
@@ -96,10 +99,11 @@ export const BlackJackGame = () => {
       ) {
         winMessage = "You lost. Better luck next time...";
         state = -1;
+        color = ColorEnum.LOSS;
       }
     }
 
-    return { winMessage, state };
+    return { winMessage, state, color };
   };
 
   const checkScore = () => {
@@ -127,7 +131,11 @@ export const BlackJackGame = () => {
           </div>
         </div>
         {bjState.state === BJS.COMPLETE && (
-          <Typography>{displayWinMessage().winMessage}</Typography>
+          <Toast
+            open={true}
+            color={displayWinMessage().color}
+            message={displayWinMessage().winMessage}
+          />
         )}
       </div>
       <div className={styles.sideBar}>
