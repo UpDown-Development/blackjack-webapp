@@ -23,8 +23,6 @@ import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons
 import Toast from "../../components/Toast/Toast";
 
 // TODO: Split
-// TODO: Blackjack
-// TODO: Insurance
 
 export const BlackJackGame = () => {
   const dispatch = useDispatch();

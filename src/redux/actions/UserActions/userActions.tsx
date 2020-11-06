@@ -46,7 +46,6 @@ export const loginUser = (email: string, password: string) => async (
 export const loadGameData = (userid: string, currentGame: CurrentGame) => (
   dispatch: any
 ) => {
-  console.log(currentGame);
   db.collection("users")
     .doc(userid)
     .collection(currentGame)

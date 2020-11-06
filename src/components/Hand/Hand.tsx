@@ -30,7 +30,7 @@ const Hand = (props: any) => {
                 animate={{ x: 0, y: 0 }}
                 transition={{ type: "circIn", delay: index * 2 }}
                 src={
-                  "https://updowncardgames-3c85a.web.app/imgs/cards/backs/back4.png"
+                  "https://updowncardgames-3c85a.web.app/imgs/cards/cards/back4.png"
                 }
                 alt={"?"}
                 className={

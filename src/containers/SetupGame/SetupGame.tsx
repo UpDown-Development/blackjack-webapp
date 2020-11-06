@@ -36,7 +36,6 @@ const SetupGame = (props: any) => {
       wallet: 50,
     },
     onSubmit: (values) => {
-      console.log(user.netWorth);
       dispatch(initBlackJack(game.userId, values.decks, values.wallet));
       setRedirect(true);
     },
