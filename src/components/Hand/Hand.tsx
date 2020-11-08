@@ -18,6 +18,7 @@ const Hand = (props: any) => {
                 whileHover={{ scale: 1.3 }}
                 src={card.img}
                 alt={card.name}
+                key={index}
                 className={
                   props.player.name === "Dealer"
                     ? styles.dealerCard
@@ -33,6 +34,7 @@ const Hand = (props: any) => {
                   "https://updowncardgames-3c85a.web.app/imgs/cards/cards/back4.png"
                 }
                 alt={"?"}
+                key={index}
                 className={
                   props.player.name === "Dealer"
                     ? styles.dealerCard
