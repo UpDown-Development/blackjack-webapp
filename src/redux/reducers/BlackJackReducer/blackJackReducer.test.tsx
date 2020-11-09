@@ -73,13 +73,63 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
-      userId: "",
-      playerInfo: {},
-      players: players,
-      deck: deck,
-      state: BlackJackState.BETTING,
+      currentGame: 0,
+      deck: [
+        {
+          img: "Test link",
+          isFaceUp: true,
+          name: "Test Name",
+          value: 9001,
+        },
+        {
+          img: "Test link",
+          isFaceUp: true,
+          name: "Test Name",
+          value: 9001,
+        },
+        {
+          img: "Test link",
+          isFaceUp: true,
+          name: "Test Name",
+          value: 9001,
+        },
+        {
+          img: "Test link",
+          isFaceUp: true,
+          name: "Test Name",
+          value: 9001,
+        },
+      ],
+      insurance: false,
       name: "BlackJack",
       numberOfDecks: 3,
+      playerInfo: {
+        currencyDifference: 0,
+        currentBet: 0,
+        currentBlackjacks: 0,
+        currentGamesPlayed: 0,
+        currentHandsLost: 0,
+        currentHandsWon: 0,
+        history: [],
+      },
+      players: [
+        {
+          currentBet: 0,
+          hand: [],
+          name: "player",
+          score: 0,
+          wallet: 50,
+        },
+        {
+          currentBet: 0,
+          hand: [],
+          name: "dealer",
+          score: 0,
+          wallet: 50,
+        },
+      ],
+      state: "BETTING",
+      userId: "",
     });
   });
 
@@ -92,7 +142,10 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
-      playerInfo: {},
+      playerInfo: {
+        currentBet: 5,
+        wallet: 45,
+      },
       userId: "",
       players: [
         {
@@ -215,18 +268,23 @@ describe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
-      playerInfo: {},
+      playerInfo: undefined,
       userId: "",
       players: [
         {
           ...scoreState.players[0],
           wallet: 100,
           currentBet: 5,
+          hand: [],
         },
-        scoreState.players[1],
+        {
+          ...scoreState.players[1],
+          hand: [],
+        },
       ],
       deck: newDeck,
       state: BlackJackState.BETTING,
+      insurance: false,
       name: "BlackJack",
       numberOfDecks: 2,
     });

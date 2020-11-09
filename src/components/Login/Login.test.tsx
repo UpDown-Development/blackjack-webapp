@@ -7,7 +7,7 @@ describe("Login Component", () => {
   it("should show the correct text", function () {
     const testObj = setup(genericState, <Login />);
     // @ts-ignore
-    expect(testObj.wrapper.text()).toEqual("​​Login");
+    expect(testObj.wrapper.text()).toEqual("Login​​Login");
   });
   it("should submit", function () {
     const testObj = setup(genericState, <Login />);

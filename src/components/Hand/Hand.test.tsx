@@ -17,6 +17,6 @@ describe("Hand Component", () => {
       hand: [card, { ...card, isFaceUp: false }],
     });
     // @ts-ignore
-    expect(component.text()).toEqual("player's Hand");
+    expect(component.text()).toEqual("<AnimateSharedLayout />");
   });
 });
