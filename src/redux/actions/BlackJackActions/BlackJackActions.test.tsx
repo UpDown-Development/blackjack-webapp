@@ -13,7 +13,7 @@ import { BlackJackPhase } from "../../../models/generic";
 import { setup, wait } from "../../../setupTests";
 import { db } from "../../../utils/firebaseConfig";
 
-describe("Blackjack Actions Tests", () => {
+xdescribe("Blackjack Actions Tests", () => {
   xit("should create and setup a game", function () {
     jest.mock("firebase");
     const testObj = setup(genericState);
