@@ -30,8 +30,8 @@ describe("Hand Container", () => {
   it("should handle dealer stay", function () {
     const testObj = setup(
       {
-        ...genericState,
         BlackJackReducer: {
+          ...genericState.BlackJackReducer,
           state: BlackJackState.DEALER_PLAYING,
           players: [players[0], { ...players[1], score: 19 }],
         },
@@ -47,8 +47,8 @@ describe("Hand Container", () => {
   it("should handle dealer win", function () {
     const testObj = setup(
       {
-        ...genericState,
         BlackJackReducer: {
+          ...genericState.BlackJackReducer,
           state: BlackJackState.COMPLETE,
           players: [
             { ...players[0], score: 20 },
@@ -67,6 +67,7 @@ describe("Hand Container", () => {
       {
         ...genericState,
         BlackJackReducer: {
+          ...genericState.BlackJackReducer,
           state: BlackJackState.COMPLETE,
           players: [
             { ...players[0], score: 21 },
@@ -121,7 +122,9 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
     testObj.wrapper?.find(Button).at(0).simulate("click");
-    expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+    wait().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+    });
   });
   // formik test asserts nothing. coverage only
   it("should place a bet on button click", function () {
@@ -142,7 +145,7 @@ describe("Hand Container", () => {
     const testObj = setup(
       {
         BlackJackReducer: {
-          ...genericState,
+          ...genericState.BlackJackReducer,
           state: BlackJackState.PLAYER_PLAYING,
           players: [{ ...players[0], score: 33 }, players[1]],
         },

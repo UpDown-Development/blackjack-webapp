@@ -9,6 +9,7 @@ import { deck } from "./blackJackDeck";
 import { RootState } from "../redux/rootReducer";
 
 export const card: Card = {
+  delay: 0.6000000000000001,
   name: "Test Name",
   img: "Test link",
   value: 7,
@@ -50,7 +51,9 @@ export const genericState: RootState = {
   },
   BlackJackReducer: {
     userId: "",
-    playerInfo: {},
+    playerInfo: {
+      history: [],
+    },
     deck: deck,
     players: players,
     state: BlackJackState.BETTING,
@@ -61,12 +64,14 @@ export const genericState: RootState = {
 
 const loadedHand: Card[] = [
   {
+    delay: 0.6000000000000001,
     name: "Nine of Spades",
     img: "http://localhost:3000/imgs/cards/cards/9S.png",
     value: 9,
     isFaceUp: true,
   },
   {
+    delay: 0.6000000000000001,
     name: "Ace of Spades",
     img: "http://localhost:3000/imgs/cards/cards/AS.png",
     value: 11,
@@ -74,6 +79,7 @@ const loadedHand: Card[] = [
     secondaryValue: 1,
   },
   {
+    delay: 0.6000000000000001,
     name: "Ace of Spades",
     img: "http://localhost:3000/imgs/cards/cards/AS.png",
     value: 11,
@@ -81,6 +87,7 @@ const loadedHand: Card[] = [
     secondaryValue: 1,
   },
   {
+    delay: 0.6000000000000001,
     name: "Ten of Spades",
     img: "http://localhost:3000/imgs/cards/cards/10S.png",
     value: 10,
