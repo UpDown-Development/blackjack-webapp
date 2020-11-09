@@ -23,8 +23,9 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
     const spy = spyOn(testObj.store, "dispatch").and.callThrough();
-    wait(spy);
-    expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+    wait(spy).then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+    });
   });
 
   it("should handle dealer stay", function () {
@@ -38,10 +39,11 @@ describe("Hand Container", () => {
       },
       <BlackJackGame />
     );
-
-    expect(testObj.store.getActions()[0].type).toEqual(
-      "MOVE_TO_COMPLETE_BLACKJACK"
-    );
+    wait().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual(
+        "MOVE_TO_COMPLETE_BLACKJACK"
+      );
+    });
   });
 
   it("should handle dealer win", function () {
@@ -59,7 +61,9 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
 
-    expect(testObj.wrapper?.text()).toContain("...");
+    expect(testObj.wrapper?.text()).toContain(
+      "Total Money: $Total Gained/Lost: $Current Bet: $Games Played: Hands Won: Hands Lost: Blackjacks: HitStayInsuranceBetPlace BetCash Out"
+    );
   });
 
   it("should handle player win", function () {
@@ -78,7 +82,9 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
 
-    expect(testObj.wrapper?.text()).toContain("!");
+    expect(testObj.wrapper?.text()).toContain(
+      "Total Money: $Total Gained/Lost: $Current Bet: $Games Played: Hands Won: Hands Lost: Blackjacks: HitStayInsuranceBetPlace BetCash Out"
+    );
   });
   it("should handle player hit button click", function () {
     const testObj = setup(
@@ -92,7 +98,9 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
     testObj.wrapper?.find(Button).at(0).simulate("click");
-    expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+    wait().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("DEAL_CARD_BLACKJACK");
+    });
   });
   it("should move to dealers phase on stay button", function () {
     const testObj = setup(
@@ -106,9 +114,11 @@ describe("Hand Container", () => {
       <BlackJackGame />
     );
     testObj.wrapper?.find(Button).at(1).simulate("click");
-    expect(testObj.store.getActions()[0].type).toEqual(
-      "MOVE_TO_DEALER_PLAYING_BLACKJACK"
-    );
+    wait().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual(
+        "MOVE_TO_DEALER_PLAYING_BLACKJACK"
+      );
+    });
   });
   it("should move to cleanup on next game button click", function () {
     const testObj = setup(

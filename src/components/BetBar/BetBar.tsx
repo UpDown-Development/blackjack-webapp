@@ -51,7 +51,7 @@ const BetBar = (props: propTypes) => {
   };
 
   return (
-    <div className={"container"}>
+    <div className={"betbar-container"}>
       <Paper>
         <form onSubmit={formik.handleSubmit}>
           <TextField

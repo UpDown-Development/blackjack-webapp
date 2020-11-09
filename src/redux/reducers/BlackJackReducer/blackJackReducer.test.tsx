@@ -111,6 +111,8 @@ describe("BlackJack Reducer", () => {
         currentHandsLost: 0,
         currentHandsWon: 0,
         history: [],
+        startingWallet: undefined,
+        wallet: undefined,
       },
       players: [
         {
@@ -128,7 +130,7 @@ describe("BlackJack Reducer", () => {
           wallet: 50,
         },
       ],
-      state: "BETTING",
+      phase: "COMPLETE",
       userId: "",
     });
   });
@@ -156,7 +158,7 @@ describe("BlackJack Reducer", () => {
         players[1],
       ],
       deck: deck,
-      state: BlackJackPhase.DEALING,
+      phase: BlackJackPhase.DEALING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -185,7 +187,7 @@ describe("BlackJack Reducer", () => {
         },
       ],
       deck: newDeck,
-      state: BlackJackPhase.PLAYER_PLAYING,
+      phase: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -210,7 +212,7 @@ describe("BlackJack Reducer", () => {
         scoreState.players[1],
       ],
       deck: deck,
-      state: BlackJackPhase.PLAYER_PLAYING,
+      phase: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -236,7 +238,7 @@ describe("BlackJack Reducer", () => {
         scoreState.players[1],
       ],
       deck: newDeck,
-      state: BlackJackPhase.PLAYER_PLAYING,
+      phase: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -283,7 +285,7 @@ describe("BlackJack Reducer", () => {
         },
       ],
       deck: newDeck,
-      state: BlackJackPhase.BETTING,
+      phase: BlackJackPhase.BETTING,
       insurance: false,
       name: "BlackJack",
       numberOfDecks: 2,

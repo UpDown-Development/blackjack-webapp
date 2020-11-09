@@ -1,4 +1,4 @@
-.container {
+.login-container {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -7,7 +7,15 @@
   flex-basis: fit-content;
 }
 
-.button {
+.login-field-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-basis: fit-content;
+}
+
+.login-button {
   padding: 20px 20px;
   margin: 20px 20px;
   text-decoration: none;

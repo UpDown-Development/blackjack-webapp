@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <motion.div
-      className={"container"}
+      className={"login-container"}
       variants={animationVariants}
       initial={{ x: 0, y: -1000 }}
       animate={{ x: 0, y: 0 }}
@@ -59,7 +59,7 @@ const Login = () => {
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>
-          <div className={"inputContainer"}>
+          <div className={"login-field-container"}>
             <h1>Login</h1>
             <TextField
               className={classes.input}

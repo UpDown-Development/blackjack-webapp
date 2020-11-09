@@ -75,7 +75,7 @@ const Home = () => {
           >
             Card.io
           </motion.div>
-          <div className={"container"}>
+          <div className={"home-button-container"}>
             <Link className={"button"} to={"/login"}>
               <Button variant={"outlined"}>Login</Button>
             </Link>

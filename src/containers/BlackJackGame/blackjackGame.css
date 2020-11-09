@@ -1,11 +1,11 @@
-.container {
+.bjgame-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.sideBar{
+.bjgame-sidebar{
   height: 100vh;
   display: flex;
   align-items: center;

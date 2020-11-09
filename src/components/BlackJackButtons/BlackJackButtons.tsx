@@ -50,7 +50,7 @@ const BlackJackButtons = () => {
   };
 
   return (
-    <div className={"container"}>
+    <div className={"bjgame-buttons-container"}>
       <Button
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}

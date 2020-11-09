@@ -43,24 +43,18 @@ export const BlackJackGame = () => {
 
   return (
     <motion.div
-      className={"container"}
+      className={"bjgame-container"}
       variants={animationVariants}
       initial={{ x: -1000 }}
       animate={{ x: 0 }}
       exit="exit"
     >
       <div className={"playedCards"}>
-        <div className={"handsContainer"}>
-          <div className={"dealerHand"}>
-            <Hand player={dealer} />
-          </div>
-          <div className={"playerHand"}>
-            <Hand player={player} />
-          </div>
-        </div>
+        <Hand player={dealer} />
+        <Hand player={player} />
         <ConditionalRender state={bjState} dispatch={dispatch} />
       </div>
-      <div className={"sideBar"}>
+      <div className={"bjgame-sidebar"}>
         <StatsSidebar />
         <BlackJackButtons />
         <BetBar state={displayWinMessage(dispatch, player, dealer).state} />

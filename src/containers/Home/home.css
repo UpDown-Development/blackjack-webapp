@@ -1,22 +1,31 @@
-.container {
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  flex-basis: fit-content;
+.home-button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: fit-content;
 }
 
 .logoContainer {
-  height: 50vh;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-basis: fit-content;
+    height: 50vh;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-basis: fit-content;
 }
 
 .button {
-  margin: 0 20px;
-  text-decoration: none;
+    text-decoration: none;
 }
+
+.titleContainer {
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: fit-content;
+    font-size: 110px;
+    font-weight: inherit;
+}
+

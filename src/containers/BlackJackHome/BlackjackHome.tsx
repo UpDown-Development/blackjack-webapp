@@ -1,5 +1,7 @@
 import React from "react";
 import "./blackjackHome.css";
+// @ts-ignore
+import pips from "../../images/resources/4_pips.png";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
@@ -36,10 +38,10 @@ const BlackjackHome = () => {
           animate={{ width: 700, height: 400, rotateX: 360, rotateZ: 360 }}
           transition={{ duration: 2 }}
           className={"pips"}
-          src={"../../images/resources/4_pips.png"}
+          src={pips}
         />
       </div>
-      <div className={"titleContainer"}>
+      <div className={"bjhome-title-container"}>
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

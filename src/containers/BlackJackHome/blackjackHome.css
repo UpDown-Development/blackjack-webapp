@@ -7,6 +7,13 @@
   flex-basis: fit-content;
 }
 
+.bjhome-title-container {
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .buttonContainer {
   margin-top: 20px;
   height: fit-content;

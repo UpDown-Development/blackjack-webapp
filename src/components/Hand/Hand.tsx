@@ -5,7 +5,7 @@ import "./Hand.css";
 
 const Hand = (props: any) => {
   return (
-    <div className={"container"}>
+    <div className={"hand-container"}>
       <AnimateSharedLayout>
         <motion.div layout>
           {props.player.hand.map((card: Card, index: number) => {

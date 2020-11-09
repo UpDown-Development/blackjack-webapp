@@ -10,7 +10,7 @@ import {
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
-import "../Login/login.css";
+import "./signup.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
@@ -60,7 +60,7 @@ const Signup = () => {
 
   return (
     <motion.div
-      className={"container"}
+      className={"signup-container"}
       variants={animationVariants}
       initial={{ x: 0, y: -1000 }}
       animate={{ x: 0, y: 0 }}
@@ -69,7 +69,7 @@ const Signup = () => {
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>
-          <div className={"inputContainer"}>
+          <div className={"signup-field-container"}>
             <TextField
               className={classes.input}
               fullWidth
@@ -97,24 +97,24 @@ const Signup = () => {
             >
               Signup
             </Button>
-            <div className={"buttonContainer"}>
-              <Button
-                className={classes.button}
-                onClick={() => handleOAuth("GOOGLE")}
-                variant={"contained"}
-                type="submit"
-              >
-                Google
-              </Button>
-              <Button
-                className={classes.button}
-                onClick={() => handleOAuth("FACEBOOK")}
-                variant={"contained"}
-                type="submit"
-              >
-                Facebook
-              </Button>
-            </div>
+          </div>
+          <div className={"signup-button-container"}>
+            <Button
+              className={classes.button}
+              onClick={() => handleOAuth("GOOGLE")}
+              variant={"contained"}
+              type="submit"
+            >
+              Google
+            </Button>
+            <Button
+              className={classes.button}
+              onClick={() => handleOAuth("FACEBOOK")}
+              variant={"contained"}
+              type="submit"
+            >
+              Facebook
+            </Button>
           </div>
         </form>
       </Paper>
