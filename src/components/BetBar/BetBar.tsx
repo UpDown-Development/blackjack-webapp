@@ -7,13 +7,9 @@ import {
   placeBet,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import {
-  BlackJack,
-  BlackJackState as BJS,
-  BlackJackState,
-} from "../../models/generic";
+import { BlackJack, BlackJackPhase } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
-import styles from "./betBar.module.scss";
+import "./betBar.css";
 
 interface propTypes {
   state: number;
@@ -21,25 +17,31 @@ interface propTypes {
 
 const BetBar = (props: propTypes) => {
   const dispatch = useDispatch();
+
   const bjState: BlackJack = useSelector(
     (state: RootState) => state.BlackJackReducer,
     shallowEqual
   );
+
   const formik = useFormik({
     initialValues: {
       bet: 5,
     },
     onSubmit: (values) => {
-      dispatch(placeBet(values.bet, bjState.players[0].wallet));
+      handleNextGame(values);
     },
   });
 
-  const handleNextGame = () => {
-    dispatch(cleanUp(props.state, bjState));
+  const handleNextGame = (values: any) => {
+    Promise.all([dispatch(cleanUp(props.state, bjState))]).then(() => {
+      setTimeout(() => {
+        dispatch(placeBet(values.bet, bjState.players[0].wallet));
+      }, 1500);
+    });
   };
 
   const handleCashOut = () => {
-    if (bjState.state === BlackJackState.COMPLETE) {
+    if (bjState.phase === BlackJackPhase.COMPLETE) {
       Promise.all([dispatch(cleanUp(props.state, bjState))]).then(() => {
         dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
       });
@@ -49,7 +51,7 @@ const BetBar = (props: propTypes) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <Paper>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -64,30 +66,20 @@ const BetBar = (props: propTypes) => {
             value={formik.values.bet}
             onChange={formik.handleChange}
           />
-          <div className={styles.buttonContainer}>
+          <div className={"buttonContainer"}>
             <Button
-              disabled={bjState.state !== BlackJackState.BETTING}
+              disabled={bjState.phase !== BlackJackPhase.COMPLETE}
               type="submit"
             >
               Place Bet
             </Button>
             <Button
-              disabled={
-                !(
-                  bjState.state === BlackJackState.BETTING ||
-                  bjState.state === BlackJackState.COMPLETE
-                )
-              }
+              disabled={bjState.phase !== BlackJackPhase.COMPLETE}
               onClick={() => handleCashOut()}
               variant={"outlined"}
             >
               Cash Out
             </Button>
-            {bjState.state === BJS.COMPLETE && (
-              <Button variant={"outlined"} onClick={() => handleNextGame()}>
-                Next game
-              </Button>
-            )}
           </div>
         </form>
       </Paper>

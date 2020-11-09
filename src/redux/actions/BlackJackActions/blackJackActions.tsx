@@ -1,7 +1,6 @@
 import { deck } from "../../../utils/blackJackDeck";
 import {
   BlackJack,
-  BlackJackState,
   Card,
   CurrentGame,
   HandHistory,
@@ -10,7 +9,6 @@ import {
 } from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
-import { insuranceDeck, loadedDeck } from "../../../utils/testData";
 
 export interface BlackJackAction {
   type: string;
@@ -276,7 +274,7 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
 export const insure = (currentBet: number, wallet: number) => async (
   dispatch: any
 ) => {
-  let newWallet = wallet;
+  let newWallet: number;
   newWallet = wallet - currentBet / 2.0;
 
   dispatch({

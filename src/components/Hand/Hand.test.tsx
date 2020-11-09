@@ -1,5 +1,4 @@
 import React from "react";
-import configureStore from "redux-mock-store";
 import { shallow } from "enzyme";
 import Hand from "./Hand";
 import { card, players } from "../../utils/testData";

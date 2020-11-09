@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
-import styles from "./setupGame.module.scss";
+import "./setupGame.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { Redirect } from "react-router";
 import { RootState } from "../../redux/rootReducer";
 import { BlackJack, GameUser } from "../../models/generic";
 
-const SetupGame = (props: any) => {
+const SetupGame = () => {
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
   const game: BlackJack = useSelector(
@@ -43,13 +43,13 @@ const SetupGame = (props: any) => {
 
   return (
     <motion.div
-      className={styles.container}
+      className={"container"}
       variants={animationVariants}
       initial={{ x: -1000 }}
       animate={{ x: 0 }}
       exit="exit"
     >
-      <Paper className={styles.paper}>
+      <Paper className={"paper"}>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
@@ -73,7 +73,7 @@ const SetupGame = (props: any) => {
             value={formik.values.decks}
             onChange={formik.handleChange}
           />
-          <div className={styles.buttonContainer}>
+          <div className={"buttonContainer"}>
             <Button variant={"outlined"} type="submit">
               Play
             </Button>

@@ -4,16 +4,16 @@ import { loadGameData } from "../../redux/actions/UserActions/userActions";
 import { CurrentGame, GameUser } from "../../models/generic";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import styles from "./Games.module.scss";
+import "./Games.css";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   button: {
     textDecoration: "none",
   },
@@ -43,7 +43,7 @@ const Game = () => {
     dispatch(loadGameData(user.user.user.uid, CurrentGame.BLACKJACK));
   };
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
@@ -59,7 +59,7 @@ const Game = () => {
             are looking to get you out!
           </Typography>
         </CardContent>
-        <div className={styles.buttonContainer}>
+        <div className={"buttonContainer"}>
           <CardActions>
             <Link to={"/blackjack"}>
               <Button className={classes.button} onClick={() => loadGame()}>

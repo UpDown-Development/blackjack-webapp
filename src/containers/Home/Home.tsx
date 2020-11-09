@@ -1,15 +1,14 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { GameUser } from "../../models/generic";
 import { Link } from "react-router-dom";
-import styles from "./home.module.scss";
+import "./home.css";
 import { Button } from "@material-ui/core";
 import Game from "../../components/Games/Games";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const user: GameUser = useSelector(
     (state: RootState) => state.UserReducer,
     shallowEqual
@@ -30,7 +29,7 @@ const Home = () => {
     } else {
       return (
         <motion.div>
-          <div className={styles.logoContainer}>
+          <div className={"logoContainer"}>
             <motion.img
               style={{ height: "300px" }}
               initial={{ x: -3000, y: -500 }}
@@ -72,15 +71,15 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 1.5 }}
-            className={styles.titleContainer}
+            className={"titleContainer"}
           >
             Card.io
           </motion.div>
-          <div className={styles.container}>
-            <Link className={styles.button} to={"/login"}>
+          <div className={"container"}>
+            <Link className={"button"} to={"/login"}>
               <Button variant={"outlined"}>Login</Button>
             </Link>
-            <Link className={styles.button} to={"/signup"}>
+            <Link className={"button"} to={"/signup"}>
               <Button variant={"outlined"}>Signup</Button>
             </Link>
           </div>

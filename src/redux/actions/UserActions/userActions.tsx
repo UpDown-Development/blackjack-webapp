@@ -1,5 +1,5 @@
 import { db, myFirebase } from "../../../utils/firebaseConfig";
-import { CurrentGame, Data } from "../../../models/generic";
+import { CurrentGame } from "../../../models/generic";
 import firebase from "firebase";
 
 export interface UserAction {
@@ -83,7 +83,7 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           .set({
             netWorth: 10000,
           })
-          .then((res) => {
+          .then(() => {
             dispatch({
               type: "UPDATE_NET_WORTH",
               payload: 10000,
@@ -117,7 +117,7 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           .set({
             netWorth: 10000,
           })
-          .then((res) => {
+          .then(() => {
             dispatch({
               type: "UPDATE_NET_WORTH",
               payload: 10000,
@@ -159,7 +159,7 @@ export const signUpUserEmailAndPassword = (
         .set({
           netWorth: 10000,
         })
-        .then((res) => {
+        .then(() => {
           dispatch({
             type: "UPDATE_NET_WORTH",
             payload: 10000,

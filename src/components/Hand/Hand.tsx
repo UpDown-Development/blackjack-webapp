@@ -1,12 +1,11 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
 import { Card } from "../../models/generic";
 import { AnimateSharedLayout, motion } from "framer-motion";
-import styles from "./Hand.module.scss";
+import "./Hand.css";
 
 const Hand = (props: any) => {
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <AnimateSharedLayout>
         <motion.div layout>
           {props.player.hand.map((card: Card, index: number) => {
@@ -20,9 +19,7 @@ const Hand = (props: any) => {
                 alt={card.name}
                 key={index}
                 className={
-                  props.player.name === "Dealer"
-                    ? styles.dealerCard
-                    : styles.playingCard
+                  props.player.name === "Dealer" ? "dealerCard" : "playingCard"
                 }
               />
             ) : (
@@ -36,9 +33,7 @@ const Hand = (props: any) => {
                 alt={"?"}
                 key={index}
                 className={
-                  props.player.name === "Dealer"
-                    ? styles.dealerCard
-                    : styles.playingCard
+                  props.player.name === "Dealer" ? "dealerCard" : "playingCard"
                 }
               />
             );

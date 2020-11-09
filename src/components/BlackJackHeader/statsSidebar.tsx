@@ -3,7 +3,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { PlayerInfo } from "../../models/generic";
 import { Paper } from "@material-ui/core";
-import styles from "./statsSidebar.module.scss";
+import "./statsSidebar.css";
 
 const StatsSidebar = () => {
   const stats: PlayerInfo = useSelector(
@@ -11,9 +11,9 @@ const StatsSidebar = () => {
     shallowEqual
   );
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <Paper>
-        <div className={styles.textContainer}>
+        <div className={"textContainer"}>
           <div>Total Money: ${stats.wallet}</div>
           <div>Total Gained/Lost: ${stats.currencyDifference}</div>
           <div>Current Bet: ${stats.currentBet}</div>

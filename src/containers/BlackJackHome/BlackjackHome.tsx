@@ -1,7 +1,6 @@
 import React from "react";
-import styles from "./blackjackHome.module.scss";
+import "./blackjackHome.css";
 import { motion } from "framer-motion";
-import pips from "../../images/resources/4_pips.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
@@ -31,33 +30,33 @@ const BlackjackHome = () => {
       animate={{ opacity: 1 }}
       exit="exit"
     >
-      <div className={styles.logoContainer}>
+      <div className={"logoContainer"}>
         <motion.img
           initial={{ width: 0, height: 0 }}
           animate={{ width: 700, height: 400, rotateX: 360, rotateZ: 360 }}
           transition={{ duration: 2 }}
-          className={styles.pips}
-          src={pips}
+          className={"pips"}
+          src={"../../images/resources/4_pips.png"}
         />
       </div>
-      <div className={styles.titleContainer}>
+      <div className={"titleContainer"}>
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 3 }}
-          className={styles.title}
+          className={"title"}
         >
           Blackjack
         </motion.h1>
       </div>
-      <div className={styles.buttonContainer}>
+      <div className={"buttonContainer"}>
         <motion.div
           variants={animationVariants}
           initial={{ y: 1000 }}
           animate={{ y: -50, scale: 0.7 }}
           transition={{ delay: 2.5, type: "spring", stiffness: 100 }}
           whileHover="hover"
-          className={styles.button}
+          className={"button"}
         >
           <Link to={"/stats"}>
             <Button variant={"outlined"}>Stats</Button>
@@ -70,7 +69,7 @@ const BlackjackHome = () => {
           transition={{ delay: 3, type: "spring", stiffness: 100 }}
           whileHover="hover"
           style={{ fontSize: "16px" }}
-          className={styles.button}
+          className={"button"}
         >
           <Link to={"/setup"}>
             <Button variant={"outlined"}>Play</Button>
@@ -82,7 +81,7 @@ const BlackjackHome = () => {
           animate={{ y: -50, scale: 0.7 }}
           transition={{ delay: 2, type: "spring", stiffness: 100 }}
           whileHover="hover"
-          className={styles.button}
+          className={"button"}
         >
           <Link to={"/settings"}>
             <Button variant={"outlined"}>Settings</Button>

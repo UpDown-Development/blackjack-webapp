@@ -10,10 +10,10 @@ import {
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
-import styles from "../Login/login.module.scss";
+import "../Login/login.css";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   button: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
@@ -60,7 +60,7 @@ const Signup = () => {
 
   return (
     <motion.div
-      className={styles.container}
+      className={"container"}
       variants={animationVariants}
       initial={{ x: 0, y: -1000 }}
       animate={{ x: 0, y: 0 }}
@@ -69,7 +69,7 @@ const Signup = () => {
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>
-          <div className={styles.inputContainer}>
+          <div className={"inputContainer"}>
             <TextField
               className={classes.input}
               fullWidth
@@ -97,7 +97,7 @@ const Signup = () => {
             >
               Signup
             </Button>
-            <div className={styles.buttonContainer}>
+            <div className={"buttonContainer"}>
               <Button
                 className={classes.button}
                 onClick={() => handleOAuth("GOOGLE")}

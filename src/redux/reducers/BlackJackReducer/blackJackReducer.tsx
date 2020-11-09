@@ -1,4 +1,4 @@
-import { BlackJack, BlackJackState } from "../../../models/generic";
+import { BlackJack, BlackJackPhase } from "../../../models/generic";
 import produce from "immer";
 import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions";
 
@@ -16,7 +16,7 @@ export const defaultState: BlackJack = {
     startingWallet: 0,
     currentBlackjacks: 0,
   },
-  state: BlackJackState.BETTING,
+  phase: BlackJackPhase.BETTING,
   insurance: false,
   name: "BlackJack",
   numberOfDecks: 0,
@@ -33,7 +33,7 @@ const BlackJackReducer = produce(
         state.playerInfo.wallet = action.payload.wallet;
         state.playerInfo.startingWallet = action.payload.wallet;
         state.numberOfDecks = action.payload.numberOfDecks;
-        state.state = BlackJackState.BETTING;
+        state.phase = BlackJackPhase.COMPLETE;
         break;
       case "CURRENT_GAME_NUMBER":
         state.currentGame = action.payload;
@@ -42,7 +42,7 @@ const BlackJackReducer = produce(
         state.userId = action.payload.userId;
         break;
       case "PLACE_BET_BLACKJACK":
-        state.state = BlackJackState.DEALING;
+        state.phase = BlackJackPhase.DEALING;
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
         state.playerInfo.currentBet = action.payload.currentBet;
@@ -57,7 +57,7 @@ const BlackJackReducer = produce(
         state.deck = action.payload.deck;
         state.players[0].hand = action.payload.hand1;
         state.players[1].hand = action.payload.hand2;
-        state.state = BlackJackState.PLAYER_PLAYING;
+        state.phase = BlackJackPhase.PLAYER_PLAYING;
         break;
       case "CALCULATE_SCORE_BLACKJACK":
         state.players[action.payload.playerId].score = action.payload.score;
@@ -67,11 +67,11 @@ const BlackJackReducer = produce(
         state.players[action.payload.playerId].hand = action.payload.hand;
         break;
       case "MOVE_TO_DEALER_PLAYING_BLACKJACK":
-        state.state = BlackJackState.DEALER_PLAYING;
+        state.phase = BlackJackPhase.DEALER_PLAYING;
         state.players[1].hand = action.payload;
         break;
       case "MOVE_TO_COMPLETE_BLACKJACK":
-        state.state = BlackJackState.COMPLETE;
+        state.phase = BlackJackPhase.COMPLETE;
         break;
       case "CLEANUP_BLACKJACK":
         state.players[0].hand = [];
@@ -81,12 +81,12 @@ const BlackJackReducer = produce(
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;
         state.players[0].currentBet = 5;
-        state.state = BlackJackState.BETTING;
+        state.phase = BlackJackPhase.BETTING;
         state.insurance = false;
         state.playerInfo = action.payload.info;
         break;
       case "CASH_OUT":
-        state.state = BlackJackState.CASHOUT;
+        state.phase = BlackJackPhase.CASHOUT;
         break;
       default:
         return state;

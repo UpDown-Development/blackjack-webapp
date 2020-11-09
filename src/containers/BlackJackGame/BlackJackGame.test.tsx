@@ -1,6 +1,6 @@
 import React from "react";
 import { genericState, players } from "../../utils/testData";
-import { BlackJackState } from "../../models/generic";
+import { BlackJackPhase } from "../../models/generic";
 import { Button } from "@material-ui/core";
 import { setup, wait } from "../../setupTests";
 import { BlackJackGame } from "./BlackJackGame";
@@ -17,7 +17,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.DEALER_PLAYING,
+          state: BlackJackPhase.DEALER_PLAYING,
         },
       },
       <BlackJackGame />
@@ -32,7 +32,7 @@ describe("Hand Container", () => {
       {
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.DEALER_PLAYING,
+          state: BlackJackPhase.DEALER_PLAYING,
           players: [players[0], { ...players[1], score: 19 }],
         },
       },
@@ -49,7 +49,7 @@ describe("Hand Container", () => {
       {
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.COMPLETE,
+          state: BlackJackPhase.COMPLETE,
           players: [
             { ...players[0], score: 20 },
             { ...players[1], score: 21 },
@@ -68,7 +68,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.COMPLETE,
+          state: BlackJackPhase.COMPLETE,
           players: [
             { ...players[0], score: 21 },
             { ...players[1], score: 20 },
@@ -86,7 +86,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.PLAYER_PLAYING,
+          state: BlackJackPhase.PLAYER_PLAYING,
         },
       },
       <BlackJackGame />
@@ -100,7 +100,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.PLAYER_PLAYING,
+          state: BlackJackPhase.PLAYER_PLAYING,
         },
       },
       <BlackJackGame />
@@ -116,7 +116,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.COMPLETE,
+          state: BlackJackPhase.COMPLETE,
         },
       },
       <BlackJackGame />
@@ -133,7 +133,7 @@ describe("Hand Container", () => {
         ...genericState,
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.BETTING,
+          state: BlackJackPhase.BETTING,
         },
       },
       <BlackJackGame />
@@ -146,7 +146,7 @@ describe("Hand Container", () => {
       {
         BlackJackReducer: {
           ...genericState.BlackJackReducer,
-          state: BlackJackState.PLAYER_PLAYING,
+          state: BlackJackPhase.PLAYER_PLAYING,
           players: [{ ...players[0], score: 33 }, players[1]],
         },
       },

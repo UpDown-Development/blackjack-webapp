@@ -13,4 +13,13 @@ const theme = createMuiTheme({
   },
 });
 
+export const animationVariants = {
+  exit: {
+    x: -2000,
+    transition: {
+      ease: "easeInOut",
+    },
+  },
+};
+
 export default theme;

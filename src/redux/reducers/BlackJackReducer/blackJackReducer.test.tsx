@@ -1,7 +1,7 @@
 import BlackJackReducer, { defaultState } from "./blackJackReducer";
 import {
   BlackJack,
-  BlackJackState,
+  BlackJackPhase,
   Card,
   Player,
 } from "../../../models/generic";
@@ -38,7 +38,7 @@ const genericState: BlackJack = {
   playerInfo: {},
   deck: deck,
   players: players,
-  state: BlackJackState.BETTING,
+  phase: BlackJackPhase.BETTING,
   name: "BlackJack",
   numberOfDecks: 2,
 };
@@ -57,7 +57,7 @@ const scoreState: BlackJack = {
       hand: newDeck,
     },
   ],
-  state: BlackJackState.PLAYER_PLAYING,
+  phase: BlackJackPhase.PLAYER_PLAYING,
   name: "BlackJack",
   numberOfDecks: 2,
 };
@@ -156,7 +156,7 @@ describe("BlackJack Reducer", () => {
         players[1],
       ],
       deck: deck,
-      state: BlackJackState.DEALING,
+      state: BlackJackPhase.DEALING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -185,7 +185,7 @@ describe("BlackJack Reducer", () => {
         },
       ],
       deck: newDeck,
-      state: BlackJackState.PLAYER_PLAYING,
+      state: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -210,7 +210,7 @@ describe("BlackJack Reducer", () => {
         scoreState.players[1],
       ],
       deck: deck,
-      state: BlackJackState.PLAYER_PLAYING,
+      state: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -236,7 +236,7 @@ describe("BlackJack Reducer", () => {
         scoreState.players[1],
       ],
       deck: newDeck,
-      state: BlackJackState.PLAYER_PLAYING,
+      state: BlackJackPhase.PLAYER_PLAYING,
       name: "BlackJack",
       numberOfDecks: 2,
     });
@@ -247,7 +247,7 @@ describe("BlackJack Reducer", () => {
       type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
       payload: newDeck,
     });
-    expect(result.state === BlackJackState.DEALER_PLAYING);
+    expect(result.phase === BlackJackPhase.DEALER_PLAYING);
     expect(result.players[1].hand === newDeck);
   });
 
@@ -256,7 +256,7 @@ describe("BlackJack Reducer", () => {
       type: "MOVE_TO_COMPLETE_BLACKJACK",
       payload: { undefined },
     });
-    expect(result.state === BlackJackState.COMPLETE);
+    expect(result.phase === BlackJackPhase.COMPLETE);
   });
 
   it("should clean up after us", function () {
@@ -283,7 +283,7 @@ describe("BlackJack Reducer", () => {
         },
       ],
       deck: newDeck,
-      state: BlackJackState.BETTING,
+      state: BlackJackPhase.BETTING,
       insurance: false,
       name: "BlackJack",
       numberOfDecks: 2,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Paper, TextField, withStyles } from "@material-ui/core";
+import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,10 +7,10 @@ import { loginUser } from "../../redux/actions/UserActions/userActions";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Redirect } from "react-router";
-import styles from "./login.module.scss";
+import "./login.css";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   button: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <motion.div
-      className={styles.container}
+      className={"container"}
       variants={animationVariants}
       initial={{ x: 0, y: -1000 }}
       animate={{ x: 0, y: 0 }}
@@ -59,7 +59,7 @@ const Login = () => {
     >
       <Paper>
         <form onSubmit={formik.handleSubmit}>
-          <div className={styles.inputContainer}>
+          <div className={"inputContainer"}>
             <h1>Login</h1>
             <TextField
               className={classes.input}

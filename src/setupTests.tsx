@@ -4,9 +4,7 @@ import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { BlackJackGame } from "./containers/BlackJackGame/BlackJackGame";
 import thunk from "redux-thunk";
-import { db } from "./utils/firebaseConfig";
 
 interface SetupResponse {
   wrapper?: ReactWrapper<
@@ -25,7 +23,7 @@ export const setup = (data: any, component?: any): SetupResponse => {
     Readonly<{}>,
     React.Component<{}, {}, any>
   > | null = null;
-  let store: MockStoreEnhanced<unknown, {}>;
+  let store: MockStoreEnhanced<unknown>;
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
   store = mockStore({

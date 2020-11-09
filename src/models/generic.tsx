@@ -1,14 +1,4 @@
-import firebase from "firebase";
 const User = require("firebase");
-
-export interface Data {
-  netWorth: number;
-  totalCurrencyWon: number;
-  handsWon: number;
-  handsLost: number;
-  gamesPlayed: number;
-  blackjacks?: number;
-}
 
 export enum CurrentGame {
   BLACKJACK = "BLACKJACK",
@@ -59,7 +49,7 @@ export interface Game {
   userId: string;
 }
 
-export enum BlackJackState {
+export enum BlackJackPhase {
   BETTING = "BETTING",
   DEALING = "DEALING",
   PLAYER_PLAYING = "PLAYER_PLAYING",
@@ -70,7 +60,7 @@ export enum BlackJackState {
 
 export interface BlackJack extends Game {
   deck: Card[];
-  state: BlackJackState;
+  phase: BlackJackPhase;
   insurance: boolean;
 }
 
@@ -86,6 +76,5 @@ export interface Card {
 export enum ColorEnum {
   WIN = "success",
   PUSH = "info",
-  YELLOW = "warning",
   LOSS = "error",
 }

@@ -1,10 +1,4 @@
-import {
-  BlackJack,
-  BlackJackState,
-  Card,
-  GameUser,
-  Player,
-} from "../models/generic";
+import { BlackJack, BlackJackPhase, Card, Player } from "../models/generic";
 import { deck } from "./blackJackDeck";
 import { RootState } from "../redux/rootReducer";
 
@@ -56,7 +50,7 @@ export const genericState: RootState = {
     },
     deck: deck,
     players: players,
-    state: BlackJackState.BETTING,
+    state: BlackJackPhase.BETTING,
     name: "BlackJack",
     numberOfDecks: 2,
   },

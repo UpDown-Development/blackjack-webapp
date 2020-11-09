@@ -9,7 +9,7 @@ import {
   placeBet,
 } from "./blackJackActions";
 import { deck } from "../../../utils/blackJackDeck";
-import { BlackJackState, HandHistory } from "../../../models/generic";
+import { BlackJackPhase } from "../../../models/generic";
 import { setup, wait } from "../../../setupTests";
 import { db } from "../../../utils/firebaseConfig";
 
@@ -24,10 +24,7 @@ describe("Blackjack Actions Tests", () => {
         .collection("BLACKJACK")
         .doc("BLACKJACKInfo"),
       "get"
-    ).and.returnValue(() => {
-      user: {
-      }
-    });
+    ).and.returnValue(() => {});
     return (
       testObj.store
         // @ts-ignore
@@ -37,7 +34,6 @@ describe("Blackjack Actions Tests", () => {
           expect(testObj.store.getActions()[0].type).toEqual("INIT_BLACKJACK");
         })
     );
-    jest.resetAllMocks();
   });
   it("should place a bet", function () {
     const testObj = setup(genericState);
@@ -154,7 +150,7 @@ describe("Blackjack Actions Tests", () => {
             wallet: 0,
             history: [],
           },
-          state: BlackJackState.BETTING,
+          phase: BlackJackPhase.BETTING,
           name: "BlackJack",
           numberOfDecks: 2,
         })

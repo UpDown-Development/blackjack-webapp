@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
+// noinspection SpellCheckingInspection
 export const firebaseConfig = {
   apiKey: "AIzaSyB2HUmai_U5ilhYjPlgMs_yCbrjdSC7dIA",
   authDomain: "updowncardgames-3c85a.firebaseapp.com",

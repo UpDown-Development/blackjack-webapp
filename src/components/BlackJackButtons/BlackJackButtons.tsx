@@ -5,13 +5,13 @@ import {
   insure,
 } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BlackJack, BlackJackState } from "../../models/generic";
+import { BlackJack, BlackJackPhase } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Button } from "@material-ui/core";
-import styles from "./BlackJackButtons.module.scss";
 import { makeStyles } from "@material-ui/core/styles";
+import "./BlackJackButtons.css";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   button: {
     margin: "15px 15px",
     textDecoration: "none",
@@ -50,9 +50,9 @@ const BlackJackButtons = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <Button
-        disabled={bjState.state !== BlackJackState.PLAYER_PLAYING}
+        disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}
         className={classes.button}
         data-test-id="hit"
@@ -61,7 +61,7 @@ const BlackJackButtons = () => {
         Hit
       </Button>
       <Button
-        disabled={bjState.state !== BlackJackState.PLAYER_PLAYING}
+        disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}
         className={classes.button}
         onClick={() => handleStay()}
