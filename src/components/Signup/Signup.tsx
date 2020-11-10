@@ -10,7 +10,7 @@ import {
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
-import "./signup.css";
+import "./Signup.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({

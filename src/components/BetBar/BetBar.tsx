@@ -9,7 +9,7 @@ import {
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { BlackJack, BlackJackPhase } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
-import "./betBar.css";
+import "./BetBar.css";
 
 interface propTypes {
   state: number;

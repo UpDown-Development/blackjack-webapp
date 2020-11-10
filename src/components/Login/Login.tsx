@@ -7,7 +7,7 @@ import { loginUser } from "../../redux/actions/UserActions/userActions";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Redirect } from "react-router";
-import "./login.css";
+import "./Login.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({

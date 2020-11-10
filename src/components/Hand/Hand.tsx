@@ -1,9 +1,13 @@
 import React from "react";
-import { Card } from "../../models/generic";
+import { Card, Player } from "../../models/generic";
 import { AnimateSharedLayout, motion } from "framer-motion";
 import "./Hand.css";
 
-const Hand = (props: any) => {
+interface Props {
+  player: Player;
+}
+
+const Hand = (props: Props) => {
   return (
     <div className={"hand-container"}>
       <AnimateSharedLayout>

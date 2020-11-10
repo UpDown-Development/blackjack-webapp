@@ -15,7 +15,7 @@ import { BlackJack, BlackJackPhase as BJS } from "../../models/generic";
 import { animationVariants } from "../../theme";
 
 import Hand from "../../components/Hand/Hand";
-import StatsSidebar from "../../components/BlackJackHeader/statsSidebar";
+import StatsSidebar from "../../components/StatsSidebar/StatsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
 import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons";
 

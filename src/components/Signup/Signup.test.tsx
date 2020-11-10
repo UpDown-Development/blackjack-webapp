@@ -1,14 +1,13 @@
-import React from "react";
-import App from "./App";
 import { setup } from "../../setupTests";
-import { genericState } from "../../utils/testData";
-import "firebase";
+import { genericState, players } from "../../utils/testData";
+import React from "react";
+import Signup from "./Signup";
 
-describe("<App/>", () => {
+describe("<Signup/>", () => {
   it("renders without crashing", async () => {
     try {
       jest.mock("firebase");
-      const testObj = setup(genericState, <App />);
+      const testObj = setup(genericState, <Signup />);
       await expect(testObj).toBeTruthy();
     } catch (e) {
       console.log("CATCH BLOCK ON TEST HIT...");

@@ -3,7 +3,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { PlayerInfo } from "../../models/generic";
 import { Paper } from "@material-ui/core";
-import "./statsSidebar.css";
+import "./StatsSidebar.css";
 
 const StatsSidebar = () => {
   const stats: PlayerInfo = useSelector(
