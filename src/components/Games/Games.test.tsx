@@ -1,4 +1,4 @@
-import { setup } from "../../setupTests";
+import { failTest, setup } from "../../setupTests";
 import { genericState } from "../../utils/testData";
 import React from "react";
 import { Games } from "@material-ui/icons";
@@ -10,7 +10,7 @@ describe("<Games/>", () => {
       const testObj = setup(genericState, <Games />);
       await expect(testObj).toBeTruthy();
     } catch (e) {
-      console.log("CATCH BLOCK ON TEST HIT...");
+      failTest(e);
     }
   });
 });

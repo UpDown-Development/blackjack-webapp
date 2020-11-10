@@ -42,3 +42,8 @@ export const setup = (data: any, component?: any): SetupResponse => {
     store: store,
   };
 };
+
+export const failTest = (e: Error) => {
+  console.log(e);
+  return expect(1).toEqual(2);
+};

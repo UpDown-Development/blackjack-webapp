@@ -1,4 +1,4 @@
-import { setup } from "../../setupTests";
+import { failTest, setup } from "../../setupTests";
 import { genericState, players } from "../../utils/testData";
 import React from "react";
 import Signup from "./Signup";
@@ -10,7 +10,7 @@ describe("<Signup/>", () => {
       const testObj = setup(genericState, <Signup />);
       await expect(testObj).toBeTruthy();
     } catch (e) {
-      console.log("CATCH BLOCK ON TEST HIT...");
+      failTest(e);
     }
   });
 });

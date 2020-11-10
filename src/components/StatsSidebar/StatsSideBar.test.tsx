@@ -1,4 +1,4 @@
-import { setup } from "../../setupTests";
+import { failTest, setup } from "../../setupTests";
 import { genericState, players } from "../../utils/testData";
 import React from "react";
 import StatsSidebar from "./StatsSidebar";
@@ -10,7 +10,7 @@ describe("<StatsSideBar/>", () => {
       const testObj = setup(genericState, <StatsSidebar />);
       await expect(testObj).toBeTruthy();
     } catch (e) {
-      console.log("CATCH BLOCK ON TEST HIT...");
+      failTest(e);
     }
   });
 });
