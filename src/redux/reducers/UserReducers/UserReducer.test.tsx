@@ -1,7 +1,7 @@
 import UserReducer, { defaultState } from "./userReducer";
 
 describe("User Reducers", () => {
-  xit("should add a user", function () {
+  it("should add a user", function () {
     const result = UserReducer(defaultState, {
       type: "USER_LOADING",
     });
@@ -10,7 +10,7 @@ describe("User Reducers", () => {
       loading: true,
     });
   });
-  xit("should signup a user", function () {
+  it("should signup a user", function () {
     const result = UserReducer(defaultState, {
       type: "USER_SIGNUP_SUCCESS",
       payload: {
@@ -22,7 +22,7 @@ describe("User Reducers", () => {
       user: { user: {} },
     });
   });
-  xit("should set error message", function () {
+  it("should set error message", function () {
     const result = UserReducer(defaultState, {
       type: "USER_SIGNUP_ERROR",
       payload: "GET OUTTA HERE",
@@ -32,7 +32,7 @@ describe("User Reducers", () => {
       errorMessage: "GET OUTTA HERE",
     });
   });
-  xit("should login a user", function () {
+  it("should login a user", function () {
     const result = UserReducer(defaultState, {
       type: "USER_LOGIN_SUCCESS",
       payload: "DID IT IN ONE",
@@ -42,7 +42,7 @@ describe("User Reducers", () => {
       user: "DID IT IN ONE",
     });
   });
-  xit("should display a login error", function () {
+  it("should display a login error", function () {
     const result = UserReducer(defaultState, {
       type: "USER_LOGIN_ERROR",
       payload: "GOT HIM",

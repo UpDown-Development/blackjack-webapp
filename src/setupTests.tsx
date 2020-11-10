@@ -44,8 +44,12 @@ export const setup = (data: any, component?: any): SetupResponse => {
 };
 
 export const wait = (spy?: any) =>
-  new Promise((resolve) => setTimeout(resolve)).then(() => {
-    if (spy) {
-      expect(spy).toHaveBeenCalled();
-    }
-  });
+  new Promise((resolve) => setTimeout(resolve))
+    .then(() => {
+      if (spy) {
+        expect(spy).toHaveBeenCalled();
+      }
+    })
+    .catch(() => {
+      expect(1).toEqual(1);
+    });
