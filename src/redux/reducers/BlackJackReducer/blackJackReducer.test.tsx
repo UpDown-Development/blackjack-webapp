@@ -78,7 +78,7 @@ const scoreState: BlackJack = {
   numberOfDecks: 2,
 };
 
-xdescribe("BlackJack Reducer", () => {
+describe("BlackJack Reducer", () => {
   it("should initialize a blackjack game", function () {
     const result = BlackJackReducer(defaultState, {
       type: "INIT_BLACKJACK",
@@ -160,8 +160,10 @@ xdescribe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      ...genericState,
       currentGame: 0,
       playerInfo: {
+        ...genericState.playerInfo,
         currentBet: 5,
         wallet: 45,
       },
@@ -191,7 +193,10 @@ xdescribe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
-      playerInfo: {},
+      ...genericState,
+      playerInfo: {
+        ...genericState.playerInfo,
+      },
       userId: "",
       players: [
         {
@@ -219,6 +224,7 @@ xdescribe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      ...genericState,
       playerInfo: {},
       userId: "",
       players: [
@@ -245,6 +251,7 @@ xdescribe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      ...genericState,
       playerInfo: {},
       userId: "",
       players: [
@@ -287,6 +294,7 @@ xdescribe("BlackJack Reducer", () => {
       },
     });
     expect(result).toEqual({
+      currentGame: 0,
       playerInfo: undefined,
       userId: "",
       players: [
