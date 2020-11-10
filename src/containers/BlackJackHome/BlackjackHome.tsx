@@ -1,5 +1,5 @@
 import React from "react";
-import "./blackjackHome.css";
+import "./BlackjackHome.css";
 // @ts-ignore
 import pips from "../../images/resources/4_pips.png";
 import { motion } from "framer-motion";

@@ -4,7 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { GameUser } from "../../models/generic";
 import { Link } from "react-router-dom";
-import "./home.css";
+import "./Home.css";
 import { Button } from "@material-ui/core";
 import Game from "../../components/Games/Games";
 

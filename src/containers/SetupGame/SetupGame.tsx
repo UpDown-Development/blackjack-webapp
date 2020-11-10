@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
-import "./setupGame.css";
+import "./SetupGame.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
 import { Redirect } from "react-router";
