@@ -36,6 +36,7 @@ export const genericState: RootState = {
     nickname: "",
     user: {
       user: {
+        uid: 123,
         user: {
           uid: "123",
         },
@@ -44,8 +45,12 @@ export const genericState: RootState = {
     username: "",
   },
   BlackJackReducer: {
-    userId: "",
+    userId: "123",
+    currentGame: 123,
     playerInfo: {
+      currentHandsLost: 12,
+      currentHandsWon: 5,
+      startingWallet: 50,
       history: [],
     },
     deck: deck,

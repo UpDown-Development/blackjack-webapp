@@ -3,6 +3,7 @@ import { genericState } from "../../utils/testData";
 import React from "react";
 import Toast from "./Toast";
 import { ColorEnum } from "../../models/generic";
+import { act } from "react-dom/test-utils";
 
 describe("<Toast/>", () => {
   it("renders without crashing", async () => {

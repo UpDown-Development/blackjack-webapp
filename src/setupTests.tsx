@@ -18,11 +18,9 @@ interface SetupResponse {
 configure({ adapter: new Adapter() });
 
 export const setup = (data: any, component?: any): SetupResponse => {
-  let resComponent: ReactWrapper<
-    any,
-    Readonly<{}>,
-    React.Component<{}, {}, any>
-  > | null = null;
+  let resComponent:
+    | ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
+    | undefined = undefined;
   let store: MockStoreEnhanced<unknown>;
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);

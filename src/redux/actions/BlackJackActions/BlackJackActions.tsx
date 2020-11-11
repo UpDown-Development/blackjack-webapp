@@ -219,7 +219,10 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     .doc(gameState.userId)
     .collection(CurrentGame.BLACKJACK)
     .doc(gameState.currentGame.toString())
-    .set(info);
+    .set(info)
+    .catch((e) => {
+      console.log(e);
+    });
 };
 
 export const moveToComplete = () => async (dispatch: any) => {

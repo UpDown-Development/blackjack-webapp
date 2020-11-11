@@ -68,6 +68,7 @@ const BetBar = (props: propTypes) => {
           />
           <div className={"buttonContainer"}>
             <Button
+              test-id="submitButton"
               disabled={bjState.phase !== BlackJackPhase.COMPLETE}
               type="submit"
             >
