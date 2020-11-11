@@ -27,7 +27,7 @@ describe("<BetBar/>", () => {
       });
       expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
     } catch (e) {
-      failTest(e);
+      failTest();
     }
   });
 });
