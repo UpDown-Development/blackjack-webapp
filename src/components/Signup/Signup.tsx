@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   signupOAuth,
   signUpUserEmailAndPassword,
-} from "../../redux/actions/UserActions/userActions";
+} from "../../redux/actions/UserActions/UserActions";
 import { Redirect } from "react-router";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";

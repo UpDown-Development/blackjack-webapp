@@ -12,7 +12,7 @@ import { db } from "../../../utils/firebaseConfig";
 
 export interface BlackJackAction {
   type: string;
-  payload: any;
+  payload?: any;
 }
 
 export const initBlackJack = (

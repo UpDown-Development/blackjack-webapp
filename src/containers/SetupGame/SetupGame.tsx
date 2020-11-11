@@ -4,7 +4,7 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import "./SetupGame.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { initBlackJack } from "../../redux/actions/BlackJackActions/blackJackActions";
+import { initBlackJack } from "../../redux/actions/BlackJackActions/BlackJackActions";
 import { Redirect } from "react-router";
 import { RootState } from "../../redux/rootReducer";
 import { BlackJack, GameUser } from "../../models/generic";

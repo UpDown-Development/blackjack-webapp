@@ -4,7 +4,7 @@ import {
   dealOpeningCards,
   endPlaying,
   moveToComplete,
-} from "../../redux/actions/BlackJackActions/blackJackActions";
+} from "../../redux/actions/BlackJackActions/BlackJackActions";
 import { BlackJackPhase, Card, ColorEnum, Player } from "../../models/generic";
 import Toast from "../../components/Toast/Toast";
 import { Redirect } from "react-router";

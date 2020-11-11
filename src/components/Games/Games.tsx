@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { loadGameData } from "../../redux/actions/UserActions/userActions";
+import { loadGameData } from "../../redux/actions/UserActions/UserActions";
 import { CurrentGame, GameUser } from "../../models/generic";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";

@@ -5,7 +5,7 @@ import {
   cashOut,
   cleanUp,
   placeBet,
-} from "../../redux/actions/BlackJackActions/blackJackActions";
+} from "../../redux/actions/BlackJackActions/BlackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { BlackJack, BlackJackPhase } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";

@@ -1,6 +1,6 @@
 import produce from "immer";
 import { GameUser } from "../../../models/generic";
-import { UserAction } from "../../actions/UserActions/userActions";
+import { UserAction } from "../../actions/UserActions/UserActions";
 
 export const defaultState: GameUser = {
   errorMessage: "",

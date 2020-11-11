@@ -3,7 +3,7 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/UserActions/userActions";
+import { loginUser } from "../../redux/actions/UserActions/UserActions";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Redirect } from "react-router";

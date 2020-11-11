@@ -1,6 +1,6 @@
 import { BlackJack, BlackJackPhase } from "../../../models/generic";
 import produce from "immer";
-import { BlackJackAction } from "../../actions/BlackJackActions/blackJackActions";
+import { BlackJackAction } from "../../actions/BlackJackActions/BlackJackActions";
 
 export const defaultState: BlackJack = {
   userId: "",
