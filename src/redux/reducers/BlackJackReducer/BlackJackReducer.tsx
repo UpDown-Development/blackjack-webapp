@@ -18,6 +18,7 @@ export const defaultState: BlackJack = {
   },
   phase: BlackJackPhase.BETTING,
   insurance: false,
+  doubleDowned: false,
   name: "BlackJack",
   numberOfDecks: 0,
   players: [],
@@ -73,6 +74,13 @@ const BlackJackReducer = produce(
       case "MOVE_TO_COMPLETE_BLACKJACK":
         state.phase = BlackJackPhase.COMPLETE;
         break;
+      case "DOUBLE_DOWN":
+        state.doubleDowned = true;
+        state.players[0].currentBet = action.payload.currentBet;
+        state.players[0].wallet = action.payload.wallet;
+        state.playerInfo.currentBet = action.payload.currentBet;
+        state.playerInfo.wallet = action.payload.wallet;
+        break;
       case "CLEANUP_BLACKJACK":
         state.players[0].hand = [];
         state.players[1].hand = [];
@@ -84,6 +92,7 @@ const BlackJackReducer = produce(
         state.phase = BlackJackPhase.BETTING;
         state.insurance = false;
         state.playerInfo = action.payload.info;
+        state.doubleDowned = false;
         break;
       case "CASH_OUT":
         state.phase = BlackJackPhase.CASHOUT;

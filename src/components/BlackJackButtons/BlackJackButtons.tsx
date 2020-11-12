@@ -1,6 +1,7 @@
 import React from "react";
 import {
   dealCard,
+  doubleDown,
   endPlaying,
   insure,
 } from "../../redux/actions/BlackJackActions/BlackJackActions";
@@ -38,6 +39,18 @@ const BlackJackButtons = () => {
     dispatch(insure(bjState.players[0].currentBet, bjState.players[0].wallet));
   };
 
+  const handleDoubleDown = () => {
+    dispatch(
+      doubleDown(
+        bjState.players[0].currentBet,
+        bjState.players[0].wallet,
+        bjState.players[0],
+        bjState.deck
+      )
+    );
+    dispatch(endPlaying(bjState.players[1].hand, bjState.players[0]));
+  };
+
   const checkForAce = () => {
     let hasAce = false;
     if (bjState.insurance) {
@@ -51,6 +64,25 @@ const BlackJackButtons = () => {
 
   return (
     <div className={"bjgame-buttons-container"}>
+      <Button
+        disabled={
+          bjState.players[0].hand.length > 2 ||
+          bjState.phase !== BlackJackPhase.PLAYER_PLAYING
+        }
+        variant={"outlined"}
+        className={classes.button}
+        onClick={() => handleDoubleDown()}
+      >
+        Double Down
+      </Button>
+      <Button
+        disabled={!checkForAce()}
+        variant={"outlined"}
+        className={classes.button}
+        onClick={() => handleInsurance()}
+      >
+        Insurance
+      </Button>
       <Button
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}
@@ -67,14 +99,6 @@ const BlackJackButtons = () => {
         onClick={() => handleStay()}
       >
         Stay
-      </Button>
-      <Button
-        disabled={!checkForAce()}
-        variant={"outlined"}
-        className={classes.button}
-        onClick={() => handleInsurance()}
-      >
-        Insurance
       </Button>
     </div>
   );

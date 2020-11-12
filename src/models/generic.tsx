@@ -62,6 +62,7 @@ export interface BlackJack extends Game {
   deck: Card[];
   phase: BlackJackPhase;
   insurance: boolean;
+  doubleDowned: boolean;
 }
 
 export interface Card {

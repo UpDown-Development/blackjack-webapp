@@ -274,6 +274,23 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     });
 };
 
+export const doubleDown = (
+  currentBet: number,
+  wallet: number,
+  player: Player,
+  deck: Card[]
+) => async (dispatch: any) => {
+  dispatch({
+    type: "DOUBLE_DOWN",
+    payload: {
+      currentBet: currentBet * 2,
+      wallet: wallet - currentBet,
+    },
+  });
+
+  dispatch(dealCard(deck, player));
+};
+
 export const insure = (currentBet: number, wallet: number) => async (
   dispatch: any
 ) => {
