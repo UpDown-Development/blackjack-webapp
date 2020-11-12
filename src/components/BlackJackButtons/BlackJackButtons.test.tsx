@@ -13,4 +13,19 @@ describe("<BlackJackButtons/>", () => {
       failTest(e);
     }
   });
+  it("hits", async () => {
+    try {
+      jest.mock("firebase");
+      const testObj = setup(genericState, <BlackJackButtons />);
+      // @ts-ignore
+      testObj.wrapper?.find('[test-id="hit"]').find("button").props().onClick();
+      await Promise.resolve().then(() => {
+        expect(testObj.store.getActions()[0].type).toEqual(
+          "DEAL_CARD_BLACKJACK"
+        );
+      });
+    } catch (e) {
+      failTest(e);
+    }
+  });
 });

@@ -87,7 +87,7 @@ const BlackJackButtons = () => {
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}
         className={classes.button}
-        data-test-id="hit"
+        test-id="hit"
         onClick={() => handleHit()}
       >
         Hit
