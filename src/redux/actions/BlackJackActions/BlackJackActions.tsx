@@ -9,6 +9,7 @@ import {
 } from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
+import { splitDeck } from "../../../utils/testData";
 
 export interface BlackJackAction {
   type: string;
@@ -23,6 +24,7 @@ export const initBlackJack = (
   const dealer: Player = {
     currentBet: 0,
     hand: [],
+    secondHand: [],
     wallet: 9999999999,
     name: "Dealer",
     score: 0,
@@ -30,6 +32,7 @@ export const initBlackJack = (
   const player: Player = {
     currentBet: 0,
     hand: [],
+    secondHand: [],
     wallet: wallet,
     name: "Player",
     score: 0,
@@ -37,9 +40,10 @@ export const initBlackJack = (
 
   const players: Player[] = [player, dealer];
 
-  const blackJackDeck = shuffle(numberOfDecks);
+  // const blackJackDeck = shuffle(numberOfDecks);
   // const blackJackDeck = loadedDeck;
   //const blackJackDeck = insuranceDeck;
+  const blackJackDeck = splitDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",
@@ -289,6 +293,22 @@ export const doubleDown = (
   });
 
   dispatch(dealCard(deck, player));
+};
+
+export const split = (player: Player) => async (dispatch: any) => {
+  let newPlayer = {
+    ...player,
+    hand: player.hand[0],
+    secondHand: player.hand[1],
+  };
+
+  dispatch({
+    type: "SPLIT",
+
+    payload: {
+      player: newPlayer,
+    },
+  });
 };
 
 export const insure = (currentBet: number, wallet: number) => async (

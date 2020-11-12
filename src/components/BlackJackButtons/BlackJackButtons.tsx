@@ -4,9 +4,10 @@ import {
   doubleDown,
   endPlaying,
   insure,
+  split,
 } from "../../redux/actions/BlackJackActions/BlackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BlackJack, BlackJackPhase } from "../../models/generic";
+import { BlackJack, BlackJackPhase, Card } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,6 +27,22 @@ const BlackJackButtons = () => {
     (state: RootState) => state.BlackJackReducer,
     shallowEqual
   );
+
+  const sameCard = (card1: Card, card2: Card) => {
+    let status = false;
+
+    try {
+      const cardNames = [card1, card2].map((x) => {
+        return x.name.split(" ")[0];
+      });
+
+      status = cardNames[0] === cardNames[1];
+    } catch (e) {}
+
+    return status;
+  };
+
+  const player = bjState.players[0];
 
   const handleHit = () => {
     dispatch(dealCard(bjState.deck, bjState.players[0]));
@@ -62,6 +79,10 @@ const BlackJackButtons = () => {
     return hasAce;
   };
 
+  const handleSplit = () => {
+    dispatch(split(player));
+  };
+
   return (
     <div className={"bjgame-buttons-container"}>
       <Button
@@ -74,6 +95,17 @@ const BlackJackButtons = () => {
         onClick={() => handleDoubleDown()}
       >
         Double Down
+      </Button>
+      <Button
+        disabled={
+          !sameCard(player.hand[0], player.hand[1]) ||
+          player.secondHand.length > 1
+        }
+        variant={"outlined"}
+        className={classes.button}
+        onClick={() => handleSplit()}
+      >
+        Split
       </Button>
       <Button
         disabled={!checkForAce()}

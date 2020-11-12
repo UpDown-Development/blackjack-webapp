@@ -9,6 +9,7 @@ export interface Player {
   wallet: number;
   currentBet: number;
   hand: Card[];
+  secondHand: Card[];
   score?: number;
 }
 

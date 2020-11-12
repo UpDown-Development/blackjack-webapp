@@ -16,6 +16,7 @@ export const players: Player[] = [
     wallet: 50,
     currentBet: 20,
     hand: [],
+    secondHand: [],
     score: 0,
   } as Player,
   {
@@ -23,6 +24,7 @@ export const players: Player[] = [
     wallet: 50,
     currentBet: 0,
     hand: [],
+    secondHand: [],
     score: 0,
   } as Player,
 ];
@@ -170,4 +172,51 @@ export const insuranceDeck: Card[] = [
   ...insuranceHand,
   ...insuranceHand,
   ...insuranceHand,
+];
+
+const splitHand: Card[] = [
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Nine of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/9S.png",
+    value: 9,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+];
+
+export const splitDeck: Card[] = [
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
+  ...splitHand,
 ];
