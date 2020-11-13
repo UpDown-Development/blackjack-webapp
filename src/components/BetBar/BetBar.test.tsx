@@ -5,8 +5,12 @@ import BetBar from "./BetBar";
 import Signup from "../Signup/Signup";
 import { act } from "react-dom/test-utils";
 import { BlackJackPhase } from "../../models/generic";
+import firebase from "firebase";
 
 describe("<BetBar/>", () => {
+  afterAll(async () => {
+    await firebase.firestore().disableNetwork();
+  });
   it("renders without crashing", async () => {
     try {
       jest.mock("firebase");
@@ -32,7 +36,7 @@ describe("<BetBar/>", () => {
       expect(testObj.store.getActions()[0].type).toEqual("CASH_OUT");
     });
   });
-  xit("should handle cashout when complete", async () => {
+  it("should handle cashout when complete", async () => {
     jest.mock("firebase");
     const testObj = setup(
       {
@@ -55,9 +59,10 @@ describe("<BetBar/>", () => {
     });
     await Promise.resolve().then(async () => {
       expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+      expect(testObj.store.getActions()[1].type).toEqual("CASH_OUT");
     });
   });
-  xit("should handle betPlacement", async () => {
+  it("should handle betPlacement", async () => {
     jest.mock("firebase");
     const testObj = setup(genericState, <BetBar state={4} />);
     await act(async () => {
@@ -69,7 +74,7 @@ describe("<BetBar/>", () => {
     });
     await Promise.resolve().then(() => {
       expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
-      console.log(testObj.store.getActions());
+      expect(testObj.store.getActions()[1].type).toEqual("PLACE_BET_BLACKJACK");
     });
   });
 });

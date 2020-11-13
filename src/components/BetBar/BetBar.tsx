@@ -33,18 +33,12 @@ const BetBar = (props: propTypes) => {
   });
 
   const handleNextGame = (values: any) => {
-    Promise.all([dispatch(cleanUp(props.state, bjState))]).then(() => {
-      setTimeout(() => {
-        dispatch(placeBet(values.bet, bjState.players[0].wallet));
-      }, 1500);
-    });
+    dispatch(cleanUp(props.state, bjState, false, values));
   };
 
   const handleCashOut = () => {
     if (bjState.phase === BlackJackPhase.COMPLETE) {
-      Promise.all([dispatch(cleanUp(props.state, bjState))]).then(() => {
-        dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
-      });
+      dispatch(cleanUp(props.state, bjState, true));
     } else {
       dispatch(cashOut(bjState.userId, bjState.players[0].wallet));
     }

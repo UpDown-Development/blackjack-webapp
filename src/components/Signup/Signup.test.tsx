@@ -4,9 +4,13 @@ import React from "react";
 import Signup from "./Signup";
 import BlackJackButtons from "../BlackJackButtons/BlackJackButtons";
 import { act } from "react-dom/test-utils";
+import firebase from "firebase";
 
 describe("<Signup/>", () => {
   it("renders without crashing", async () => {
+    afterAll(async () => {
+      await firebase.firestore().disableNetwork();
+    });
     try {
       jest.mock("firebase");
       const testObj = setup(genericState, <Signup />);
