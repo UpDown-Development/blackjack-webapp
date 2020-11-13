@@ -68,7 +68,7 @@ const BetBar = (props: propTypes) => {
           />
           <div className={"buttonContainer"}>
             <Button
-              test-id="submitButton"
+              test-id="submitBtn"
               disabled={bjState.phase !== BlackJackPhase.COMPLETE}
               type="submit"
             >
@@ -76,6 +76,7 @@ const BetBar = (props: propTypes) => {
             </Button>
             <Button
               disabled={bjState.phase !== BlackJackPhase.COMPLETE}
+              test-id="cashoutBtn"
               onClick={() => handleCashOut()}
               variant={"outlined"}
             >
