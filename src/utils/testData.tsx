@@ -55,7 +55,7 @@ export const genericState: RootState = {
     },
     deck: deck,
     players: players,
-    state: BlackJackPhase.BETTING,
+    phase: BlackJackPhase.BETTING,
     name: "BlackJack",
     numberOfDecks: 2,
   },
