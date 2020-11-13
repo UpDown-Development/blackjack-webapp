@@ -18,7 +18,7 @@ describe("<BlackJackButtons/>", () => {
       jest.mock("firebase");
       const testObj = setup(genericState, <BlackJackButtons />);
       // @ts-ignore
-      testObj.wrapper?.find('[test-id="hit"]').find("button").props().onClick();
+      testObj.wrapper.find('[test-id="hit"]').find("button").props().onClick();
       await Promise.resolve().then(() => {
         expect(testObj.store.getActions()[0].type).toEqual(
           "DEAL_CARD_BLACKJACK"
@@ -27,5 +27,48 @@ describe("<BlackJackButtons/>", () => {
     } catch (e) {
       failTest(e);
     }
+  });
+  it("should handle pressing the stay button", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <BlackJackButtons />);
+    // @ts-ignore
+    testObj.wrapper?.find('[test-id="stay"]').find("button").props().onClick();
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual(
+        "MOVE_TO_DEALER_PLAYING_BLACKJACK"
+      );
+    });
+  });
+  it("should handle insurance", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <BlackJackButtons />);
+    // @ts-ignore
+    testObj.wrapper
+      ?.find('[test-id="insurance"]')
+      .find("button")
+      .props()
+      // @ts-ignore
+      .onClick();
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("INSURE");
+    });
+  });
+  it("should handle double down", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <BlackJackButtons />);
+    // @ts-ignore
+    testObj.wrapper
+      ?.find('[test-id="doubleDown"]')
+      .find("button")
+      .props()
+      // @ts-ignore
+      .onClick();
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("DOUBLE_DOWN");
+      expect(testObj.store.getActions()[1].type).toEqual("DEAL_CARD_BLACKJACK");
+      expect(testObj.store.getActions()[2].type).toEqual(
+        "MOVE_TO_DEALER_PLAYING_BLACKJACK"
+      );
+    });
   });
 });

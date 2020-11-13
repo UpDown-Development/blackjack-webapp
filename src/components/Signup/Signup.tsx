@@ -91,6 +91,7 @@ const Signup = () => {
               onChange={formik.handleChange}
             />
             <Button
+              test-id="signupEmailandPassword"
               className={classes.button}
               variant={"contained"}
               type="submit"

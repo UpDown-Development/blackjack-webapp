@@ -71,6 +71,7 @@ const BlackJackButtons = () => {
         }
         variant={"outlined"}
         className={classes.button}
+        test-id="doubleDown"
         onClick={() => handleDoubleDown()}
       >
         Double Down
@@ -78,6 +79,7 @@ const BlackJackButtons = () => {
       <Button
         disabled={!checkForAce()}
         variant={"outlined"}
+        test-id="insurance"
         className={classes.button}
         onClick={() => handleInsurance()}
       >
@@ -95,6 +97,7 @@ const BlackJackButtons = () => {
       <Button
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}
+        test-id="stay"
         className={classes.button}
         onClick={() => handleStay()}
       >
