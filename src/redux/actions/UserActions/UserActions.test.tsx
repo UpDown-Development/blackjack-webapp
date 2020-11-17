@@ -1,6 +1,6 @@
 import { loginUser, oAuth, signUpUserEmailAndPassword } from "./UserActions";
 import { db, myFirebase } from "../../../utils/firebaseConfig";
-import { setup } from "../../../setupTests";
+import { failTest, setup } from "../../../setupTests";
 import { genericState } from "../../../utils/testData";
 
 describe("User Actions", () => {
@@ -48,39 +48,47 @@ describe("User Actions", () => {
     );
   });
   it("should try to sign up with OAuth(Google)", () => {
-    jest.mock("firebase");
-    const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
-      Promise.resolve({ user: { user: { id: "143d" } } })
-    );
-    const testObj = setup(genericState);
-    return (
-      testObj.store
-        // @ts-ignore
-        .dispatch(oAuth("GOOGLE", true))
-        .then(() => {
-          expect(spy).toHaveBeenCalled();
-          expect(testObj.store.getActions()[0].type).toEqual(
-            "USER_SIGNUP_SUCCESS"
-          );
-        })
-    );
+    try {
+      jest.mock("firebase");
+      const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
+        Promise.resolve({ user: { user: { id: "143d" } } })
+      );
+      const testObj = setup(genericState);
+      return (
+        testObj.store
+          // @ts-ignore
+          .dispatch(oAuth("GOOGLE", true))
+          .then(() => {
+            expect(spy).toHaveBeenCalled();
+            expect(testObj.store.getActions()[0].type).toEqual(
+              "USER_SIGNUP_SUCCESS"
+            );
+          })
+      );
+    } catch (e) {
+      failTest(e);
+    }
   });
   it("should try to login with OAuth(GOOGLE)", () => {
-    jest.mock("firebase");
-    const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
-      Promise.resolve({ user: { user: { id: "143d" } } })
-    );
-    const testObj = setup(genericState);
-    return (
-      testObj.store
-        // @ts-ignore
-        .dispatch(oAuth("GOOGLE", false))
-        .then(() => {
-          expect(spy).toHaveBeenCalled();
-          expect(testObj.store.getActions()[0].type).toEqual(
-            "USER_SIGNUP_SUCCESS"
-          );
-        })
-    );
+    try {
+      jest.mock("firebase");
+      const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
+        Promise.resolve({ user: { user: { id: "143d" } } })
+      );
+      const testObj = setup(genericState);
+      return (
+        testObj.store
+          // @ts-ignore
+          .dispatch(oAuth("GOOGLE", false))
+          .then(() => {
+            expect(spy).toHaveBeenCalled();
+            expect(testObj.store.getActions()[0].type).toEqual(
+              "USER_SIGNUP_SUCCESS"
+            );
+          })
+      );
+    } catch (e) {
+      failTest(e);
+    }
   });
 });
