@@ -175,9 +175,6 @@ export const signUpUserEmailAndPassword = (
             type: "UPDATE_NET_WORTH",
             payload: 10000,
           });
-        })
-        .catch((err) => {
-          console.log(err);
         });
     })
     .catch((err) => {
