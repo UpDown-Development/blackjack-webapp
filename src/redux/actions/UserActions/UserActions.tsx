@@ -62,7 +62,9 @@ export const loadGameData = (userid: string, currentGame: CurrentGame) => (
     });
 };
 
-export const signupOAuth = (provider: string) => async (dispatch: any) => {
+export const oAuth = (provider: string, isSignup: boolean) => async (
+  dispatch: any
+) => {
   if (provider === "GOOGLE") {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     googleProvider.addScope(
@@ -76,22 +78,36 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           type: "USER_SIGNUP_SUCCESS",
           payload: user,
         });
-
-        db.collection("users")
-          // @ts-ignore
-          .doc(`/${user.user.uid}`)
-          .set({
-            netWorth: 10000,
-          })
-          .then(() => {
-            dispatch({
-              type: "UPDATE_NET_WORTH",
-              payload: 10000,
+        if (isSignup) {
+          db.collection("users")
+            // @ts-ignore
+            .doc(`/${user.user.uid}`)
+            .set({
+              netWorth: 10000,
+            })
+            .then(() => {
+              dispatch({
+                type: "UPDATE_NET_WORTH",
+                payload: 10000,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        } else {
+          db.collection("users")
+            .doc(user.user?.uid)
+            .get()
+            .then((res) => {
+              dispatch({
+                type: "LOAD_NET_WORTH",
+                payload: {
+                  // @ts-ignore
+                  netWorth: res.data().netWorth,
+                },
+              });
+            });
+        }
       })
       .catch((err) => {
         dispatch({
@@ -110,22 +126,36 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           type: "USER_SIGNUP_SUCCESS",
           payload: user,
         });
-
-        db.collection("users")
-          // @ts-ignore
-          .doc(`/${user.user.uid}`)
-          .set({
-            netWorth: 10000,
-          })
-          .then(() => {
-            dispatch({
-              type: "UPDATE_NET_WORTH",
-              payload: 10000,
+        if (isSignup) {
+          db.collection("users")
+            // @ts-ignore
+            .doc(`/${user.user.uid}`)
+            .set({
+              netWorth: 10000,
+            })
+            .then(() => {
+              dispatch({
+                type: "UPDATE_NET_WORTH",
+                payload: 10000,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        } else {
+          db.collection("users")
+            .doc(user.user?.uid)
+            .get()
+            .then((res) => {
+              dispatch({
+                type: "LOAD_NET_WORTH",
+                payload: {
+                  // @ts-ignore
+                  netWorth: res.data().netWorth,
+                },
+              });
+            });
+        }
       })
       .catch((err) => {
         dispatch({

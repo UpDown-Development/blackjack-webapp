@@ -3,7 +3,7 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/UserActions/UserActions";
+import { loginUser, oAuth } from "../../redux/actions/UserActions/UserActions";
 import { GameUser } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Redirect } from "react-router";
@@ -48,6 +48,10 @@ const Login = () => {
     },
   };
 
+  const handleOAuth = (provider: string) => {
+    dispatch(oAuth(provider, false));
+  };
+
   return (
     <motion.div
       className={"login-container"}
@@ -87,6 +91,24 @@ const Login = () => {
               type="submit"
             >
               Login
+            </Button>
+          </div>
+          <div className={"login-button-container"}>
+            <Button
+              className={classes.button}
+              onClick={() => handleOAuth("GOOGLE")}
+              variant={"contained"}
+              type="submit"
+            >
+              Google
+            </Button>
+            <Button
+              className={classes.button}
+              onClick={() => handleOAuth("FACEBOOK")}
+              variant={"contained"}
+              type="submit"
+            >
+              Facebook
             </Button>
           </div>
         </form>

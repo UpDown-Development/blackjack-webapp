@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  signupOAuth,
+  oAuth,
   signUpUserEmailAndPassword,
 } from "../../redux/actions/UserActions/UserActions";
 import { Redirect } from "react-router";
@@ -46,7 +46,7 @@ const Signup = () => {
   });
 
   const handleOAuth = (provider: string) => {
-    dispatch(signupOAuth(provider));
+    dispatch(oAuth(provider, true));
   };
 
   const animationVariants = {
