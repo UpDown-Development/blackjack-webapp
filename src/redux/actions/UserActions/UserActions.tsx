@@ -33,6 +33,12 @@ export const loginUser = (email: string, password: string) => async (
               netWorth: res.data().netWorth,
             },
           });
+        })
+        .catch((err) => {
+          dispatch({
+            type: "USER_LOGIN_ERROR",
+            payload: err,
+          });
         });
     })
     .catch((err) => {
