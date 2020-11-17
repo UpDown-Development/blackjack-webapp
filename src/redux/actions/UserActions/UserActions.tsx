@@ -93,6 +93,12 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
                   netWorth: res.data().netWorth,
                 },
               });
+            })
+            .catch((err) => {
+              dispatch({
+                type: "USER_LOGIN_ERROR",
+                payload: err,
+              });
             });
         }
       })
@@ -180,6 +186,12 @@ export const signUpUserEmailAndPassword = (
           dispatch({
             type: "UPDATE_NET_WORTH",
             payload: 10000,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: "USER_LOGIN_ERROR",
+            payload: err,
           });
         });
     })

@@ -5,7 +5,6 @@ import { genericState } from "../../../utils/testData";
 
 describe("User Actions", () => {
   it("should log in a user with email successfully", async () => {
-    jest.mock("firebase");
     const spy = spyOn(
       myFirebase.auth(),
       "signInWithEmailAndPassword"
@@ -27,7 +26,6 @@ describe("User Actions", () => {
       });
   });
   it("should try to sign up with no problem", async () => {
-    jest.mock("firebase");
     const spy = spyOn(
       myFirebase.auth(),
       "createUserWithEmailAndPassword"
@@ -49,7 +47,6 @@ describe("User Actions", () => {
       });
   });
   it("should try to sign up with OAuth(Google)", async () => {
-    jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
       Promise.resolve({ user: { user: { id: "143d" } } })
     );
@@ -69,7 +66,6 @@ describe("User Actions", () => {
       });
   });
   it("should try to login with OAuth(GOOGLE)", async () => {
-    jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
       Promise.resolve({ user: { user: { id: "143d" } } })
     );
