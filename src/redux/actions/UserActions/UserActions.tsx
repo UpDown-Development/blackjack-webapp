@@ -147,6 +147,9 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
                   netWorth: res.data().netWorth,
                 },
               });
+            })
+            .catch((err) => {
+              console.log(err);
             });
         }
       })
@@ -174,9 +177,8 @@ export const signUpUserEmailAndPassword = (
       dispatch({
         type: "USER_SIGNUP_SUCCESS",
         payload: user,
-      });
-
-      db.collection("users")
+      })
+        .db.collection("users")
         // @ts-ignore
         .doc(`/${user.user.uid}`)
         .set({
@@ -188,7 +190,7 @@ export const signUpUserEmailAndPassword = (
             payload: 10000,
           });
         })
-        .catch((err) => {
+        .catch((err: any) => {
           dispatch({
             type: "USER_LOGIN_ERROR",
             payload: err,
