@@ -1,9 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { loadGameData } from "../../redux/actions/UserActions/UserActions";
-import { CurrentGame, GameUser } from "../../models/generic";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
