@@ -48,7 +48,7 @@ describe("User Actions", () => {
         failTest(e);
       });
   });
-  it("should try to sign up with OAuth(Google)", async () =>
+  it("should try to sign up with OAuth(Google)", async () => {
     jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
       Promise.resolve({ user: { user: { id: "143d" } } })
