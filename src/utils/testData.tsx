@@ -15,14 +15,14 @@ export const players: Player[] = [
     name: "player",
     wallet: 50,
     currentBet: 20,
-    hand: [],
+    hand: hand,
     score: 0,
   } as Player,
   {
     name: "dealer",
     wallet: 50,
     currentBet: 0,
-    hand: [],
+    hand: hand,
     score: 0,
   } as Player,
 ];
