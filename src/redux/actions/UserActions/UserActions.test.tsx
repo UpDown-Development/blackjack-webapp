@@ -4,7 +4,7 @@ import { failTest, setup } from "../../../setupTests";
 import { genericState } from "../../../utils/testData";
 
 describe("User Actions", () => {
-  it("should log in a user with email successfully", () => {
+  it("should log in a user with email successfully", async () => {
     jest.mock("firebase");
     const spy = spyOn(
       myFirebase.auth(),
@@ -14,7 +14,7 @@ describe("User Actions", () => {
     testObj.store
       // @ts-ignore
       .dispatch(loginUser("test@test.com", "123345"));
-    Promise.resolve()
+    await Promise.resolve()
       .then(() => {
         expect(spy).toHaveBeenCalled();
         expect(testObj.store.getActions()[0].type).toEqual("USER_LOADING");
@@ -26,7 +26,7 @@ describe("User Actions", () => {
         failTest(e);
       });
   });
-  it("should try to sign up with no problem", () => {
+  it("should try to sign up with no problem", async () => {
     jest.mock("firebase");
     const spy = spyOn(
       myFirebase.auth(),
@@ -36,7 +36,7 @@ describe("User Actions", () => {
     testObj.store
       // @ts-ignore
       .dispatch(signUpUserEmailAndPassword("test@test.com", "123345"));
-    Promise.resolve()
+    await Promise.resolve()
       .then(() => {
         expect(spy).toHaveBeenCalled();
         expect(testObj.store.getActions()[0].type).toEqual("USER_LOADING");
@@ -48,7 +48,7 @@ describe("User Actions", () => {
         failTest(e);
       });
   });
-  it("should try to sign up with OAuth(Google)", () => {
+  it("should try to sign up with OAuth(Google)", async () => {
     jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
       Promise.resolve({ user: { user: { id: "143d" } } })
@@ -57,7 +57,7 @@ describe("User Actions", () => {
     testObj.store
       // @ts-ignore
       .dispatch(oAuth("GOOGLE", true));
-    Promise.resolve()
+    await Promise.resolve()
       .then(() => {
         expect(spy).toHaveBeenCalled();
         expect(testObj.store.getActions()[0].type).toEqual(
@@ -68,7 +68,7 @@ describe("User Actions", () => {
         failTest(e);
       });
   });
-  it("should try to login with OAuth(GOOGLE)", () => {
+  it("should try to login with OAuth(GOOGLE)", async () => {
     jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
       Promise.resolve({ user: { user: { id: "143d" } } })
@@ -77,7 +77,7 @@ describe("User Actions", () => {
     testObj.store
       // @ts-ignore
       .dispatch(oAuth("GOOGLE", false));
-    Promise.resolve()
+    await Promise.resolve()
       .then(() => {
         expect(spy).toHaveBeenCalled();
         expect(testObj.store.getActions()[0].type).toEqual(
