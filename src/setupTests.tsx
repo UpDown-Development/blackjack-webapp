@@ -17,7 +17,7 @@ interface SetupResponse {
 
 configure({ adapter: new Adapter() });
 
-export const setup = (data: any, component: any): SetupResponse => {
+export const setup = (data: any, component?: any): SetupResponse => {
   let resComponent:
     | ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
     | undefined = undefined;
@@ -27,12 +27,13 @@ export const setup = (data: any, component: any): SetupResponse => {
   store = mockStore({
     ...data,
   });
-  resComponent = mount(
-    <Provider store={store}>
-      <BrowserRouter>{component}</BrowserRouter>
-    </Provider>
-  );
-
+  if (component) {
+    resComponent = mount(
+      <Provider store={store}>
+        <BrowserRouter>{component}</BrowserRouter>
+      </Provider>
+    );
+  }
   return {
     wrapper: resComponent,
     store: store,
