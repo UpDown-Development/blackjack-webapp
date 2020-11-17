@@ -22,7 +22,8 @@ export const loginUser = (email: string, password: string) => async (
         type: "USER_LOGIN_SUCCESS",
         payload: user,
       });
-      db.collection("users")
+      return db
+        .collection("users")
         .doc(user.user?.uid)
         .get()
         .then((res) => {
@@ -60,23 +61,27 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
           payload: user,
         });
         if (isSignup) {
-          db.collection("users")
-            // @ts-ignore
-            .doc(`/${user.user.uid}`)
-            .set({
-              netWorth: 10000,
-            })
-            .then(() => {
-              dispatch({
-                type: "UPDATE_NET_WORTH",
-                payload: 10000,
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          return (
+            db
+              .collection("users")
+              // @ts-ignore
+              .doc(`/${user.user.uid}`)
+              .set({
+                netWorth: 10000,
+              })
+              .then(() => {
+                dispatch({
+                  type: "UPDATE_NET_WORTH",
+                  payload: 10000,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          );
         } else {
-          db.collection("users")
+          return db
+            .collection("users")
             .doc(user.user?.uid)
             .get()
             .then((res) => {
@@ -108,23 +113,27 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
           payload: user,
         });
         if (isSignup) {
-          db.collection("users")
-            // @ts-ignore
-            .doc(`/${user.user.uid}`)
-            .set({
-              netWorth: 10000,
-            })
-            .then(() => {
-              dispatch({
-                type: "UPDATE_NET_WORTH",
-                payload: 10000,
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          return (
+            db
+              .collection("users")
+              // @ts-ignore
+              .doc(`/${user.user.uid}`)
+              .set({
+                netWorth: 10000,
+              })
+              .then(() => {
+                dispatch({
+                  type: "UPDATE_NET_WORTH",
+                  payload: 10000,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          );
         } else {
-          db.collection("users")
+          return db
+            .collection("users")
             .doc(user.user?.uid)
             .get()
             .then((res) => {
@@ -164,18 +173,21 @@ export const signUpUserEmailAndPassword = (
         payload: user,
       });
 
-      db.collection("users")
-        // @ts-ignore
-        .doc(`/${user.user.uid}`)
-        .set({
-          netWorth: 10000,
-        })
-        .then(() => {
-          dispatch({
-            type: "UPDATE_NET_WORTH",
-            payload: 10000,
-          });
-        });
+      return (
+        db
+          .collection("users")
+          // @ts-ignore
+          .doc(`/${user.user.uid}`)
+          .set({
+            netWorth: 10000,
+          })
+          .then(() => {
+            dispatch({
+              type: "UPDATE_NET_WORTH",
+              payload: 10000,
+            });
+          })
+      );
     })
     .catch((err) => {
       dispatch({
