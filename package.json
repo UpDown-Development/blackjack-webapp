@@ -107,7 +107,7 @@
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "test": "npm run test:unit",
-    "test:unit": " react-scripts test --watchAll=false --coverage=true",
+    "test:unit": " react-scripts test --watchAll=false --coverage=true --detectOpenHandles --forceExit",
     "test:e2e": "cypress run coverage=true"
   },
   "eslintConfig": {
