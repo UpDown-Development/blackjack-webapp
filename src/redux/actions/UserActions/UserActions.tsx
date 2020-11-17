@@ -52,7 +52,7 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
     googleProvider.addScope(
       "https://www.googleapis.com/auth/contacts.readonly"
     );
-    firebase
+    await firebase
       .auth()
       .signInWithPopup(googleProvider)
       .then((user) => {
@@ -104,7 +104,7 @@ export const oAuth = (provider: string, isSignup: boolean) => async (
   }
   if (provider === "FACEBOOK") {
     const facebookProvider = new firebase.auth.FacebookAuthProvider();
-    firebase
+    await firebase
       .auth()
       .signInWithPopup(facebookProvider)
       .then((user) => {
@@ -164,30 +164,34 @@ export const signUpUserEmailAndPassword = (
     type: "USER_LOADING",
   });
 
-  myFirebase
+  await myFirebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then((user) => {
+    .then(async (user) => {
       dispatch({
         type: "USER_SIGNUP_SUCCESS",
         payload: user,
       });
 
-      return (
-        db
-          .collection("users")
-          // @ts-ignore
-          .doc(`/${user.user.uid}`)
-          .set({
-            netWorth: 10000,
-          })
-          .then(() => {
-            dispatch({
-              type: "UPDATE_NET_WORTH",
-              payload: 10000,
-            });
-          })
-      );
+      return await db
+        .collection("users")
+        // @ts-ignore
+        .doc(`/${user.user.uid}`)
+        .set({
+          netWorth: 10000,
+        })
+        .then(() => {
+          dispatch({
+            type: "UPDATE_NET_WORTH",
+            payload: 10000,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: "USER_SIGNUP_ERROR",
+            payload: err,
+          });
+        });
     })
     .catch((err) => {
       dispatch({

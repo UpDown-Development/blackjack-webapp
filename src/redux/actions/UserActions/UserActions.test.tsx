@@ -21,6 +21,9 @@ describe("User Actions", () => {
           "USER_LOGIN_SUCCESS"
         );
         expect(testObj.store.getActions()[2].type).toEqual("USER_LOGIN_ERROR");
+      })
+      .catch(() => {
+        console.log("got here");
       });
   });
   it("should try to sign up with no problem", async () => {
@@ -55,6 +58,9 @@ describe("User Actions", () => {
         expect(testObj.store.getActions()[0].type).toEqual(
           "USER_SIGNUP_SUCCESS"
         );
+      })
+      .catch(() => {
+        console.log("got here");
       });
   });
   it("should try to login with OAuth(GOOGLE)", async () => {
@@ -71,6 +77,9 @@ describe("User Actions", () => {
         expect(testObj.store.getActions()[0].type).toEqual(
           "USER_SIGNUP_SUCCESS"
         );
+      })
+      .catch(() => {
+        console.log("got here");
       });
   });
 });
