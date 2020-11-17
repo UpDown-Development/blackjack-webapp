@@ -34,14 +34,7 @@ const useStyles = makeStyles(() => ({
 
 const Game = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const user: GameUser = useSelector(
-    (state: RootState) => state.UserReducer,
-    shallowEqual
-  );
-  const loadGame = () => {
-    dispatch(loadGameData(user.user.user.uid, CurrentGame.BLACKJACK));
-  };
+
   return (
     <div className={"container"}>
       <Card className={classes.card}>
@@ -62,9 +55,7 @@ const Game = () => {
         <div className={"buttonContainer"}>
           <CardActions>
             <Link to={"/blackjack"}>
-              <Button className={classes.button} onClick={() => loadGame()}>
-                Play
-              </Button>
+              <Button className={classes.button}>Play</Button>
             </Link>
           </CardActions>
         </div>

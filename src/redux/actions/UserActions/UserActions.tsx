@@ -43,25 +43,6 @@ export const loginUser = (email: string, password: string) => async (
     });
 };
 
-export const loadGameData = (userid: string, currentGame: CurrentGame) => (
-  dispatch: any
-) => {
-  db.collection("users")
-    .doc(userid)
-    .collection(currentGame)
-    .doc(`${currentGame}Info`)
-    .get()
-    .then((res) => {
-      dispatch({
-        type: "LOAD_BLACKJACK_DATA",
-        payload: {
-          data: res.data(),
-          userId: userid,
-        },
-      });
-    });
-};
-
 export const oAuth = (provider: string, isSignup: boolean) => async (
   dispatch: any
 ) => {
