@@ -25,7 +25,7 @@ describe("User Actions", () => {
       .catch(() => {
         console.log("got here");
       });
-  });
+  }, 20000);
   it("should try to sign up with no problem", async () => {
     jest.mock("firebase");
     const spy = spyOn(
@@ -43,7 +43,7 @@ describe("User Actions", () => {
           "USER_SIGNUP_SUCCESS"
         );
       });
-  });
+  }, 20000);
   it("should try to sign up with OAuth(Google)", async () => {
     jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
@@ -62,7 +62,7 @@ describe("User Actions", () => {
       .catch(() => {
         console.log("got here");
       });
-  });
+  }, 20000);
   it("should try to login with OAuth(GOOGLE)", async () => {
     jest.mock("firebase");
     const spy = spyOn(myFirebase.auth(), "signInWithPopup").and.returnValue(
@@ -81,5 +81,5 @@ describe("User Actions", () => {
       .catch(() => {
         console.log("got here");
       });
-  });
+  }, 20000);
 });
