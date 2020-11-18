@@ -45,6 +45,7 @@ export const initBlackJack = (
   dispatch({
     type: "INIT_BLACKJACK",
     payload: {
+      userId: userId,
       deck: blackJackDeck,
       players,
       numberOfDecks,
