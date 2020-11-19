@@ -19,15 +19,31 @@ describe("<Toast/>", () => {
     }
   });
   it("shows a win message", async () => {
-    try {
-      jest.mock("firebase");
-      const testObj = setup(
-        genericState,
-        <Toast color={ColorEnum.PUSH} message={"You Win"} />
-      );
-      expect(testObj.wrapper?.text()).toEqual("You Win");
-    } catch (e) {
-      failTest(e);
-    }
+    jest.mock("firebase");
+    const testObj = setup(
+      genericState,
+      <Toast color={ColorEnum.PUSH} message={"You Win"} />
+    );
+    expect(testObj.wrapper?.text()).toEqual("You Win");
+  });
+  it("should close toast", () => {
+    const testObj = setup(
+      genericState,
+      <Toast color={ColorEnum.PUSH} message={"You Win"} />
+    );
+    act(() => {
+      // @ts-ignore
+      testObj.wrapper
+        ?.find('[id="snackbar"]')
+        .first()
+        .props()
+        // @ts-ignore
+        .onClose();
+    });
+    testObj.wrapper?.update();
+    expect(
+      // @ts-ignore
+      testObj.wrapper?.find('[id="snackbar"]').first().props().open.valueOf()
+    ).toEqual(false);
   });
 });

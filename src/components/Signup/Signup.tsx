@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  signupOAuth,
+  oAuth,
   signUpUserEmailAndPassword,
 } from "../../redux/actions/UserActions/UserActions";
 import { Redirect } from "react-router";
@@ -46,7 +46,7 @@ const Signup = () => {
   });
 
   const handleOAuth = (provider: string) => {
-    dispatch(signupOAuth(provider));
+    dispatch(oAuth(provider, true));
   };
 
   const animationVariants = {
@@ -91,6 +91,7 @@ const Signup = () => {
               onChange={formik.handleChange}
             />
             <Button
+              test-id="signupEmailandPassword"
               className={classes.button}
               variant={"contained"}
               type="submit"
@@ -100,18 +101,18 @@ const Signup = () => {
           </div>
           <div className={"signup-button-container"}>
             <Button
+              id="googleOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("GOOGLE")}
               variant={"contained"}
-              type="submit"
             >
               Google
             </Button>
             <Button
+              id="facebookOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("FACEBOOK")}
               variant={"contained"}
-              type="submit"
             >
               Facebook
             </Button>

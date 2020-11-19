@@ -29,6 +29,7 @@ const BlackJackReducer = produce(
   (state = defaultState, action: BlackJackAction) => {
     switch (action.type) {
       case "INIT_BLACKJACK":
+        state.userId = action.payload.userId;
         state.deck = action.payload.deck;
         state.players = action.payload.players;
         state.playerInfo.wallet = action.payload.wallet;

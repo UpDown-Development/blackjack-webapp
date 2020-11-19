@@ -48,6 +48,7 @@ export const initBlackJack = (
   dispatch({
     type: "INIT_BLACKJACK",
     payload: {
+      userId: userId,
       deck: blackJackDeck,
       players,
       numberOfDecks,
@@ -133,9 +134,12 @@ export const endPlaying = (hand: Card[], dealer: Player) => async (
   ]).then(dispatch(calculateScore(dealerHand, dealer)));
 };
 
-export const cleanUp = (state: number, gameState: BlackJack) => async (
-  dispatch: any
-) => {
+export const cleanUp = (
+  state: number,
+  gameState: BlackJack,
+  cashout: boolean = false,
+  values?: any
+) => async (dispatch: any) => {
   const player = gameState.players[0];
   const deck = gameState.deck;
   const deckNum = gameState.numberOfDecks;
@@ -209,7 +213,7 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
     newDeck = deck;
   }
 
-  dispatch({
+  await dispatch({
     type: "CLEANUP_BLACKJACK",
     payload: {
       info: info,
@@ -217,6 +221,13 @@ export const cleanUp = (state: number, gameState: BlackJack) => async (
       wallet: wallet,
     },
   });
+
+  if (cashout) {
+    dispatch(cashOut(gameState.userId, gameState.players[0].wallet));
+  }
+  if (values) {
+    dispatch(placeBet(values.bet, gameState.players[0].wallet));
+  }
 
   await db
     .collection("users")
