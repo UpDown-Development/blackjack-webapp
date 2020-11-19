@@ -295,18 +295,18 @@ export const doubleDown = (
   dispatch(dealCard(deck, player));
 };
 
-export const split = (player: Player) => async (dispatch: any) => {
-  let newPlayer = {
-    ...player,
-    hand: player.hand[0],
-    secondHand: player.hand[1],
-  };
+export const split = (player: Player, deck: Card[]) => async (
+  dispatch: any
+) => {
+  let newPlayer = player;
+  let newDeck = deck;
 
   dispatch({
     type: "SPLIT",
 
     payload: {
       player: newPlayer,
+      deck: newDeck,
     },
   });
 };

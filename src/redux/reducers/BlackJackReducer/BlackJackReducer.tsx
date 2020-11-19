@@ -56,6 +56,7 @@ const BlackJackReducer = produce(
         break;
       case "SPLIT":
         state.players[0] = action.payload.player;
+        state.deck = action.payload.deck;
         break;
       case "DEAL_OPENING_CARDS_BLACKJACK":
         state.deck = action.payload.deck;

@@ -19,8 +19,6 @@ import StatsSidebar from "../../components/StatsSidebar/StatsSidebar";
 import BetBar from "../../components/BetBar/BetBar";
 import BlackJackButtons from "../../components/BlackJackButtons/BlackJackButtons";
 
-// TODO: Split
-
 export const BlackJackGame = () => {
   const dispatch = useDispatch();
   const bjState: BlackJack = useSelector(
