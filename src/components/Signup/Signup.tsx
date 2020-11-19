@@ -101,18 +101,18 @@ const Signup = () => {
           </div>
           <div className={"signup-button-container"}>
             <Button
+              id="googleOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("GOOGLE")}
               variant={"contained"}
-              type="submit"
             >
               Google
             </Button>
             <Button
+              id="facebookOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("FACEBOOK")}
               variant={"contained"}
-              type="submit"
             >
               Facebook
             </Button>

@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import BlackJackButtons from "../BlackJackButtons/BlackJackButtons";
 import { act } from "react-dom/test-utils";
 import firebase from "firebase";
+import Login from "../Login/Login";
 
 describe("<Signup/>", () => {
   it("renders without crashing", async () => {
@@ -57,6 +58,42 @@ describe("<Signup/>", () => {
     await Promise.resolve().then(() => {
       expect(testObj.store.getActions()[0].type).toEqual("USER_LOADING");
       expect(testObj.store.getActions()[1]).toBeFalsy();
+    });
+  });
+  it("should signup with Google OAuth", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <Signup />);
+    await act(async () => {
+      // @ts-ignore
+      await testObj.wrapper
+        ?.find('[id="googleOAuthBtn"]')
+        .find("button")
+        .props()
+        // @ts-ignore
+        .onClick();
+    });
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].payload.code).toEqual(
+        "auth/operation-not-supported-in-this-environment"
+      );
+    });
+  });
+  it("should signup with Facebook OAuth", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <Signup />);
+    await act(async () => {
+      // @ts-ignore
+      await testObj.wrapper
+        ?.find('[id="facebookOAuthBtn"]')
+        .find("button")
+        .props()
+        // @ts-ignore
+        .onClick();
+    });
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].payload.code).toEqual(
+        "auth/operation-not-supported-in-this-environment"
+      );
     });
   });
 });
