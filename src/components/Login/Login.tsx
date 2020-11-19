@@ -86,6 +86,7 @@ const Login = () => {
               onChange={formik.handleChange}
             />
             <Button
+              test-id="submitBtn"
               className={classes.button}
               variant={"contained"}
               type="submit"
@@ -95,18 +96,18 @@ const Login = () => {
           </div>
           <div className={"login-button-container"}>
             <Button
+              id="googleOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("GOOGLE")}
               variant={"contained"}
-              type="submit"
             >
               Google
             </Button>
             <Button
+              id="facebookOAuthBtn"
               className={classes.button}
               onClick={() => handleOAuth("FACEBOOK")}
               variant={"contained"}
-              type="submit"
             >
               Facebook
             </Button>
