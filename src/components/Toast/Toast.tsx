@@ -12,20 +12,18 @@ interface PropTypes {
 
 const Toast = (props: PropTypes) => {
   const [open, setOpen] = useState(props.open || true);
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleClose = () => {
     setOpen(false);
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={3500} onClose={handleClose}>
-      <Alert
-        icon={false}
-        onClose={handleClose}
-        severity={props.color.valueOf()}
-      >
+    <Snackbar
+      id="snackbar"
+      open={open}
+      autoHideDuration={3500}
+      onClose={handleClose}
+    >
+      <Alert id="alertBtn" icon={false} severity={props.color.valueOf()}>
         {props.message}
       </Alert>
     </Snackbar>

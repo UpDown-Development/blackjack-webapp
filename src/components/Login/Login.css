@@ -7,6 +7,14 @@
   flex-basis: fit-content;
 }
 
+.login-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-basis: fit-content;
+}
+
 .login-field-container {
     display: flex;
     justify-content: center;

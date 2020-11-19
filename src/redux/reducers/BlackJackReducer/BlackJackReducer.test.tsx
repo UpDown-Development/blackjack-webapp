@@ -22,6 +22,7 @@ describe("BlackJack Reducer", () => {
 
     expect(result).toEqual({
       ...defaultState,
+      userId: undefined,
       deck: loadedDeck,
       players: players,
       numberOfDecks: 3,

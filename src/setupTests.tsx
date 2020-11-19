@@ -34,7 +34,6 @@ export const setup = (data: any, component?: any): SetupResponse => {
       </Provider>
     );
   }
-
   return {
     wrapper: resComponent,
     store: store,

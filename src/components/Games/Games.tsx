@@ -1,9 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { loadGameData } from "../../redux/actions/UserActions/UserActions";
-import { CurrentGame, GameUser } from "../../models/generic";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -34,14 +30,7 @@ const useStyles = makeStyles(() => ({
 
 const Game = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const user: GameUser = useSelector(
-    (state: RootState) => state.UserReducer,
-    shallowEqual
-  );
-  const loadGame = () => {
-    dispatch(loadGameData(user.user.user.uid, CurrentGame.BLACKJACK));
-  };
+
   return (
     <div className={"container"}>
       <Card className={classes.card}>
@@ -62,9 +51,7 @@ const Game = () => {
         <div className={"buttonContainer"}>
           <CardActions>
             <Link to={"/blackjack"}>
-              <Button className={classes.button} onClick={() => loadGame()}>
-                Play
-              </Button>
+              <Button className={classes.button}>Play</Button>
             </Link>
           </CardActions>
         </div>

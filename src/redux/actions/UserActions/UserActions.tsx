@@ -22,7 +22,8 @@ export const loginUser = (email: string, password: string) => async (
         type: "USER_LOGIN_SUCCESS",
         payload: user,
       });
-      db.collection("users")
+      return db
+        .collection("users")
         .doc(user.user?.uid)
         .get()
         .then((res) => {
@@ -43,32 +44,15 @@ export const loginUser = (email: string, password: string) => async (
     });
 };
 
-export const loadGameData = (userid: string, currentGame: CurrentGame) => (
+export const oAuth = (provider: string, isSignup: boolean) => async (
   dispatch: any
 ) => {
-  db.collection("users")
-    .doc(userid)
-    .collection(currentGame)
-    .doc(`${currentGame}Info`)
-    .get()
-    .then((res) => {
-      dispatch({
-        type: "LOAD_BLACKJACK_DATA",
-        payload: {
-          data: res.data(),
-          userId: userid,
-        },
-      });
-    });
-};
-
-export const signupOAuth = (provider: string) => async (dispatch: any) => {
   if (provider === "GOOGLE") {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     googleProvider.addScope(
       "https://www.googleapis.com/auth/contacts.readonly"
     );
-    firebase
+    await firebase
       .auth()
       .signInWithPopup(googleProvider)
       .then((user) => {
@@ -76,22 +60,40 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           type: "USER_SIGNUP_SUCCESS",
           payload: user,
         });
-
-        db.collection("users")
-          // @ts-ignore
-          .doc(`/${user.user.uid}`)
-          .set({
-            netWorth: 10000,
-          })
-          .then(() => {
-            dispatch({
-              type: "UPDATE_NET_WORTH",
-              payload: 10000,
+        if (isSignup) {
+          return (
+            db
+              .collection("users")
+              // @ts-ignore
+              .doc(`/${user.user.uid}`)
+              .set({
+                netWorth: 10000,
+              })
+              .then(() => {
+                dispatch({
+                  type: "UPDATE_NET_WORTH",
+                  payload: 10000,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          );
+        } else {
+          return db
+            .collection("users")
+            .doc(user.user?.uid)
+            .get()
+            .then((res) => {
+              dispatch({
+                type: "LOAD_NET_WORTH",
+                payload: {
+                  // @ts-ignore
+                  netWorth: res.data().netWorth,
+                },
+              });
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        }
       })
       .catch((err) => {
         dispatch({
@@ -102,7 +104,7 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
   }
   if (provider === "FACEBOOK") {
     const facebookProvider = new firebase.auth.FacebookAuthProvider();
-    firebase
+    await firebase
       .auth()
       .signInWithPopup(facebookProvider)
       .then((user) => {
@@ -110,22 +112,40 @@ export const signupOAuth = (provider: string) => async (dispatch: any) => {
           type: "USER_SIGNUP_SUCCESS",
           payload: user,
         });
-
-        db.collection("users")
-          // @ts-ignore
-          .doc(`/${user.user.uid}`)
-          .set({
-            netWorth: 10000,
-          })
-          .then(() => {
-            dispatch({
-              type: "UPDATE_NET_WORTH",
-              payload: 10000,
+        if (isSignup) {
+          return (
+            db
+              .collection("users")
+              // @ts-ignore
+              .doc(`/${user.user.uid}`)
+              .set({
+                netWorth: 10000,
+              })
+              .then(() => {
+                dispatch({
+                  type: "UPDATE_NET_WORTH",
+                  payload: 10000,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          );
+        } else {
+          return db
+            .collection("users")
+            .doc(user.user?.uid)
+            .get()
+            .then((res) => {
+              dispatch({
+                type: "LOAD_NET_WORTH",
+                payload: {
+                  // @ts-ignore
+                  netWorth: res.data().netWorth,
+                },
+              });
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        }
       })
       .catch((err) => {
         dispatch({
@@ -144,16 +164,17 @@ export const signUpUserEmailAndPassword = (
     type: "USER_LOADING",
   });
 
-  myFirebase
+  await myFirebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then((user) => {
+    .then(async (user) => {
       dispatch({
         type: "USER_SIGNUP_SUCCESS",
         payload: user,
       });
 
-      db.collection("users")
+      return await db
+        .collection("users")
         // @ts-ignore
         .doc(`/${user.user.uid}`)
         .set({
@@ -166,7 +187,10 @@ export const signUpUserEmailAndPassword = (
           });
         })
         .catch((err) => {
-          console.log(err);
+          dispatch({
+            type: "USER_SIGNUP_ERROR",
+            payload: err,
+          });
         });
     })
     .catch((err) => {

@@ -2,8 +2,15 @@ import { failTest, setup } from "../../setupTests";
 import { genericState } from "../../utils/testData";
 import React from "react";
 import BetBar from "./BetBar";
+import Signup from "../Signup/Signup";
+import { act } from "react-dom/test-utils";
+import { BlackJackPhase } from "../../models/generic";
+import firebase from "firebase";
 
 describe("<BetBar/>", () => {
+  afterAll(async () => {
+    await firebase.firestore().disableNetwork();
+  });
   it("renders without crashing", async () => {
     try {
       jest.mock("firebase");
@@ -12,5 +19,62 @@ describe("<BetBar/>", () => {
     } catch (e) {
       failTest(e);
     }
+  });
+  it("should handle cashout", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <BetBar state={4} />);
+    await act(async () => {
+      // @ts-ignore
+      await testObj.wrapper
+        ?.find('[test-id="cashoutBtn"]')
+        .find("button")
+        .props()
+        // @ts-ignore
+        .onClick();
+    });
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("CASH_OUT");
+    });
+  });
+  it("should handle cashout when complete", async () => {
+    jest.mock("firebase");
+    const testObj = setup(
+      {
+        ...genericState,
+        BlackJackReducer: {
+          ...genericState.BlackJackReducer,
+          phase: BlackJackPhase.COMPLETE,
+        },
+      },
+      <BetBar state={4} />
+    );
+    await act(async () => {
+      // @ts-ignore
+      await testObj.wrapper
+        ?.find('[test-id="cashoutBtn"]')
+        .find("button")
+        .props()
+        // @ts-ignore
+        .onClick();
+    });
+    await Promise.resolve().then(async () => {
+      expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+      expect(testObj.store.getActions()[1].type).toEqual("CASH_OUT");
+    });
+  });
+  it("should handle betPlacement", async () => {
+    jest.mock("firebase");
+    const testObj = setup(genericState, <BetBar state={4} />);
+    await act(async () => {
+      // @ts-ignore
+      await testObj.wrapper
+        ?.find('[test-id="submitBtn"]')
+        .find("button")
+        .simulate("submit");
+    });
+    await Promise.resolve().then(() => {
+      expect(testObj.store.getActions()[0].type).toEqual("CLEANUP_BLACKJACK");
+      expect(testObj.store.getActions()[1].type).toEqual("PLACE_BET_BLACKJACK");
+    });
   });
 });
