@@ -379,9 +379,11 @@ export const calculateScore = (hand: Card[], player: Player) => async (
   });
 };
 
-export const dealCard = (deck: Card[], player: Player) => async (
-  dispatch: any
-) => {
+export const dealCard = (
+  deck: Card[],
+  player: Player,
+  handIndex: number
+) => async (dispatch: any) => {
   const playerId = findPlayerId(player);
   let card = deck.slice(-1)[0];
 
@@ -389,6 +391,7 @@ export const dealCard = (deck: Card[], player: Player) => async (
     dispatch({
       type: "DEAL_CARD_BLACKJACK",
       payload: {
+        handIndex: handIndex,
         playerId: playerId,
         deck: deck.slice(0, -1),
         hand: [...player.hand, card],

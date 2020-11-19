@@ -68,7 +68,12 @@ const BlackJackReducer = produce(
         break;
       case "DEAL_CARD_BLACKJACK":
         state.deck = action.payload.deck;
-        state.players[action.payload.playerId].hand = action.payload.hand;
+        if (action.payload.handIndex == 1) {
+          state.players[action.payload.playerId].hand = action.payload.hand;
+        } else if (action.payload.handIndex == 2) {
+          state.players[action.payload.playerId].hand =
+            action.payload.secondHand;
+        }
         break;
       case "MOVE_TO_DEALER_PLAYING_BLACKJACK":
         state.phase = BlackJackPhase.DEALER_PLAYING;
