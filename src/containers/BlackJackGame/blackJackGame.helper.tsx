@@ -12,7 +12,7 @@ import { Redirect } from "react-router";
 export const dealerAI = (dispatch: any, deck: Card[], dealer: Player) => {
   // @ts-ignore
   if (dealer.score < 17) {
-    dispatch(dealCard(deck, dealer));
+    dispatch(dealCard(deck, dealer, 1));
     return true;
   } else {
     dispatch(moveToComplete());

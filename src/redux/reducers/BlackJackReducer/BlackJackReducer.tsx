@@ -70,9 +70,9 @@ const BlackJackReducer = produce(
         break;
       case "DEAL_CARD_BLACKJACK":
         state.deck = action.payload.deck;
-        if (action.payload.handIndex == 1) {
+        if (action.payload.handIndex === 1) {
           state.players[action.payload.playerId].hand = action.payload.hand;
-        } else if (action.payload.handIndex == 2) {
+        } else if (action.payload.handIndex === 2) {
           state.players[action.payload.playerId].hand =
             action.payload.secondHand;
         }

@@ -45,7 +45,7 @@ const BlackJackButtons = () => {
   const player = bjState.players[0];
 
   const handleHit = () => {
-    dispatch(dealCard(bjState.deck, bjState.players[0]));
+    dispatch(dealCard(bjState.deck, bjState.players[0], 1));
   };
 
   const handleStay = () => {

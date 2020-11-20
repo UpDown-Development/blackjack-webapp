@@ -5,6 +5,7 @@ import "./Hand.css";
 
 interface Props {
   player: Player;
+  hand: Card[];
 }
 
 const Hand = (props: Props) => {
@@ -12,7 +13,7 @@ const Hand = (props: Props) => {
     <div className={"hand-container"}>
       <AnimateSharedLayout>
         <motion.div layout>
-          {props.player.hand.map((card: Card, index: number) => {
+          {props.hand.map((card: Card, index: number) => {
             return card.isFaceUp ? (
               <motion.img
                 initial={{ x: -1000, y: -1000 }}

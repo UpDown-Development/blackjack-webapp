@@ -48,8 +48,9 @@ export const BlackJackGame = () => {
       exit="exit"
     >
       <div className={"playedCards"}>
-        <Hand player={dealer} />
-        <Hand player={player} />
+        <Hand player={dealer} hand={dealer.hand} />
+        <Hand player={player} hand={player.hand} />
+        {player.secondHand && <Hand player={player} hand={player.secondHand} />}
         <ConditionalRender state={bjState} dispatch={dispatch} />
       </div>
       <div className={"bjgame-sidebar"}>
