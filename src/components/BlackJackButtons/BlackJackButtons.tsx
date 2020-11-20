@@ -44,8 +44,8 @@ const BlackJackButtons = () => {
 
   const player = bjState.players[0];
 
-  const handleHit = () => {
-    dispatch(dealCard(bjState.deck, bjState.players[0], 1));
+  const handleHit = (handIndex: number) => {
+    dispatch(dealCard(bjState.deck, bjState.players[0], handIndex));
   };
 
   const handleStay = () => {
@@ -122,10 +122,19 @@ const BlackJackButtons = () => {
         variant={"outlined"}
         className={classes.button}
         test-id="hit"
-        onClick={() => handleHit()}
+        onClick={() => handleHit(1)}
       >
         Hit
       </Button>
+      {player.secondHand.length > 0 && (
+        <Button
+          variant={"outlined"}
+          className={classes.button}
+          onClick={() => handleHit(2)}
+        >
+          Hit Hand 2
+        </Button>
+      )}
       <Button
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}

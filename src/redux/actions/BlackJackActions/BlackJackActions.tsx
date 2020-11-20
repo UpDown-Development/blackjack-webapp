@@ -40,10 +40,10 @@ export const initBlackJack = (
 
   const players: Player[] = [player, dealer];
 
-  const blackJackDeck = shuffle(numberOfDecks);
+  //const blackJackDeck = shuffle(numberOfDecks);
   // const blackJackDeck = loadedDeck;
   //const blackJackDeck = insuranceDeck;
-  // const blackJackDeck = splitDeck;
+  const blackJackDeck = splitDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",
@@ -317,7 +317,7 @@ export const split = (player: Player, deck: Card[]) => async (
   let newPlayer: Player = {
     ...player,
     hand: [player.hand[0], card1],
-    secondHand: [player.hand[1], card2],
+    secondHand: [{ ...player.hand[1], delay: 0 }, card2],
   };
 
   dispatch({
@@ -405,6 +405,13 @@ export const dealCard = (
 ) => async (dispatch: any) => {
   const playerId = findPlayerId(player);
   let card = deck.slice(-1)[0];
+  let hand: Card[] = [];
+
+  if (handIndex === 1) {
+    hand = [...player.hand, card];
+  } else if (handIndex === 2) {
+    hand = [...player.secondHand, card];
+  }
 
   Promise.all([
     dispatch({
@@ -413,7 +420,7 @@ export const dealCard = (
         handIndex: handIndex,
         playerId: playerId,
         deck: deck.slice(0, -1),
-        hand: [...player.hand, card],
+        hand: hand,
         player: player.name,
       },
     }),

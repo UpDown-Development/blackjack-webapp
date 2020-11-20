@@ -1,6 +1,7 @@
 import { BlackJack, BlackJackPhase, Card, Player } from "../models/generic";
 import { deck } from "./blackJackDeck";
 import { RootState } from "../redux/rootReducer";
+import _ from "lodash";
 
 export const card: Card = {
   delay: 0.6000000000000001,
@@ -203,20 +204,4 @@ const splitHand: Card[] = [
   },
 ];
 
-export const splitDeck: Card[] = [
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-  ...splitHand,
-];
+export const splitDeck: Card[] = [..._.shuffle(deck), ...splitHand];
