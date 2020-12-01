@@ -132,8 +132,11 @@ const BlackJackButtons = () => {
       </Button>
       {player.secondHand.length > 0 && (
         <Button
-          // @ts-ignore
-          disabled={bjState.players[0].secondScore > 21}
+          disabled={
+            // @ts-ignore
+            bjState.players[0].secondScore > 21 ||
+            bjState.phase !== BlackJackPhase.PLAYER_PLAYING
+          }
           variant={"outlined"}
           className={classes.button}
           onClick={() => handleHit(2)}
