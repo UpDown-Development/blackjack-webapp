@@ -82,6 +82,7 @@ export const placeBet = (bet: number, wallet: number) => async (
   dispatch({
     type: "PLACE_BET_BLACKJACK",
     payload: {
+      moveToDealing: true,
       currentBet: bet,
       wallet: wallet - bet,
     },
@@ -264,9 +265,11 @@ export const doubleDown = (
   dispatch(dealCard(deck, player, 1));
 };
 
-export const split = (player: Player, deck: Card[]) => async (
-  dispatch: any
-) => {
+export const split = (
+  player: Player,
+  bjState: BlackJack,
+  deck: Card[]
+) => async (dispatch: any) => {
   let newDeck = deck;
   const card1 = newDeck.slice(-1)[0];
   newDeck = newDeck.slice(0, -1);
@@ -284,6 +287,15 @@ export const split = (player: Player, deck: Card[]) => async (
     payload: {
       player: newPlayer,
       deck: newDeck,
+    },
+  });
+
+  dispatch({
+    type: "PLACE_BET_BLACKJACK",
+    payload: {
+      moveToDealing: false,
+      currentBet: bjState.playerInfo.currentBet * 2,
+      wallet: bjState.playerInfo.wallet - bjState.playerInfo.currentBet,
     },
   });
   dispatch(calculateScore([player.hand[0], card1], player, 1));

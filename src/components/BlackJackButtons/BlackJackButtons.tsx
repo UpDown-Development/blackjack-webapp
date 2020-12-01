@@ -80,7 +80,7 @@ const BlackJackButtons = () => {
   };
 
   const handleSplit = () => {
-    dispatch(split(player, bjState.deck));
+    dispatch(split(player, bjState, bjState.deck));
   };
 
   return (

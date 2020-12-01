@@ -44,7 +44,9 @@ const BlackJackReducer = produce(
         state.userId = action.payload.userId;
         break;
       case "PLACE_BET_BLACKJACK":
-        state.phase = BlackJackPhase.DEALING;
+        if (action.payload.moveToDealing === true) {
+          state.phase = BlackJackPhase.DEALING;
+        }
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
         state.playerInfo.currentBet = action.payload.currentBet;
