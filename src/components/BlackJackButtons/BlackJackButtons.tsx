@@ -118,7 +118,11 @@ const BlackJackButtons = () => {
         Insurance
       </Button>
       <Button
-        disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
+        disabled={
+          bjState.phase !== BlackJackPhase.PLAYER_PLAYING ||
+          // @ts-ignore
+          bjState.players[0].score > 21
+        }
         variant={"outlined"}
         className={classes.button}
         test-id="hit"
@@ -128,6 +132,8 @@ const BlackJackButtons = () => {
       </Button>
       {player.secondHand.length > 0 && (
         <Button
+          // @ts-ignore
+          disabled={bjState.players[0].secondScore > 21}
           variant={"outlined"}
           className={classes.button}
           onClick={() => handleHit(2)}

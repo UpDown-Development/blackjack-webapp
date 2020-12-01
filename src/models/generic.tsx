@@ -11,6 +11,7 @@ export interface Player {
   hand: Card[];
   secondHand: Card[];
   score?: number;
+  secondScore?: number;
 }
 
 export interface GameUser {

@@ -36,7 +36,9 @@ export const BlackJackGame = () => {
   }, [dealer.score]);
 
   useEffect(() => {
-    checkScore(dispatch, player, dealer);
+    if (bjState.players[0].secondHand === undefined) {
+      checkScore(dispatch, player, dealer);
+    }
   }, [player.score]);
 
   return (
@@ -48,9 +50,17 @@ export const BlackJackGame = () => {
       exit="exit"
     >
       <div className={"playedCards"}>
-        <Hand player={dealer} hand={dealer.hand} />
-        <Hand player={player} hand={player.hand} />
-        {player.secondHand && <Hand player={player} hand={player.secondHand} />}
+        <div className={"hand-container"}>
+          <Hand player={dealer} hand={dealer.hand} />
+        </div>
+        <div className={"hand-container"}>
+          <Hand player={player} hand={player.hand} />
+          {player.secondHand && (
+            <div className={"second-hand-container"}>
+              <Hand player={player} hand={player.secondHand} />
+            </div>
+          )}
+        </div>
         <ConditionalRender state={bjState} dispatch={dispatch} />
       </div>
       <div className={"bjgame-sidebar"}>

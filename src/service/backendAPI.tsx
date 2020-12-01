@@ -18,11 +18,8 @@ export const updateNetWorth = async (userId: string, wallet: number) => {
   });
 };
 
-export const createGameHistory = async (
-  userId: string,
-  gamesPlayed: number,
-  wallet: number
-) => {
+export const createGameHistory = async (userId: string, wallet: number) => {
+  let gamesPlayed = 1;
   await db
     .collection("users")
     .doc(userId)
@@ -47,8 +44,8 @@ export const createGameHistory = async (
           startingWallet: wallet,
           currentBlackjacks: 0,
         });
-      return gamesPlayed;
     });
+  return gamesPlayed;
 };
 
 export const createHandHistory = async (

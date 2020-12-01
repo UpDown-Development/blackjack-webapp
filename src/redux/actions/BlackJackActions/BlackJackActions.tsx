@@ -68,8 +68,7 @@ export const initBlackJack = (
     });
   });
 
-  let gamesPlayed = 1;
-  await createGameHistory(userId, gamesPlayed, wallet).then((gamesPlayed) => {
+  await createGameHistory(userId, wallet).then((gamesPlayed) => {
     dispatch({
       type: "CURRENT_GAME_NUMBER",
       payload: gamesPlayed,
@@ -102,7 +101,7 @@ export const endPlaying = (hand: Card[], dealer: Player) => async (
       type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
       payload: dealerHand,
     }),
-  ]).then(dispatch(calculateScore(dealerHand, dealer)));
+  ]).then(dispatch(calculateScore(dealerHand, dealer, 1)));
 };
 
 export const cleanUp = (
@@ -241,10 +240,10 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     }),
   ])
     .then(() => {
-      dispatch(calculateScore(hands[0], players[0]));
+      dispatch(calculateScore(hands[0], players[0], 1));
     })
     .then(() => {
-      dispatch(calculateScore(hands[1], players[1]));
+      dispatch(calculateScore(hands[1], players[1], 2));
     });
 };
 
@@ -279,7 +278,7 @@ export const split = (player: Player, deck: Card[]) => async (
     secondHand: [{ ...player.hand[1], delay: 0 }, card2],
   };
 
-  dispatch({
+  await dispatch({
     type: "SPLIT",
 
     payload: {
@@ -287,6 +286,8 @@ export const split = (player: Player, deck: Card[]) => async (
       deck: newDeck,
     },
   });
+  dispatch(calculateScore([player.hand[0], card1], player, 1));
+  dispatch(calculateScore([{ ...player.hand[1], delay: 0 }, card2], player, 2));
 };
 
 export const insure = (currentBet: number, wallet: number) => async (
@@ -310,8 +311,6 @@ export const cashOut = (userId: string, wallet: number) => async (
     type: "CASH_OUT",
   });
 
-  const userData = db.collection("users").doc(userId);
-
   updateNetWorth(userId, wallet).then((newBank) => {
     dispatch({
       type: "UPDATE_NET_WORTH",
@@ -320,9 +319,11 @@ export const cashOut = (userId: string, wallet: number) => async (
   });
 };
 
-export const calculateScore = (hand: Card[], player: Player) => async (
-  dispatch: any
-) => {
+export const calculateScore = (
+  hand: Card[],
+  player: Player,
+  handId: number
+) => async (dispatch: any) => {
   const playerId = findPlayerId(player);
   let score: number = 0;
   const newHand = hand.filter((card) => card.isFaceUp);
@@ -342,6 +343,7 @@ export const calculateScore = (hand: Card[], player: Player) => async (
   dispatch({
     type: "CALCULATE_SCORE_BLACKJACK",
     payload: {
+      handId: handId,
       playerId: playerId,
       score: score,
     },
@@ -375,7 +377,7 @@ export const dealCard = (
       },
     }),
   ]).then(() => {
-    dispatch(calculateScore([...player.hand, card], player));
+    dispatch(calculateScore(hand, player, handIndex));
   });
 };
 

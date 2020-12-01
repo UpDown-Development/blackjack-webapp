@@ -10,7 +10,7 @@ interface Props {
 
 const Hand = (props: Props) => {
   return (
-    <div className={"hand-container"}>
+    <div>
       <AnimateSharedLayout>
         <motion.div layout>
           {props.hand.map((card: Card, index: number) => {

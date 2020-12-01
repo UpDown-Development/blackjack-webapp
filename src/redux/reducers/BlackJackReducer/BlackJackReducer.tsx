@@ -1,4 +1,4 @@
-import { BlackJack, BlackJackPhase } from "../../../models/generic";
+import { BlackJack, BlackJackPhase, Player } from "../../../models/generic";
 import produce from "immer";
 import { BlackJackAction } from "../../actions/BlackJackActions/BlackJackActions";
 
@@ -66,7 +66,12 @@ const BlackJackReducer = produce(
         state.phase = BlackJackPhase.PLAYER_PLAYING;
         break;
       case "CALCULATE_SCORE_BLACKJACK":
-        state.players[action.payload.playerId].score = action.payload.score;
+        if (action.payload.handId === 1) {
+          state.players[action.payload.playerId].score = action.payload.score;
+        } else {
+          state.players[action.payload.playerId].secondScore =
+            action.payload.secondScore;
+        }
         break;
       case "DEAL_CARD_BLACKJACK":
         state.deck = action.payload.deck;
