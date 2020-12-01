@@ -105,6 +105,7 @@ describe("BlackJack Reducer", () => {
     const result = BlackJackReducer(genericState.BlackJackReducer, {
       type: "DEAL_CARD_BLACKJACK",
       payload: {
+        handIndex: 1,
         deck: loadedDeck,
         playerId: 0,
         hand: [card, card, card],
