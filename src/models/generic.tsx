@@ -9,7 +9,9 @@ export interface Player {
   wallet: number;
   currentBet: number;
   hand: Card[];
+  secondHand: Card[];
   score?: number;
+  secondScore?: number;
 }
 
 export interface GameUser {

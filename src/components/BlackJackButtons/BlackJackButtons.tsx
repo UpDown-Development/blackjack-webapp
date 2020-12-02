@@ -4,9 +4,10 @@ import {
   doubleDown,
   endPlaying,
   insure,
+  split,
 } from "../../redux/actions/BlackJackActions/BlackJackActions";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { BlackJack, BlackJackPhase } from "../../models/generic";
+import { BlackJack, BlackJackPhase, Card } from "../../models/generic";
 import { RootState } from "../../redux/rootReducer";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,8 +28,24 @@ const BlackJackButtons = () => {
     shallowEqual
   );
 
-  const handleHit = () => {
-    dispatch(dealCard(bjState.deck, bjState.players[0]));
+  const sameCard = (card1: Card, card2: Card) => {
+    let status = false;
+
+    try {
+      const cardNames = [card1, card2].map((x) => {
+        return x.name.split(" ")[0];
+      });
+
+      status = cardNames[0] === cardNames[1];
+    } catch (e) {}
+
+    return status;
+  };
+
+  const player = bjState.players[0];
+
+  const handleHit = (handIndex: number) => {
+    dispatch(dealCard(bjState.deck, bjState.players[0], handIndex));
   };
 
   const handleStay = () => {
@@ -62,6 +79,10 @@ const BlackJackButtons = () => {
     return hasAce;
   };
 
+  const handleSplit = () => {
+    dispatch(split(player, bjState, bjState.deck));
+  };
+
   return (
     <div className={"bjgame-buttons-container"}>
       <Button
@@ -77,6 +98,17 @@ const BlackJackButtons = () => {
         Double Down
       </Button>
       <Button
+        disabled={
+          !sameCard(player.hand[0], player.hand[1]) ||
+          player.secondHand.length > 1
+        }
+        variant={"outlined"}
+        className={classes.button}
+        onClick={() => handleSplit()}
+      >
+        Split
+      </Button>
+      <Button
         disabled={!checkForAce()}
         variant={"outlined"}
         test-id="insurance"
@@ -86,14 +118,32 @@ const BlackJackButtons = () => {
         Insurance
       </Button>
       <Button
-        disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
+        disabled={
+          bjState.phase !== BlackJackPhase.PLAYER_PLAYING ||
+          // @ts-ignore
+          bjState.players[0].score > 21
+        }
         variant={"outlined"}
         className={classes.button}
         test-id="hit"
-        onClick={() => handleHit()}
+        onClick={() => handleHit(1)}
       >
         Hit
       </Button>
+      {player.secondHand.length > 0 && (
+        <Button
+          disabled={
+            // @ts-ignore
+            bjState.players[0].secondScore > 21 ||
+            bjState.phase !== BlackJackPhase.PLAYER_PLAYING
+          }
+          variant={"outlined"}
+          className={classes.button}
+          onClick={() => handleHit(2)}
+        >
+          Hit Hand 2
+        </Button>
+      )}
       <Button
         disabled={bjState.phase !== BlackJackPhase.PLAYER_PLAYING}
         variant={"outlined"}

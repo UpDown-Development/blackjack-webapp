@@ -94,6 +94,7 @@ describe("BlackJack Reducer", () => {
     const result = BlackJackReducer(genericState.BlackJackReducer, {
       type: "CALCULATE_SCORE_BLACKJACK",
       payload: {
+        handId: 1,
         playerId: 0,
         score: 1234,
       },
@@ -105,6 +106,7 @@ describe("BlackJack Reducer", () => {
     const result = BlackJackReducer(genericState.BlackJackReducer, {
       type: "DEAL_CARD_BLACKJACK",
       payload: {
+        handIndex: 1,
         deck: loadedDeck,
         playerId: 0,
         hand: [card, card, card],

@@ -9,7 +9,12 @@ import {
 } from "../../../models/generic";
 import _ from "lodash";
 import { db } from "../../../utils/firebaseConfig";
-import { boolean } from "yup";
+import { splitDeck } from "../../../utils/testData";
+import {
+  createGameHistory,
+  createHandHistory,
+  updateNetWorth,
+} from "../../../service/backendAPI";
 
 export interface BlackJackAction {
   type: string;
@@ -24,6 +29,7 @@ export const initBlackJack = (
   const dealer: Player = {
     currentBet: 0,
     hand: [],
+    secondHand: [],
     wallet: 9999999999,
     name: "Dealer",
     score: 0,
@@ -31,6 +37,7 @@ export const initBlackJack = (
   const player: Player = {
     currentBet: 0,
     hand: [],
+    secondHand: [],
     wallet: wallet,
     name: "Player",
     score: 0,
@@ -38,9 +45,10 @@ export const initBlackJack = (
 
   const players: Player[] = [player, dealer];
 
-  const blackJackDeck = shuffle(numberOfDecks);
+  //const blackJackDeck = shuffle(numberOfDecks);
   // const blackJackDeck = loadedDeck;
   //const blackJackDeck = insuranceDeck;
+  const blackJackDeck = splitDeck;
 
   dispatch({
     type: "INIT_BLACKJACK",
@@ -53,54 +61,19 @@ export const initBlackJack = (
     },
   });
 
-  const userData = db.collection("users").doc(userId);
-
-  await userData
-    .get()
-    .then((res) => {
-      // @ts-ignore
-      const newBank = res.data().netWorth - wallet;
-      userData.update({ netWorth: newBank }).then(() => {
-        dispatch({
-          type: "UPDATE_NET_WORTH",
-          payload: newBank,
-        });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+  await updateNetWorth(userId, wallet).then((newBank) => {
+    dispatch({
+      type: "UPDATE_NET_WORTH",
+      payload: newBank,
     });
+  });
 
-  let gamesPlayed = 1;
-  await db
-    .collection("users")
-    .doc(userId)
-    .collection(CurrentGame.BLACKJACK)
-    .get()
-    .then((res) => {
-      res.docs.forEach(() => {
-        gamesPlayed++;
-      });
-      db.collection("users")
-        .doc(userId)
-        .collection(CurrentGame.BLACKJACK)
-        .doc(gamesPlayed.toString())
-        .set({
-          currencyDifference: 0,
-          currentBet: 0,
-          currentGamesPlayed: 0,
-          currentHandsLost: 0,
-          currentHandsWon: 0,
-          history: [],
-          wallet: wallet,
-          startingWallet: wallet,
-          currentBlackjacks: 0,
-        });
-      dispatch({
-        type: "CURRENT_GAME_NUMBER",
-        payload: gamesPlayed,
-      });
+  await createGameHistory(userId, wallet).then((gamesPlayed) => {
+    dispatch({
+      type: "CURRENT_GAME_NUMBER",
+      payload: gamesPlayed,
     });
+  });
 };
 
 export const placeBet = (bet: number, wallet: number) => async (
@@ -109,6 +82,7 @@ export const placeBet = (bet: number, wallet: number) => async (
   dispatch({
     type: "PLACE_BET_BLACKJACK",
     payload: {
+      moveToDealing: true,
       currentBet: bet,
       wallet: wallet - bet,
     },
@@ -128,7 +102,7 @@ export const endPlaying = (hand: Card[], dealer: Player) => async (
       type: "MOVE_TO_DEALER_PLAYING_BLACKJACK",
       payload: dealerHand,
     }),
-  ]).then(dispatch(calculateScore(dealerHand, dealer)));
+  ]).then(dispatch(calculateScore(dealerHand, dealer, 1)));
 };
 
 export const cleanUp = (
@@ -172,8 +146,6 @@ export const cleanUp = (
     history: allHistory,
   };
 
-  console.log("state: ", state);
-
   let wallet;
   if (state === -1) {
     wallet = player.wallet;
@@ -184,9 +156,7 @@ export const cleanUp = (
     wallet = player.wallet + player.currentBet * 2;
     info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   } else {
-    console.log("wallet pre-award: ", player.wallet);
     wallet = player.wallet + player.currentBet * 2.5;
-    console.log("wallet post-award: ", wallet);
     info.currentHandsWon = gameState.playerInfo.currentHandsWon + 1;
   }
 
@@ -226,15 +196,7 @@ export const cleanUp = (
     dispatch(placeBet(values.bet, gameState.players[0].wallet));
   }
 
-  await db
-    .collection("users")
-    .doc(gameState.userId)
-    .collection(CurrentGame.BLACKJACK)
-    .doc(gameState.currentGame.toString())
-    .set(info)
-    .catch((e) => {
-      console.log(e);
-    });
+  await createHandHistory(gameState, info);
 };
 
 export const moveToComplete = () => async (dispatch: any) => {
@@ -279,10 +241,10 @@ export const dealOpeningCards = (deck: Card[], players: Player[]) => async (
     }),
   ])
     .then(() => {
-      dispatch(calculateScore(hands[0], players[0]));
+      dispatch(calculateScore(hands[0], players[0], 1));
     })
     .then(() => {
-      dispatch(calculateScore(hands[1], players[1]));
+      dispatch(calculateScore(hands[1], players[1], 2));
     });
 };
 
@@ -300,7 +262,44 @@ export const doubleDown = (
     },
   });
 
-  dispatch(dealCard(deck, player));
+  dispatch(dealCard(deck, player, 1));
+};
+
+export const split = (
+  player: Player,
+  bjState: BlackJack,
+  deck: Card[]
+) => async (dispatch: any) => {
+  let newDeck = deck;
+  const card1 = newDeck.slice(-1)[0];
+  newDeck = newDeck.slice(0, -1);
+  const card2 = newDeck.slice(-1)[0];
+  newDeck = newDeck.slice(0, -1);
+  let newPlayer: Player = {
+    ...player,
+    hand: [player.hand[0], card1],
+    secondHand: [{ ...player.hand[1], delay: 0 }, card2],
+  };
+
+  await dispatch({
+    type: "SPLIT",
+
+    payload: {
+      player: newPlayer,
+      deck: newDeck,
+    },
+  });
+
+  dispatch({
+    type: "PLACE_BET_BLACKJACK",
+    payload: {
+      moveToDealing: false,
+      currentBet: bjState.playerInfo.currentBet * 2,
+      wallet: bjState.playerInfo.wallet - bjState.playerInfo.currentBet,
+    },
+  });
+  dispatch(calculateScore([player.hand[0], card1], player, 1));
+  dispatch(calculateScore([{ ...player.hand[1], delay: 0 }, card2], player, 2));
 };
 
 export const insure = (currentBet: number, wallet: number) => async (
@@ -324,28 +323,19 @@ export const cashOut = (userId: string, wallet: number) => async (
     type: "CASH_OUT",
   });
 
-  const userData = db.collection("users").doc(userId);
-
-  userData
-    .get()
-    .then((res) => {
-      // @ts-ignore
-      const newBank = res.data().netWorth + wallet;
-      userData.update({ netWorth: newBank }).then(() => {
-        dispatch({
-          type: "UPDATE_NET_WORTH",
-          payload: newBank,
-        });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+  updateNetWorth(userId, wallet).then((newBank) => {
+    dispatch({
+      type: "UPDATE_NET_WORTH",
+      payload: newBank,
     });
+  });
 };
 
-export const calculateScore = (hand: Card[], player: Player) => async (
-  dispatch: any
-) => {
+export const calculateScore = (
+  hand: Card[],
+  player: Player,
+  handId: number
+) => async (dispatch: any) => {
   const playerId = findPlayerId(player);
   let score: number = 0;
   const newHand = hand.filter((card) => card.isFaceUp);
@@ -365,30 +355,41 @@ export const calculateScore = (hand: Card[], player: Player) => async (
   dispatch({
     type: "CALCULATE_SCORE_BLACKJACK",
     payload: {
+      handId: handId,
       playerId: playerId,
       score: score,
     },
   });
 };
 
-export const dealCard = (deck: Card[], player: Player) => async (
-  dispatch: any
-) => {
+export const dealCard = (
+  deck: Card[],
+  player: Player,
+  handIndex: number
+) => async (dispatch: any) => {
   const playerId = findPlayerId(player);
   let card = deck.slice(-1)[0];
+  let hand: Card[] = [];
+
+  if (handIndex === 1) {
+    hand = [...player.hand, card];
+  } else if (handIndex === 2) {
+    hand = [...player.secondHand, card];
+  }
 
   Promise.all([
     dispatch({
       type: "DEAL_CARD_BLACKJACK",
       payload: {
+        handIndex: handIndex,
         playerId: playerId,
         deck: deck.slice(0, -1),
-        hand: [...player.hand, card],
+        hand: hand,
         player: player.name,
       },
     }),
   ]).then(() => {
-    dispatch(calculateScore([...player.hand, card], player));
+    dispatch(calculateScore(hand, player, handIndex));
   });
 };
 

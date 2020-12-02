@@ -5,6 +5,7 @@ ignore:
   - "src/setupTests.tsx"
   - "src/models/**"
   - "src/redux/rootReducer.tsx"
+  - "src/service/backendAPI.tsx"
 coverage:
   precision: 2
   round: nearest

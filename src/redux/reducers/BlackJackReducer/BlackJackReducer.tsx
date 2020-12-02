@@ -1,4 +1,4 @@
-import { BlackJack, BlackJackPhase } from "../../../models/generic";
+import { BlackJack, BlackJackPhase, Player } from "../../../models/generic";
 import produce from "immer";
 import { BlackJackAction } from "../../actions/BlackJackActions/BlackJackActions";
 
@@ -44,7 +44,9 @@ const BlackJackReducer = produce(
         state.userId = action.payload.userId;
         break;
       case "PLACE_BET_BLACKJACK":
-        state.phase = BlackJackPhase.DEALING;
+        if (action.payload.moveToDealing === true) {
+          state.phase = BlackJackPhase.DEALING;
+        }
         state.players[0].currentBet = action.payload.currentBet;
         state.players[0].wallet = action.payload.wallet;
         state.playerInfo.currentBet = action.payload.currentBet;
@@ -55,6 +57,10 @@ const BlackJackReducer = produce(
         state.players[0].wallet = action.payload.wallet;
         state.playerInfo.wallet = action.payload.wallet;
         break;
+      case "SPLIT":
+        state.players[0] = action.payload.player;
+        state.deck = action.payload.deck;
+        break;
       case "DEAL_OPENING_CARDS_BLACKJACK":
         state.deck = action.payload.deck;
         state.players[0].hand = action.payload.hand1;
@@ -62,11 +68,21 @@ const BlackJackReducer = produce(
         state.phase = BlackJackPhase.PLAYER_PLAYING;
         break;
       case "CALCULATE_SCORE_BLACKJACK":
-        state.players[action.payload.playerId].score = action.payload.score;
+        if (action.payload.handId === 1) {
+          state.players[action.payload.playerId].score = action.payload.score;
+        } else {
+          state.players[action.payload.playerId].secondScore =
+            action.payload.secondScore;
+        }
         break;
       case "DEAL_CARD_BLACKJACK":
         state.deck = action.payload.deck;
-        state.players[action.payload.playerId].hand = action.payload.hand;
+        if (action.payload.handIndex === 1) {
+          state.players[action.payload.playerId].hand = action.payload.hand;
+        } else if (action.payload.handIndex === 2) {
+          state.players[action.payload.playerId].secondHand =
+            action.payload.hand;
+        }
         break;
       case "MOVE_TO_DEALER_PLAYING_BLACKJACK":
         state.phase = BlackJackPhase.DEALER_PLAYING;
@@ -84,8 +100,10 @@ const BlackJackReducer = produce(
         break;
       case "CLEANUP_BLACKJACK":
         state.players[0].hand = [];
+        state.players[0].secondHand = [];
         state.players[1].hand = [];
         state.players[0].score = 0;
+        state.players[0].secondScore = 0;
         state.players[1].score = 0;
         state.deck = action.payload.deck;
         state.players[0].wallet = action.payload.wallet;

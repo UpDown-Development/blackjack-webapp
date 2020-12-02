@@ -1,5 +1,4 @@
 import { db, myFirebase } from "../../../utils/firebaseConfig";
-import { CurrentGame } from "../../../models/generic";
 import firebase from "firebase";
 
 export interface UserAction {

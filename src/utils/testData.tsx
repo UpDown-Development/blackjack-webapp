@@ -1,6 +1,7 @@
 import { BlackJack, BlackJackPhase, Card, Player } from "../models/generic";
 import { deck } from "./blackJackDeck";
 import { RootState } from "../redux/rootReducer";
+import _ from "lodash";
 
 export const card: Card = {
   delay: 0.6000000000000001,
@@ -16,6 +17,7 @@ export const players: Player[] = [
     wallet: 50,
     currentBet: 20,
     hand: hand,
+    secondHand: [],
     score: 0,
   } as Player,
   {
@@ -23,6 +25,7 @@ export const players: Player[] = [
     wallet: 50,
     currentBet: 0,
     hand: hand,
+    secondHand: [],
     score: 0,
   } as Player,
 ];
@@ -171,3 +174,34 @@ export const insuranceDeck: Card[] = [
   ...insuranceHand,
   ...insuranceHand,
 ];
+
+const splitHand: Card[] = [
+  {
+    name: "Ten of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/10S.png",
+    value: 10,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+  {
+    name: "Nine of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/9S.png",
+    value: 9,
+    isFaceUp: true,
+  },
+  {
+    name: "Ace of Spades",
+    img: "http://localhost:3000/imgs/cards/cards/AS.png",
+    value: 11,
+    isFaceUp: true,
+    secondaryValue: 1,
+  },
+];
+
+export const splitDeck: Card[] = [..._.shuffle(deck), ...splitHand];
