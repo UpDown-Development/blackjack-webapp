@@ -94,6 +94,7 @@ describe("BlackJack Reducer", () => {
     const result = BlackJackReducer(genericState.BlackJackReducer, {
       type: "CALCULATE_SCORE_BLACKJACK",
       payload: {
+        handId: 1,
         playerId: 0,
         score: 1234,
       },
